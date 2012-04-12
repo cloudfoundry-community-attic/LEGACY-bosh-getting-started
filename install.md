@@ -99,7 +99,7 @@ make
 make install
 
 cd
-source ~/.bash_profile
+source ~/.bashrc
 rbenv global 1.9.2-p290
 gem update --system
 gem install bundler rake
@@ -107,3 +107,6 @@ rbenv rehash
 
    
 git clone https://github.com/cloudfoundry/bosh.git
+cd bosh/chef_deployer
+bundle
+bundle exec bin/chef_deployer 
