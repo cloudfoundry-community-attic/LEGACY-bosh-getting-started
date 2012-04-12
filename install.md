@@ -72,7 +72,7 @@ FIXME/CHECK
 
 You need to open ports 80 and 9022 to Internet. For AWS your Security Group will look like:
 
-!https://img.skitch.com/20111212-nj6grrj6utrh9rx6qgcede75pp.png!
+![security groups](https://img.skitch.com/20111212-nj6grrj6utrh9rx6qgcede75pp.png)
 
 ## Install Cloud Foundry
 
