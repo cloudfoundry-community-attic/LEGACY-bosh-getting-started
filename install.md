@@ -86,7 +86,23 @@ $ ssh ubuntu@107.21.120.243
 sudo apt-get update
 sudo apt-get install git-core build-essential libsqlite3-dev curl \
 libmysqlclient-dev libxml2-dev libxslt-dev libpq-dev -y
-curl -L get.rvm.io | bash -s stable
+
+git clone git://github.com/sstephenson/rbenv.git .rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p290.tar.gz
+tar xvfz ruby-1.9.2-p290.tar.gz
+cd ruby-1.9.2-p290
+./configure --prefix=$HOME/.rbenv/versions/1.9.2-p290
+make
+make install
+
+cd
 source ~/.bash_profile
-rvm install 1.9.3 # though I think they prefer 1.8.7
+rbenv global 1.9.2-p290
+gem update --system
+gem install bundler rake
+rbenv rehash
+
+   
 git clone https://github.com/cloudfoundry/bosh.git
