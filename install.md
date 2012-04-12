@@ -107,6 +107,10 @@ rbenv rehash
 
    
 git clone https://github.com/cloudfoundry/bosh.git
-cd bosh/chef_deployer
-bundle
-bundle exec bin/chef_deployer 
+
+
+cd bosh/release/template/instance
+sudo ./prepare_instance.sh
+
+
+```
