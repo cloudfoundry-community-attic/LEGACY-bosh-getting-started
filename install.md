@@ -20,7 +20,8 @@ Example \~/.fog credentials:
 To create id_rsa keys:
 
 ```
-$ ssh-keygen ```
+$ ssh-keygen
+```
 
 ## Boot instance
 
