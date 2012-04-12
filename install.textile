@@ -6,27 +6,27 @@ Install fog, \~/.fog credentials (for AWS), and \~/.ssh/id_rsa(.pub) keys
 
 Install fog
 
-{noformat}
+```
 gem install fog
-{noformat}
+```
 
 Example \~/.fog credentials:
 
-{noformat}
+```
  :default:
   :aws_access_key_id:     PERSONAL_ACCESS_KEY
   :aws_secret_access_key: PERSONAL_SECRET
-{noformat}
+```
 To create id_rsa keys:
 
-{noformat}
-$ ssh-keygen {noformat}
+```
+$ ssh-keygen ```
 
 h2. Boot instance
 
 From Wesley's [fog blog post|http://www.engineyard.com/blog/2011/spinning-up-cloud-compute-instances/], boot a vanilla Ubunutu 64-bit image:
 
-{noformat}
+```
 $ fog
   Welcome to fog interactive!
   :default provides AWS and VirtualBox
@@ -36,34 +36,34 @@ server = connection.servers.bootstrap({
   :private_key_path => '~/.ssh/id_rsa',
   :username => 'ubuntu'
 })
-{noformat}
+```
 
 Or a big instance type to make everything go faster:
 
-{noformat}
+```
 server = connection.servers.bootstrap({
   :public_key_path => '~/.ssh/id_rsa.pub',
   :private_key_path => '~/.ssh/id_rsa',
   :flavor_id => 'c1.xlarge', # 64 bit, high CPU
   :username => 'ubuntu'
 })
-{noformat}
+```
 
 Check that SSH key credentials are setup. The following should return "ubuntu", and shouldn't timeout.
 
-{noformat}
+```
 server.ssh "whoami"
-{noformat}
+```
 
 Now create an elastic IP and associate it with the instance. (I did this via the console).
 
-{noformat}
+```
 address = connection.addresses.create
 address.server = server
 server.reload
 address.public_ip
 "107.21.120.243"
-{noformat}
+```
 
 h2. Firewall/Security Group
 
@@ -79,7 +79,7 @@ These commands below can take a long time. If it terminates early, re-run it unt
 
 Alternately, run it inside screen or tmux so you don't have to fear early termination:
 
-{noformat}
+```
 $ ssh ubuntu@107.21.120.243
 # sudo apt-get install screen -y
 # screen
