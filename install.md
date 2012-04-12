@@ -1,6 +1,6 @@
 These instructions are a combination of "Boot an AWS instance" and "Install BOSH via its chef_deployer"
 
-h2. Setup
+## Setup
 
 Install fog, \~/.fog credentials (for AWS), and \~/.ssh/id_rsa(.pub) keys
 
@@ -22,7 +22,7 @@ To create id_rsa keys:
 ```
 $ ssh-keygen ```
 
-h2. Boot instance
+## Boot instance
 
 From Wesley's [fog blog post|http://www.engineyard.com/blog/2011/spinning-up-cloud-compute-instances/], boot a vanilla Ubunutu 64-bit image:
 
@@ -65,7 +65,7 @@ address.public_ip
 "107.21.120.243"
 ```
 
-h2. Firewall/Security Group
+## Firewall/Security Group
 
 FIXME/CHECK
 
@@ -73,7 +73,7 @@ You need to open ports 80 and 9022 to Internet. For AWS your Security Group will
 
 !https://img.skitch.com/20111212-nj6grrj6utrh9rx6qgcede75pp.png!
 
-h2. Install Cloud Foundry
+## Install Cloud Foundry
 
 These commands below can take a long time. If it terminates early, re-run it until completion.
 
