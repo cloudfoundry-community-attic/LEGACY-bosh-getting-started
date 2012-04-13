@@ -1,4 +1,9 @@
+
 These instructions are a combination of "Boot an AWS instance" and "Install BOSH via its chef_deployer"
+
+* Create a VM
+* Run prepare_instance.sh inside instance
+* Use chef_deployer to setup the VM as BOSH
 
 ## Setup
 
@@ -108,6 +113,8 @@ rbenv rehash
    
 git clone https://github.com/cloudfoundry/bosh.git
 
+sudo groupadd vcap 
+sudo useradd vcap -m -g vcap
 
 cd bosh/release/template/instance
 sudo ./prepare_instance.sh
