@@ -130,4 +130,17 @@ git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/chef_deployer
 bundle
 ruby bin/chef_deployer deploy /path/to/your/bosh/release/project
+...lots of chef...
 ```
+
+We can now connect to our MicroBOSH!
+
+```
+$ bosh target ec2-23-23-203-54.compute-1.amazonaws.com:25555
+Target set to 'yourboshname (http://ec2-23-23-203-54.compute-1.amazonaws.com:25555) Ver: 0.4 (1e5bed5c)'
+Your username: admin
+Enter password: *****
+Logged in as 'admin'
+```
+
+Username/password is admin/admin
