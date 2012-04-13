@@ -144,3 +144,5 @@ Logged in as 'admin'
 ```
 
 Username/password is admin/admin
+
+Yay!
