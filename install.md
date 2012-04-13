@@ -1,4 +1,3 @@
-
 These instructions are a combination of "Boot an AWS instance" and "Install BOSH via its chef_deployer"
 
 * Create a VM
@@ -120,4 +119,15 @@ cd bosh/release/template/instance
 sudo ./prepare_instance.sh
 
 
+```
+
+Create a `/path/to/your/bosh/release/project`. Yeah, that's a bit magical at the moment. FIXME
+
+From another terminal on your local machine:
+
+```
+git clone https://github.com/cloudfoundry/bosh.git
+cd bosh/chef_deployer
+bundle
+ruby bin/chef_deployer deploy /path/to/your/bosh/release/project
 ```
