@@ -1,5 +1,8 @@
 These instructions are a combination of "Boot an AWS instance" and "Install BOSH via its chef_deployer"
 
+NOTE: This instructions are for review only. I'll write them up as a formal blog post soon. Thanks for your help!
+
+
 * Create a VM
 * Run prepare_instance.sh inside instance
 * Use chef_deployer to setup the VM as BOSH
@@ -76,7 +79,7 @@ FIXME/CHECK
 
 You need to open ports 80 and 9022 to Internet. For AWS your Security Group will look like:
 
-![security groups](https://img.skitch.com/20111212-nj6grrj6utrh9rx6qgcede75pp.png)
+![security groups](https://img.skitch.com/20120414-m9g6ndg3gfjs7kdqhbp2y9a6y.png)
 
 ## Install Cloud Foundry
 
