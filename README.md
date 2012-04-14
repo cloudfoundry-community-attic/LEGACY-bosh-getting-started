@@ -8,6 +8,8 @@ This repo is a collection of tutorials/documentation on getting started with BOS
 
 * [Creating a BOSH from scratch](creating-a-bosh-from-scratch.md)
 * [Uploading a public stemcell](uploading-public-stemcell.md)
+* Deploy the sample app release
+* [Delete your BOSH VM](deleting-your-bosh-universe.md)
 
 ### Advanced
 
