@@ -109,6 +109,7 @@ cd /tmp
 git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/release/template/instance
 ./prepare_instance.sh
+chmod 777 /var/vcap/deploy
 
 exit
 ```

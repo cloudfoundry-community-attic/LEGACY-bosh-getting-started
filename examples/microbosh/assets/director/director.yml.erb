@@ -31,9 +31,9 @@ cloud:
       default_key_name: <%= node[:director][:aws][:default_key_name] %>
       default_security_groups: <%= node[:director][:aws][:default_security_groups] || ["default"] %>
     registry:
-      endpoint: <%= node[:director][:registry][:endpoint] %>
-      user: <%= node[:director][:registry][:user] || node[:aws_registry][:http][:user] %>
-      password: <%= node[:director][:registry][:password] || node[:aws_registry][:http][:password] %>
+      endpoint: <%= node[:aws_registry][:endpoint] %>
+      user: <%= node[:aws_registry][:http][:user] %>
+      password: <%= node[:aws_registry][:http][:password] %>
     agent:
       ntp:
        - 0.pool.ntp.org
