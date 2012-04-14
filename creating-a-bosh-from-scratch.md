@@ -38,21 +38,14 @@ From Wesley's [fog blog post|http://www.engineyard.com/blog/2011/spinning-up-clo
 $ fog
   Welcome to fog interactive!
   :default provides AWS and VirtualBox
-connection = Fog::Compute.new({:provider => 'AWS'})
-server = connection.servers.bootstrap({
-  :public_key_path => '~/.ssh/id_rsa.pub',
-  :private_key_path => '~/.ssh/id_rsa',
-  :username => 'ubuntu'
+connection = Fog::Compute.new({
+  :provider => 'AWS', 
+  :region => 'us-east-1'
 })
-```
-
-Or a big instance type to make everything go faster:
-
-```
 server = connection.servers.bootstrap({
   :public_key_path => '~/.ssh/id_rsa.pub',
   :private_key_path => '~/.ssh/id_rsa',
-  :flavor_id => 'c1.xlarge', # 64 bit, high CPU
+  :flavor_id => 'm1.large', # 64 bit, normal large
   :username => 'ubuntu'
 })
 ```
@@ -70,12 +63,16 @@ address = connection.addresses.create
 address.server = server
 server.reload
 address.public_ip
-"107.21.120.243"
+"10.2.3.4"
+server.dns_name
+"ec2-10-2-3-4.compute-1.amazonaws.com"
 ```
+
+**The public DNS name will be used in the remainder of the tutorials to reference the BOSH VM.**
 
 ## Firewall/Security Group
 
-For AWS your Security Group will look like:
+Go to the [AWS console](https://console.aws.amazon.com/ec2/home?region=us-east-1#s=SecurityGroups) and set your Security Group "Inbound" to include the 25555 port: (the default BOSH director port)
 
 ![security groups](https://img.skitch.com/20120414-m9g6ndg3gfjs7kdqhbp2y9a6y.png)
 
