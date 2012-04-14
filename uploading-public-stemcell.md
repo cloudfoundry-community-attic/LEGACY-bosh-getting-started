@@ -1,11 +1,15 @@
 # Getting a public stemcell and uploading it
 
-Because its much faster, run all the following commands from within your BOSH VM.
+Stemcells are large. 400Mb or more. They are the base image for new VMs. That is, on AWS they are the AMI. 
+
+So, run all the following commands from within your BOSH VM where it will be much faster to download and upload the stemcell to your BOSH.
 
 ```
-$ gem install bosh_cli
-$ bosh target ec2-23-23-203-54.compute-1.amazonaws.com:25555  # your BOSH's public/private URL
-$ bosh public stemcells
+$ ssh ubuntu@ec2-10-2-3-4.compute-1.amazonaws.com
+sudo su -
+gem install bosh_cli
+bosh target localhost:25555
+bosh public stemcells
 +-------------------------------+-----------------------------------------------------+
 | Name                          | Url                                                 |                                                                                                                                       +-------------------------------+-----------------------------------------------------+
 | bosh-stemcell-0.4.7.tgz       | https://blob.cfblob.com/rest/objects/4e4e78bc...... |
@@ -19,7 +23,7 @@ You want the latest public AWS stemcell. Download it locally; and then upload it
 $ bosh download public stemcell bosh-stemcell-aws-0.5.1.tgz
 bosh-stemcell:  98% |ooooooooooooooooooooooooooooooo  | 384.0MB   1.7MB/s ETA:  00:00:03
 
-$ bosh upload stemcell bosh-stemcell-aws-0.5.1.tgz 
+$ bosh upload stemcell bosh-stemcell-aws-0.5.1.tgz
 Verifying stemcell...
 File exists and readable                                     OK
 Manifest not found in cache, verifying tarball...
