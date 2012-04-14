@@ -1,6 +1,6 @@
 These instructions are a combination of "Boot an AWS instance" and "Install BOSH via its chef_deployer"
 
-*NOTE: This instructions are for review only. I'll write them up as a formal blog post soon. Thanks for your help!*
+**NOTE: This instructions are for review only. I'll write them up as a formal blog post soon. Thanks for your help!**
 
 
 * Create a VM
