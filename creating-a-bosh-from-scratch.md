@@ -120,33 +120,42 @@ Make a copy of the `examples/microbosh` folder and add your AWS credentials as a
 ```
 cd /tmp
 git clone git://github.com/drnic/bosh-getting-started-on-aws.git
-cd bosh-getting-started-on-aws/examples
-vim microbosh/config.yml
+cd bosh-getting-started-on-aws/examples/microbosh
+vim config.yml
 ```
 
 * replace all `PUBLIC_DNS_NAME` with your fog-created VM's `server.dns_name` (e.g. ec2-10-2-3-4.compute-1.amazonaws.com)
 * replace `ACCESS_KEY_ID` with your AWS access key id
 * replace `SECRET_ACCESS_KEY` with your AWS secret access key
 
+In VIM, you can "replace all" by typing:
 
 ```
+:%s/PUBLIC_DNS_NAME/ec2-10-2-3-4.compute-1.amazonaws.com/g
+```
+
+
+
+```
+cd /tmp
 git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/chef_deployer
 bundle
-ruby bin/chef_deployer deploy /path/to/your/bosh/release/project
+cd ../release/
+ruby ../chef_deployer/bin/chef_deployer deploy /tmp/bosh-getting-started-on-aws/examples/microbosh
 ...lots of chef...
 ```
 
-We can now connect to our MicroBOSH!
+We can now connect to our BOSH!
 
 ```
-$ bosh target ec2-23-23-203-54.compute-1.amazonaws.com:25555
-Target set to 'yourboshname (http://ec2-23-23-203-54.compute-1.amazonaws.com:25555) Ver: 0.4 (1e5bed5c)'
+$ bosh target ec2-10-2-3-4.compute-1.amazonaws.com:25555
+Target set to 'yourboshname (http://ec2-10-2-3-4.compute-1.amazonaws.com:25555) Ver: 0.4 (1e5bed5c)'
 Your username: admin
 Enter password: *****
 Logged in as 'admin'
 ```
 
-Username/password is admin/admin
+Username/password was configured as admin/admin unless you changed it.
 
 Yay!
