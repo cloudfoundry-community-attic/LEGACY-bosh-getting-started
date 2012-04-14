@@ -109,11 +109,25 @@ cd /tmp
 git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/release/template/instance
 ./prepare_instance.sh
+
+exit
 ```
 
-Create a `/path/to/your/bosh/release/project`. Yeah, that's a bit magical at the moment. FIXME
+**From another terminal on your local machine:**
 
-From another terminal on your local machine:
+Make a copy of the `examples/microbosh` folder and add your AWS credentials as appropriate into `config.yml`:
+
+```
+cd /tmp
+git clone git://github.com/drnic/bosh-getting-started-on-aws.git
+cd bosh-getting-started-on-aws/examples
+vim microbosh/config.yml
+```
+
+* replace all `PUBLIC_DNS_NAME` with your fog-created VM's `server.dns_name` (e.g. ec2-10-2-3-4.compute-1.amazonaws.com)
+* replace `ACCESS_KEY_ID` with your AWS access key id
+* replace `SECRET_ACCESS_KEY` with your AWS secret access key
+
 
 ```
 git clone https://github.com/cloudfoundry/bosh.git
