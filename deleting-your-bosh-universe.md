@@ -12,7 +12,6 @@ $ fog
 connection = Fog::Compute.new({:provider => 'AWS'})
 connection.servers.last.destroy
 connection.addresses.last.destroy
-connection.key_pairs.last.destroy
 ```
 
 TODO - make this more advanced. Perhaps setup VMs with tags etc.
