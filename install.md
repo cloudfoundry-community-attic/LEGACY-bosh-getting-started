@@ -75,9 +75,7 @@ address.public_ip
 
 ## Firewall/Security Group
 
-FIXME/CHECK
-
-You need to open ports 80 and 9022 to Internet. For AWS your Security Group will look like:
+For AWS your Security Group will look like:
 
 ![security groups](https://img.skitch.com/20120414-m9g6ndg3gfjs7kdqhbp2y9a6y.png)
 
