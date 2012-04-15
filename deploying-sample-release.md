@@ -122,5 +122,9 @@ Now upload this specific v1 release of "wordpress" to your BOSH. This will uploa
 
 ```
 bosh upload release
+bosh deployment wordpress-aws.yml
+bosh deploy
 ```
 
+FIXME - suggest that we do this on the BOSH VM so that upload is faster?
+FIXME - run the `bosh upload release` at the start of the tutorial; then create all the network bits whilst it uploads
