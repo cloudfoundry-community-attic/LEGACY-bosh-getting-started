@@ -141,7 +141,9 @@ In VIM, you can "replace all" by typing:
 :%s/PUBLIC_DNS_NAME/ec2-10-2-3-4.compute-1.amazonaws.com/g
 ```
 
+We'll now use chef to install and start all the parts of BOSH. The `chef_deployer` subfolder of BOSH orchestrates this.
 
+Get the chef_deployer & cookbooks (all from the same [bosh](https://github.com/cloudfoundry/bosh) repository) and we're almost done!
 
 ```
 cd /tmp/microbosh
