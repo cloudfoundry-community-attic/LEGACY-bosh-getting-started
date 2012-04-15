@@ -95,15 +95,17 @@ Add the following line:
 deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse
 ```
 
-Back in the terminal:
+Back in the remote terminal (you can copy and paste each chunk):
 
 ```
 apt-get update
 apt-get install git-core -y
+
 cd /tmp
 git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/release/template/instance
 ./prepare_instance.sh
+
 chmod 777 /var/vcap/deploy
 
 exit
