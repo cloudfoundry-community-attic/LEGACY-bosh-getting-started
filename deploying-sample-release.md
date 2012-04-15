@@ -21,3 +21,8 @@ or
 gerrit clone ssh://reviews.cloudfoundry.org:29418/bosh-sample-release.git
 ```
 
+## Networking provisioning
+
+BOSH can provision VMs and disks. The Deployment Manifest will describe how many VMs/disks are required. BOSH & the deployment manifest cannot provision "an elastic IP address". Rather, IP addresses must be pre-provisioned and known in advance.
+
+

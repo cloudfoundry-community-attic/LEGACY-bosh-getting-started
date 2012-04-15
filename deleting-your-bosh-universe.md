@@ -12,6 +12,7 @@ $ fog
 connection = Fog::Compute.new({:provider => 'AWS'})
 connection.servers.last.destroy
 connection.addresses.last.destroy
+connection.images.all(:name => 'BOSH*').each {|i| i.deregister true}
 ```
 
 TODO - make this more advanced. Perhaps setup VMs with tags etc.
