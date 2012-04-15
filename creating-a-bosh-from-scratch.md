@@ -167,4 +167,20 @@ Logged in as 'admin'
 
 Username/password was configured as admin/admin unless you changed it.
 
-Yay!
+If you ask your BOSH a few questions it will tell you the following:
+
+```
+ bosh status
+Updating director data... done
+
+Target         yourboshname (http://ec2-10-2-3-4.compute-1.amazonaws.com:25555) Ver: 0.4 (1e5bed5c)
+UUID           e28ebc07-3b27-43d7-8219-711498xxxxxx
+User           admin
+Deployment     not set
+~/Projects/gems/bosh/bosh[master]$ bosh releases
+No releases
+~/Projects/gems/bosh/bosh[master]$ bosh deployments
+No deployments
+```
+
+Good job.
