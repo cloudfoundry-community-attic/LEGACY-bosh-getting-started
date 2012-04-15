@@ -73,3 +73,23 @@ group.authorize_port_range(3306..3306) # to access mysql on its VMs
 
 This assumes that port 80 is already open for nginx.
 
+## Sample release
+
+The sample release is already created for us, so "how to create a release" is an activity for a different tutorial. 
+
+```
+mkdir -p /tmp/sample-release
+cd /tmp/sample-release/
+git clone https://github.com/cloudfoundry/bosh-sample-release.git
+cd bosh-sample-release
+cp /tmp/bosh-getting-started-on-aws/examples/wordpress/deployment-manifest-initial.yml wordpress-aws.yml
+```
+
+If you look at the bosh-sample-release folder you'll see a full BOSH release for an environment. We've also added an AWS-specific manifest for deploying our environment.
+
+You'll need to change the `ACCESS_KEY` and `SECRET_ACCESS_KEY` values for your AWS account. This can be a different AWS account from the one used to create your BOSH if you like.
+
+You'll also change `BOSH_AWS_REGISTRY_DNS_NAME` to the domain name of your BOSH. In our tutorial this was `ec2-10-2-3-4.compute-1.amazonaws.com`.
+
+You'll also change the 3 elastic IP addresses to the ones that you created.
+
