@@ -78,11 +78,10 @@ This assumes that port 80 is already open for nginx.
 The sample release is already created for us, so "how to create a release" is an activity for a different tutorial. 
 
 ```
-mkdir -p /tmp/sample-release
-cd /tmp/sample-release/
+cd /tmp/microbosh/
 git clone https://github.com/cloudfoundry/bosh-sample-release.git
 cd bosh-sample-release
-cp /tmp/bosh-getting-started-on-aws/examples/wordpress/deployment-manifest-initial.yml wordpress-aws.yml
+cp /tmp/microbosh/bosh-getting-started-on-aws/examples/wordpress/deployment-manifest-initial.yml wordpress-aws.yml
 ```
 
 If you look at the bosh-sample-release folder you'll see a full BOSH release for an environment. We've also added an AWS-specific manifest for deploying our environment.
