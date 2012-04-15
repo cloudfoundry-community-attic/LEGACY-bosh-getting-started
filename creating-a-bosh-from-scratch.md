@@ -123,7 +123,9 @@ exit
 Make a copy of the `examples/microbosh` folder and add your AWS credentials as appropriate into `config.yml`:
 
 ```
-cd /tmp
+rm -rf /tmp/microbosh
+mkdir -p /tmp/microbosh
+cd /tmp/microbosh
 git clone git://github.com/drnic/bosh-getting-started-on-aws.git
 cd bosh-getting-started-on-aws/examples/microbosh
 vim config.yml
@@ -142,7 +144,7 @@ In VIM, you can "replace all" by typing:
 
 
 ```
-cd /tmp
+cd /tmp/microbosh
 git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/chef_deployer
 bundle
