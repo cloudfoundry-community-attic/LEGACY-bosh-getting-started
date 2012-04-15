@@ -1,6 +1,6 @@
 ---
 name: wordpress
-director_uuid: 74cee69e-2cd8-4c99-96c8-f332e4967021
+director_uuid: BOSH_DIRECTOR_UUID
 
 release:
   name: wordpress
@@ -74,7 +74,7 @@ jobs:
   - name: wordpress
     template: wordpress
     instances: 1
-    resource_pool: infrastructure
+    resource_pool: common
     networks:
     - name: default
       static_ips:
@@ -83,7 +83,7 @@ jobs:
   - name: mysql
     template: mysql
     instances: 1
-    resource_pool: infrastructure
+    resource_pool: common
     persistent_disk: 16384
     networks:
     - name: default

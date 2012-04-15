@@ -90,6 +90,8 @@ You'll need to change the `ACCESS_KEY` and `SECRET_ACCESS_KEY` values for your A
 
 You'll also change `BOSH_AWS_REGISTRY_DNS_NAME` to the domain name of your BOSH. In our tutorial this was `ec2-10-2-3-4.compute-1.amazonaws.com`.
 
+You'll also change `BOSH_DIRECTOR_UUID`
+
 You'll also change the 3 elastic IP addresses to the ones that you created.
 
 If you lost your post-it note, get them again with fog:
