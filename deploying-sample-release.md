@@ -92,3 +92,35 @@ You'll also change `BOSH_AWS_REGISTRY_DNS_NAME` to the domain name of your BOSH.
 
 You'll also change the 3 elastic IP addresses to the ones that you created.
 
+If you lost your post-it note, get them again with fog:
+
+```
+$ fog
+connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
+connection.addresses.to_a[-3..-1].map(&:public_ip)
+["23.23.10.10", "23.23.20.10", "23.23.30.10"]
+```
+
+## Creating the release within BOSH
+
+```
+bosh create release
+# name it "wordpress"
+...
+
+Release version: 1
+Release manifest: /private/tmp/microbosh/bosh-sample-release/dev_releases/wordpress-1.yml
+```
+
+You can look at this file and see how it explicitly expresses which packages and jobs will be used:
+
+```
+cat dev_releases/wordpress-1.yml
+```
+
+Now upload this specific v1 release of "wordpress" to your BOSH. This will upload a big release.tgz to your BOSH.
+
+```
+bosh upload release
+```
+
