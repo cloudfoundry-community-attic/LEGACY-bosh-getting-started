@@ -17,9 +17,10 @@ bosh public stemcells
 +-------------------------------+-----------------------------------------------------+
 ```
 
-You want the latest public AWS stemcell. Download it locally; and then upload it to your BOSH.
+You want the latest public AWS stemcell. Download it from the public server and then upload it to your BOSH:
 
 ```
+$ cd /tmp
 $ bosh download public stemcell bosh-stemcell-aws-0.5.1.tgz
 bosh-stemcell:  98% |ooooooooooooooooooooooooooooooo  | 384.0MB   1.7MB/s ETA:  00:00:03
 
