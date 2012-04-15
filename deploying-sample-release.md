@@ -35,8 +35,6 @@ Let's create some with fog into the AWS region that you will be deploying your s
 
 ```
 $ fog
-  Welcome to fog interactive!
-  :default provides AWS and VirtualBox
 connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
 addresses = (1..3).map {|i| connection.addresses.create}
 addresses.map(&:public_ip)
@@ -63,13 +61,15 @@ Better still, when BOSH includes its own DNS then it won't need public Elastic I
 
 For this example, we will initially continue to use the pre-existing "default" security group and punch any new holes in it we need.
 
-Specifically you will need to punch the following holes within the fog console:
+Specifically you will need to punch the following holes, using the fog console:
 
 ```
+$ fog
+connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
 group = connection.security_groups.get("default")
 group.authorize_port_range(8008..8008) # to access wordpress on its VMs
 group.authorize_port_range(3306..3306) # to access mysql on its VMs
 ```
 
-We're assuming that port 80 is already open for nginx.
+This assumes that port 80 is already open for nginx.
 
