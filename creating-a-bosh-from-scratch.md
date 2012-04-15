@@ -67,7 +67,14 @@ server.dns_name
 
 ## Firewall/Security Group
 
-Go to the [AWS console](https://console.aws.amazon.com/ec2/home?region=us-east-1#s=SecurityGroups) and set your Security Group "Inbound" to include the 25555 port: (the default BOSH director port)
+Set your Security Group to include the 25555 port: (the default BOSH director port)
+
+```
+group = connection.security_groups.get("default")
+group.authorize_port_range(25555..25555)
+```
+
+In the AWS console it will look like:
 
 ![security groups](https://img.skitch.com/20120414-m9g6ndg3gfjs7kdqhbp2y9a6y.png)
 
@@ -148,7 +155,7 @@ We can now connect to our BOSH!
 
 ```
 $ bosh target ec2-10-2-3-4.compute-1.amazonaws.com:25555
-Target set to 'yourboshname (http://ec2-10-2-3-4.compute-1.amazonaws.com:25555) Ver: 0.4 (1e5bed5c)'
+Target set to 'myfirstbosh (http://ec2-10-2-3-4.compute-1.amazonaws.com:25555) Ver: 0.4 (1e5bed5c)'
 Your username: admin
 Enter password: *****
 Logged in as 'admin'
