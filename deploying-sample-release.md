@@ -23,7 +23,9 @@ gerrit clone ssh://reviews.cloudfoundry.org:29418/bosh-sample-release.git
 
 ## Networking provisioning
 
-BOSH can provision VMs and disks. The Deployment Manifest will describe how many VMs/disks are required. BOSH & the deployment manifest cannot provision "an elastic IP address". Rather, IP addresses must be pre-provisioned and known in advance.
+BOSH can provision VMs and disks. The Deployment Manifest will describe how many VMs/disks are required. BOSH & the deployment manifest cannot provision "an elastic IP address" or a "security group". Rather, IP addresses and security groups must be pre-provisioned and known in advance.
+
+### Elastic IPs
 
 Currently, until BOSH adds DNS support, you'll need IP address per VM that BOSH manages. BOSH can provision and deprovision VMs on its own; yet you need to pre-provision the IP addresses.
 
@@ -38,12 +40,14 @@ $ fog
 connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
 addresses = (1..3).map {|i| connection.addresses.create}
 addresses.map(&:public_ip)
-["23.23.10.11", "23.23.10.12", "23.23.10.13"]
+["23.23.10.10", "23.23.20.10", "23.23.30.10"]
 ```
 
-Write those down on a Post-it note. You'll need them later.
+Write those down on a Post-it note. You'll need them later. In the initial deployment, your Elastic IPs will be used for nginx, wordpress and mysql VMs, respectively. The example deployment manifest YAML file is populated with the examples above. 
 
 FIXME - find some stupid Post-it notes and insert a picture. This FIXME is not as funny as a real picture of a post-it note.
+
+For simplicity, the examples will assume that IPs in the 23.23.10.XX range are for nginx, 23.23.11.XX are for wordpress, and 23.23.12.XX are for mysql. In reality, you'll get whatever IP addresses that AWS thinks you are worthy of. Keep track of which IPs go with which type of VM on your post-it note or a whiteboard. That's how all sysadmins do this.
 
 ### AWS Elastic IPs are scarce
 
@@ -55,4 +59,17 @@ Perhaps when AWS support IPv6 for Elastic IPs they won't be such a scare resourc
 
 Better still, when BOSH includes its own DNS then it won't need public Elastic IPs to be able to reference each of the VMs. You'll just need Elastic IPs for any real, public IPs that your deployed environment actually requires. You know, for getting traffic from your customers.
 
+### Security Groups
+
+For this example, we will initially continue to use the pre-existing "default" security group and punch any new holes in it we need.
+
+Specifically you will need to punch the following holes within the fog console:
+
+```
+group = connection.security_groups.get("default")
+group.authorize_port_range(8008..8008) # to access wordpress on its VMs
+group.authorize_port_range(3306..3306) # to access mysql on its VMs
+```
+
+We're assuming that port 80 is already open for nginx.
 
