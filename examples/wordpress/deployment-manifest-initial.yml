@@ -7,12 +7,11 @@ release:
   version: 1
 
 compilation:
-  workers: 4
+  workers: 2
   network: default
   cloud_properties:
-    ram: 2048
     disk: 8096
-    cpu: 2
+    instance_type: m1.small
 
 # this section describes how updates are handled
 update:
