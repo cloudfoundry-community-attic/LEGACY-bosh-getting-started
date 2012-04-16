@@ -2,6 +2,8 @@
 
 This repo is a collection of tutorials/documentation on getting started with BOSH on the AWS public cloud.
 
+[What is BOSH? Why is it interesting? How do I create a BOSH?](http://drnicwilliams.com/2012/04/16/creating-a-bosh-from-scratch-on-aws/ "Dr Nic's   Creating a BOSH from scratch on AWS") [article by Dr Nic]
+
 ## Tutorials 
 
 ### Beginners
