@@ -25,7 +25,6 @@ update:
 networks:
   - name: default
     type: dynamic
-    ip: NGINX_ELASTICIP
     cloud_properties:
       security_groups:
       - default
@@ -69,7 +68,7 @@ jobs:
     networks:
     - name: default
       static_ips:
-        - NGINX_ELASTICIP
+      - NGINX_ELASTICIP
 
   - name: wordpress
     template: wordpress
