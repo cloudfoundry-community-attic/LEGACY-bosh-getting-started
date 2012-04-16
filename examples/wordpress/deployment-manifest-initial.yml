@@ -66,6 +66,8 @@ jobs:
     - name: nginx
       static_ips:
       - NGINX_ELASTICIP
+      cloud_properties:
+        instance_type: m1.small
 
   - name: wordpress
     template: wordpress
@@ -75,6 +77,8 @@ jobs:
     - name: wordpress
       static_ips:
       - WORDPRESS_ELASTICIP
+      cloud_properties:
+        instance_type: m1.small
 
   - name: mysql
     template: mysql
@@ -85,6 +89,8 @@ jobs:
     - name: mysql
       static_ips:
       - MYSQL_ELASTICIP
+      cloud_properties:
+        instance_type: m1.small
 
 properties:
 
