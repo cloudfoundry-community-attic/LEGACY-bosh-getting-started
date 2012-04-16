@@ -49,6 +49,8 @@ For simplicity, the examples will assume that IPs in the 23.23.10.XX range are f
 
 ### AWS Elastic IPs are scarce
 
+FUTURE - currently this section isn't required.
+
 So far in the tutorial we've created 4 Elastic IPs (one for the BOSH and three for this sample release) in the us-east-1 region.
 
 AWS accounts initially restrict each region to 5 Elastic IP addresses. In current BOSH that limits you to 5 VMs per region, which isn't very many. You can [Request to Increase Elastic IP Address Limit](http://aws.amazon.com/contact-us/eip_limit_request/ "Request to Increase Elastic IP Address Limit") and AWS will reply within a few days. 
@@ -92,7 +94,7 @@ You'll also change `BOSH_AWS_REGISTRY_DNS_NAME` to the domain name of your BOSH.
 
 You'll also change `BOSH_DIRECTOR_UUID`
 
-You'll also change the 3 elastic IP addresses (`NGINX_ELASTICIP`, `WORDPRESS_ELASTICIP`, `MYSQL_ELASTICIP`) to the ones that you created.
+FUTURE - You'll also change the 3 elastic IP addresses (`NGINX_ELASTICIP`, `WORDPRESS_ELASTICIP`, `MYSQL_ELASTICIP`) to the ones that you created.
 
 You'll also change the `WORDPRESS_SERVERNAME` to the public DNS of the elastic IP associated to nginx (ec2-23-23-10-10.compute-1.amazonaws.com in this example).
 
