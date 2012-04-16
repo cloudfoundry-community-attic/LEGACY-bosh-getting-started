@@ -14,6 +14,26 @@ Tracking task output for task#44...
 
 Deleting instances
 mysql/0, nginx/0, wordpress/0,...   |                        | 0/4 00:00:09  ETA: --:--:--
+...
+
+Deleting instances
+  wordpress/0 (00:00:23)                                                                            
+  nginx/0 (00:00:27)                                                                                
+  wordpress/1 (00:00:40)                                                                            
+  mysql/0 (00:00:57)                                                                                
+Done                    4/4 00:00:57                                                                
+
+Removing deployment artifacts
+  detach stemcells (00:00:00)                                                                       
+  detaching release versions (00:00:00)                                                             
+Done                    3/3 00:00:00                                                                
+
+Deleting properties
+  destroy deployment (00:00:00)                                                                     
+Done                    0/0 00:00:00                                                                
+
+Task 44: state is 'done', took 00:00:57 to complete
+Deleted deployment 'wordpress'
 ```
 
 After cleaning up your BOSH created VMs, lastly you delete your BOSH VM:
