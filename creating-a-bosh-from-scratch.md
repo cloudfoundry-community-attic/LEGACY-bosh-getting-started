@@ -151,7 +151,7 @@ git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/chef_deployer
 bundle
 cd ../release/
-ruby ../chef_deployer/bin/chef_deployer deploy /tmp/bosh-getting-started-on-aws/examples/microbosh
+ruby ../chef_deployer/bin/chef_deployer deploy /tmp/microbosh/bosh-getting-started-on-aws/examples/microbosh
 ...lots of chef...
 ```
 
