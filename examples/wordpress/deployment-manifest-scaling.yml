@@ -1,0 +1,144 @@
+---
+name: wordpress
+director_uuid: BOSH_DIRECTOR_UUID
+
+release:
+  name: wordpress
+  version: 1
+
+compilation:
+  workers: 2
+  network: default
+  cloud_properties:
+    disk: 8096
+    instance_type: m1.small
+
+# this section describes how updates are handled
+update:
+  canaries: 1
+  canary_watch_time: 30000
+  update_watch_time: 30000
+  max_in_flight: 4
+  max_errors: 1
+
+networks:
+  - name: default
+    type: dynamic
+    cloud_properties:
+      security_groups:
+      - default
+  - name: nginx
+    type: vip
+    cloud_properties:
+      security_groups:
+      - default
+  - name: wordpress
+    type: vip
+    cloud_properties:
+      security_groups:
+      - default
+  - name: mysql
+    type: vip
+    cloud_properties:
+      security_groups:
+      - default
+
+resource_pools:
+  - name: common
+    network: default
+    size: 4
+    stemcell:
+      name: bosh-stemcell
+      version: 0.5.1
+    cloud_properties:
+      disk: 8192
+      instance_type: m1.small
+      availability_zone:
+      key_name: 
+  - name: mysql
+    network: default
+    size: 1
+    stemcell:
+      name: bosh-stemcell
+      version: 0.5.1
+    cloud_properties:
+      disk: 8192
+      instance_type: m1.xlarge
+      availability_zone:
+      key_name: 
+
+jobs:
+  - name: nginx
+    template: nginx
+    instances: 1
+    resource_pool: common
+    networks:
+    - name: default
+      default: [dns, gateway]
+    cloud_properties:
+      instance_type: m1.small
+
+  - name: wordpress
+    template: wordpress
+    instances: 3
+    resource_pool: common
+    networks:
+    - name: default
+      default: [dns, gateway]
+    cloud_properties:
+      instance_type: m1.small
+
+  - name: mysql
+    template: mysql
+    instances: 1
+    resource_pool: mysql
+    persistent_disk: 16384
+    networks:
+    - name: default
+      default: [dns, gateway]
+    cloud_properties:
+      instance_type: m1.xlarge
+
+properties:
+
+  nginx:
+    workers: 1
+
+  wordpress:
+    admin: foo@bar.com
+    port: 8008
+    servers:
+      - WORDPRESS_ELASTICIP
+    servername: WORDPRESS_SERVERNAME
+    db:
+      name: wp
+      user: wordpress
+      pass: w0rdpr3ss
+    auth_key: random key
+    secure_auth_key: random key
+    logged_in_key: random key
+    nonce_key: random key
+    auth_salt: random key
+    secure_auth_salt: random key
+    logged_in_salt: random key
+    nonce_salt: random key
+
+  mysql:
+    address: MYSQL_ELASTICIP
+    port: 3306
+    password: rootpass
+
+cloud:
+  plugin: aws
+  properties:
+    aws:
+      access_key_id:     ACCESS_KEY
+      secret_access_key: SECRET_ACCESS_KEY
+      default_key_name: fog_default
+      default_security_groups: ["default"]
+      ec2_endpoint: ec2.us-east-1.amazonaws.com
+      max_retries: 2
+    registry:
+      endpoint: http://admin:admin@BOSH_AWS_REGISTRY_DNS_NAME:25777
+      user: admin
+      password: admin
