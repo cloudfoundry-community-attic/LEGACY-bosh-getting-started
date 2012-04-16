@@ -136,5 +136,5 @@ bosh deployment wordpress-aws.yml
 bosh deploy
 ```
 
-FIXME - suggest that we do this on the BOSH VM so that upload is faster?
-FIXME - run the `bosh upload release` at the start of the tutorial; then create all the network bits whilst it uploads
+* FIXME - suggest that we do this on the BOSH VM so that upload is faster?
+* FIXME - run the `bosh upload release` at the start of the tutorial; then create all the network bits whilst it uploads
