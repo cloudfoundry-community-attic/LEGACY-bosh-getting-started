@@ -110,7 +110,7 @@ connection.addresses.to_a[-3..-1].map(&:public_ip)
 ## Creating the release within BOSH
 
 ```
-bosh create release
+$ bosh create release
 # name it "wordpress"
 ...
 
@@ -118,11 +118,13 @@ Release version: 1
 Release manifest: /private/tmp/microbosh/bosh-sample-release/dev_releases/wordpress-1.yml
 ```
 
-You can look at this file and see how it explicitly expresses which packages and jobs will be used:
+You can look at this file and see how it explicitly expresses which packages and jobs will be used. You'll see that a total of 6 packages are installed and 3 jobs will be managed (nginx, wordpress and mysql).
 
 ```
 cat dev_releases/wordpress-1.yml
 ```
+
+This specific combination of package and jobs is called "development release 1".
 
 Confirm that in the manifest for deploying our environment (wordpress-aws.yml) the name is wordpress and version matches the version that was displayed in your terminal (if this is your first release, this will be version 1).
 
@@ -130,22 +132,27 @@ Confirm that in the manifest for deploying our environment (wordpress-aws.yml) t
 cat wordpress-aws.yml
 ```
 
-Now upload this specific v1 release of "wordpress" to your BOSH. This will upload a big release.tgz to your BOSH.
+The BOSH doesn't know about our release yet. We need to upload it. This involves generating a gzipped tarball (release.tgz), uploading it, and then compiling the packages. In this example, the tarball contains the gzipped source for our 6 packages and the descriptions of the jobs. It totals about 63MB.
 
 ```
 $ bosh upload release
-$ bosh deployment wordpress-aws.yml
-$ bosh deployment wordpress-aws.yml
-Deployment set to '/private/tmp/microbosh/bosh-sample-release/wordpress-aws.yml'
 ```
 
-We're finally ready to deploy our environment release!
+Uploading the release can be slow if you do it from your local home machine or your laptop on the train. 63Mb never felt so slow.
+
+Also slow is compiling packages and provisioning AWS VMs. And we're now ready to do that! We are finally ready to deploy our environment release!
 
 This will initially take some time. The process will initially require compilation of all the packages into binaries. It does this by booting dedicated VMs for performing compilation. 
 
-By default, it boots a single VM per package to ensure a clean environment. On AWS using an m1.small, this means you'll pay 8c per package (the minimum hourly price).
+TODO - how to reuse VMs for compilation
+
+By default, it boots a single VM per package to ensure a clean environment. On AWS using an m1.small, this means you'll pay 8c per package (the minimum hourly price). We have 6 packages. My 5 year old cannot do multiplication but my calculator can. That's 48c to compile your packages.
+
+Now tell the BOSH CLI which deployment we care about using `bosh deployment MANIFEST_FILE`. This is akin to `bosh target DIRECTOR` which tells BOSH CLI which director to focus on. BOSH CLI is optimized for your workflow - you'll be working on a single deployment/release on a single BOSH director.
 
 ```
+$ bosh deployment wordpress-aws.yml
+Deployment set to '/private/tmp/microbosh/bosh-sample-release/wordpress-aws.yml'
 $ bosh deploy
 Getting deployment properties from director...
 Unable to get properties list from director, trying without it...
