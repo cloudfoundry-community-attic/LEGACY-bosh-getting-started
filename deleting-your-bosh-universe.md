@@ -36,7 +36,7 @@ Task 44: state is 'done', took 00:00:57 to complete
 Deleted deployment 'wordpress'
 ```
 
-When you check AWS console, only the BOSH VM should be remaining. Currently the attached disk volumes are not deleted.
+When you check AWS console, only the BOSH VM, its volume and the stemcell AMI should be remaining.
 
 After cleaning up your BOSH created VMs, lastly you delete your BOSH VM:
 
