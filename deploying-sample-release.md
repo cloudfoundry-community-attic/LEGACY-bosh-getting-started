@@ -173,5 +173,9 @@ Compiling packages
 php5/0.1-dev                        |oooooooooooooooooooo    | 5/6 00:16:22  ETA: --:--:--```
 ```
 
+At this point, if you look in the AWS console you'll see the list of VMs that were used for the packages:
+
+![worker vms](https://img.skitch.com/20120416-g8jnht1wcag84ker3pn1fe8i9w.png)
+
 * FIXME - suggest that we do this on the BOSH VM so that upload is faster?
 * FIXME - run the `bosh upload release` at the start of the tutorial; then create all the network bits whilst it uploads
