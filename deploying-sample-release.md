@@ -131,10 +131,44 @@ cat wordpress-aws.yml
 Now upload this specific v1 release of "wordpress" to your BOSH. This will upload a big release.tgz to your BOSH.
 
 ```
-bosh upload release
-bosh deployment wordpress-aws.yml
-bosh deploy
+$ bosh upload release
+$ bosh deployment wordpress-aws.yml
+$ bosh deployment wordpress-aws.yml
+Deployment set to '/private/tmp/microbosh/bosh-sample-release/wordpress-aws.yml'
 ```
+
+We're finally ready to deploy our environment release!
+
+This will initially take some time. The process will initially require compilation of all the packages into binaries. It does this by booting dedicated VMs for performing compilation. By default, it boots a single VM per package to ensure a clean environment.
+
+```
+$ bosh deploy
+Getting deployment properties from director...
+Unable to get properties list from director, trying without it...
+Compiling deployment manifest...
+Cannot get current deployment information from director, possibly a new deployment
+Please review all changes carefully
+Deploying `wordpress-aws.yml' to `yourboshname' (type 'yes' to continue): yes
+Tracking task output for task#16...
+
+Preparing deployment
+  binding deployment (00:00:00)                                                                     
+  binding release (00:00:00)                                                                        
+  binding existing deployment (00:00:00)                                                            
+  binding resource pools (00:00:00)                                                                 
+  binding stemcells (00:00:00)                                                                      
+  binding templates (00:00:00)                                                                      
+  binding unallocated VMs (00:00:00)                                                                
+  binding instance networks (00:00:00)                                                              
+Done                    7/7 00:00:00                                                                
+
+Compiling packages
+  wordpress/0.1-dev (00:02:52)                                                                      
+  mysql/0.1-dev (00:03:10)                                                                          
+  mysqlclient/0.1-dev (00:02:50)                                                                    
+  nginx/0.1-dev (00:05:08)                                                                          
+  apache2/0.1-dev (00:12:27)                                                                        
+php5/0.1-dev                        |oooooooooooooooooooo    | 5/6 00:16:22  ETA: --:--:--```
 
 * FIXME - suggest that we do this on the BOSH VM so that upload is faster?
 * FIXME - run the `bosh upload release` at the start of the tutorial; then create all the network bits whilst it uploads
