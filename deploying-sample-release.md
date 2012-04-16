@@ -179,3 +179,44 @@ At this point, if you look in the AWS console you'll see the list of VMs that we
 
 * FIXME - suggest that we do this on the BOSH VM so that upload is faster?
 * FIXME - run the `bosh upload release` at the start of the tutorial; then create all the network bits whilst it uploads
+
+After completion, you can see the status of your current target deployment:
+
+```
+$ bosh status
+Updating director data... done
+
+Target         yourboshname (http://ec2-10-2-3-4.compute-1.amazonaws.com:25555) Ver: 0.4 (6122358b)
+UUID           e28ebc07-3b27-43d7-8219-XXXXXXXXX
+User           drnic
+Deployment     /private/tmp/microbosh/bosh-sample-release/wordpress-aws.yml
+
+You are in release directory
+----------------------------
+Dev name:      wordpress
+Dev version:   1
+
+Final name:    sample
+Final version: 1
+
+Packages
++-------------+----------+----------+
+| Name        | Dev      | Final    |
++-------------+----------+----------+
+| apache2     |      0.1 |      n/a |
+| mysql       |      0.1 |      n/a |
+| mysqlclient |      0.1 |      n/a |
+| nginx       |      0.1 |      n/a |
+| php5        |      0.1 |      n/a |
+| wordpress   |      0.1 |      n/a |
++-------------+----------+----------+
+
+Jobs
++-----------+----------+----------+
+| Name      | Dev      | Final    |
++-----------+----------+----------+
+| mysql     |      0.1 |      n/a |
+| nginx     |      0.1 |      n/a |
+| wordpress |      0.1 |      n/a |
++-----------+----------+----------+
+```
