@@ -62,22 +62,20 @@ jobs:
     instances: 1
     resource_pool: common
     networks:
-    - name: nginx
-      static_ips:
-      - NGINX_ELASTICIP
-      cloud_properties:
-        instance_type: m1.small
+    - name: default
+      default: [dns, gateway]
+    cloud_properties:
+      instance_type: m1.small
 
   - name: wordpress
     template: wordpress
     instances: 1
     resource_pool: common
     networks:
-    - name: wordpress
-      static_ips:
-      - WORDPRESS_ELASTICIP
-      cloud_properties:
-        instance_type: m1.small
+    - name: default
+      default: [dns, gateway]
+    cloud_properties:
+      instance_type: m1.small
 
   - name: mysql
     template: mysql
@@ -85,11 +83,10 @@ jobs:
     resource_pool: common
     persistent_disk: 16384
     networks:
-    - name: mysql
-      static_ips:
-      - MYSQL_ELASTICIP
-      cloud_properties:
-        instance_type: m1.small
+    - name: default
+      default: [dns, gateway]
+    cloud_properties:
+      instance_type: m1.small
 
 properties:
 
