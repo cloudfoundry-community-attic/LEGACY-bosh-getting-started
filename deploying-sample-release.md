@@ -139,7 +139,9 @@ Deployment set to '/private/tmp/microbosh/bosh-sample-release/wordpress-aws.yml'
 
 We're finally ready to deploy our environment release!
 
-This will initially take some time. The process will initially require compilation of all the packages into binaries. It does this by booting dedicated VMs for performing compilation. By default, it boots a single VM per package to ensure a clean environment.
+This will initially take some time. The process will initially require compilation of all the packages into binaries. It does this by booting dedicated VMs for performing compilation. 
+
+By default, it boots a single VM per package to ensure a clean environment. On AWS using an m1.small, this means you'll pay 8c per package (the minimum hourly price).
 
 ```
 $ bosh deploy
@@ -169,6 +171,7 @@ Compiling packages
   nginx/0.1-dev (00:05:08)                                                                          
   apache2/0.1-dev (00:12:27)                                                                        
 php5/0.1-dev                        |oooooooooooooooooooo    | 5/6 00:16:22  ETA: --:--:--```
+```
 
 * FIXME - suggest that we do this on the BOSH VM so that upload is faster?
 * FIXME - run the `bosh upload release` at the start of the tutorial; then create all the network bits whilst it uploads
