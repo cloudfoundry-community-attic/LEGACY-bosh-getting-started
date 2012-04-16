@@ -138,11 +138,13 @@ The BOSH doesn't know about our release yet. We need to upload it. This involves
 $ bosh upload release
 ```
 
+* FIXME - run the `bosh upload release` at the start of the tutorial; then create all the network bits whilst it uploads
+
 Uploading the release can be slow if you do it from your local home machine or your laptop on the train. 63Mb never felt so slow.
 
-Also slow is compiling packages and provisioning AWS VMs. And we're now ready to do that! We are finally ready to deploy our environment release!
+Also slow is compiling packages and provisioning AWS VMs, which is what we're now ready to do! That is, we are finally ready to deploy our environment release!
 
-This will initially take some time. The process will initially require compilation of all the packages into binaries. It does this by booting dedicated VMs for performing compilation. 
+This will initially take some additional time to compile all the packages into binaries. It does this by booting dedicated VMs for performing compilation. Compiling packages is only required when a package is changed as part of a new release upload.
 
 TODO - how to reuse VMs for compilation
 
@@ -182,12 +184,26 @@ Compiling packages
 php5/0.1-dev                        |oooooooooooooooooooo    | 5/6 00:16:22  ETA: --:--:--```
 ```
 
-At this point, if you look in the AWS console you'll see the list of VMs that were used for the packages:
+During the compilation process, if you check AWS console you'll notice that VMs are being provisioned and deprovisioned.
+
+![worker vms in action](https://img.skitch.com/20120416-8s7ymaj5ygnpyydbfysbr1r4r2.png)
+
+In our example they are provisioned in pairs of `m1.small` instances. Why? Our deployment manifest told BOSH to do this:
+
+```yaml
+compilation:
+  workers: 2
+  network: default
+  cloud_properties:
+    disk: 8096
+    instance_type: m1.small
+```
+
+When all the packages are compiled, the AWS console will show a list of 6 VMs that were used for the packages:
 
 ![worker vms](https://img.skitch.com/20120416-g8jnht1wcag84ker3pn1fe8i9w.png)
 
-* FIXME - suggest that we do this on the BOSH VM so that upload is faster?
-* FIXME - run the `bosh upload release` at the start of the tutorial; then create all the network bits whilst it uploads
+After package compilation, BOSH begins booting the VMs you require. For our deployment we've asked for three `m1.small` instances; one for `nginx`, `wordpress` and `mysql` jobs.   
 
 After completion, you can see the status of your current target deployment:
 
