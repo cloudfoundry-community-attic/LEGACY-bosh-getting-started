@@ -170,6 +170,7 @@ ruby ../chef_deployer/bin/chef_deployer deploy /tmp/microbosh/bosh-getting-start
 We can now connect to our BOSH!
 
 ```
+$ gem install bosh_cli
 $ bosh target ec2-10-2-3-4.compute-1.amazonaws.com:25555
 Target set to 'myfirstbosh (http://ec2-10-2-3-4.compute-1.amazonaws.com:25555) Ver: 0.4 (1e5bed5c)'
 Your username: admin
