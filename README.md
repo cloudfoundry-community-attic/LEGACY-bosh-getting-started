@@ -18,3 +18,8 @@ This repo is a collection of tutorials/documentation on getting started with BOS
 
 * [Creating a stemcell](create-a-new-stemcell.md) (TODO)
 * [Creating a release](create-a-new-release.md) (TODO)
+
+### Help
+
+* [Troubleshooting](troubleshooting/README.md)
+* [Dictionary](dictionary.md)

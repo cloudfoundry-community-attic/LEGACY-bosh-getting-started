@@ -64,7 +64,6 @@ jobs:
       default: [dns, gateway]
       static_ips:
       - NGINX_ELASTICIP
-
   - name: wordpress
     template: wordpress
     instances: 1
@@ -74,7 +73,6 @@ jobs:
       default: [dns, gateway]
       static_ips:
       - WORDPRESS_ELASTICIP
-
   - name: mysql
     template: mysql
     instances: 1
@@ -87,10 +85,8 @@ jobs:
       - MYSQL_ELASTICIP
 
 properties:
-
   nginx:
     workers: 1
-
   wordpress:
     admin: foo@bar.com
     port: 8008
@@ -109,7 +105,6 @@ properties:
     secure_auth_salt: random key
     logged_in_salt: random key
     nonce_salt: random key
-
   mysql:
     address: MYSQL_ELASTICIP
     port: 3306

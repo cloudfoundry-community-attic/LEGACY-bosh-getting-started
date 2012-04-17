@@ -2,5 +2,6 @@
 
 A collection of anecdotes about using BOSH.
 
+* [SSH into deployment instances](ssh.md)
 * [Cloud consistency check and interactive repair](cloudcheck.md)
-* [disk cannot be attached](disk-cannot-be-attached.md)
+* [Disk cannot be attached](disk-cannot-be-attached.md)
