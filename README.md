@@ -22,4 +22,5 @@ This repo is a collection of tutorials/documentation on getting started with BOS
 ### Help
 
 * [Troubleshooting](troubleshooting/README.md)
+* [Extra Details](details/README.md)
 * [Dictionary](dictionary.md)
