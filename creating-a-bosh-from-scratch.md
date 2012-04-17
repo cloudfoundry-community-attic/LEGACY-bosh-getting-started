@@ -77,7 +77,7 @@ In the AWS console it will look like:
 
 ![security groups](https://img.skitch.com/20120414-m9g6ndg3gfjs7kdqhbp2y9a6y.png)
 
-## Install Cloud Foundry
+## Install BOSH
 
 These commands below can take a long time. If it terminates early, re-run it until completion.
 
