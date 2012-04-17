@@ -7,10 +7,9 @@ release:
   version: 1
 
 compilation:
-  workers: 2
+  workers: 10 # only the required number are provisioned
   network: default
   cloud_properties:
-    disk: 8096
     instance_type: m1.small
 
 # this section describes how updates are handled
@@ -51,7 +50,6 @@ resource_pools:
       name: bosh-stemcell
       version: 0.5.1
     cloud_properties:
-      disk: 8192
       instance_type: m1.small
       availability_zone:
       key_name: 
@@ -64,8 +62,8 @@ jobs:
     networks:
     - name: default
       default: [dns, gateway]
-    cloud_properties:
-      instance_type: m1.small
+      static_ips:
+      - NGINX_ELASTICIP
 
   - name: wordpress
     template: wordpress
@@ -74,8 +72,8 @@ jobs:
     networks:
     - name: default
       default: [dns, gateway]
-    cloud_properties:
-      instance_type: m1.small
+      static_ips:
+      - WORDPRESS_ELASTICIP
 
   - name: mysql
     template: mysql
@@ -85,8 +83,8 @@ jobs:
     networks:
     - name: default
       default: [dns, gateway]
-    cloud_properties:
-      instance_type: m1.small
+      static_ips:
+      - MYSQL_ELASTICIP
 
 properties:
 
@@ -98,7 +96,7 @@ properties:
     port: 8008
     servers:
       - WORDPRESS_ELASTICIP
-    servername: WORDPRESS_SERVERNAME
+    servername: NGINX_SERVERNAME
     db:
       name: wp
       user: wordpress

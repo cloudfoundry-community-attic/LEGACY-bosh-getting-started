@@ -7,10 +7,9 @@ release:
   version: 1
 
 compilation:
-  workers: 2
+  workers: 10 # only the required number are provisioned
   network: default
   cloud_properties:
-    disk: 8096
     instance_type: m1.small
 
 # this section describes how updates are handled
@@ -51,7 +50,6 @@ resource_pools:
       name: bosh-stemcell
       version: 0.5.1
     cloud_properties:
-      disk: 8192
       instance_type: m1.small
       availability_zone:
       key_name: 
@@ -62,7 +60,6 @@ resource_pools:
       name: bosh-stemcell
       version: 0.5.1
     cloud_properties:
-      disk: 8192
       instance_type: m1.xlarge
       availability_zone:
       key_name: 
