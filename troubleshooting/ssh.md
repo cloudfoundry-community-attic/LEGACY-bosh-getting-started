@@ -33,12 +33,12 @@ This takes a few lines to setup:
 
 ```
 $ cd /tmp/microbosh/bosh-getting-started-on-aws/examples/microbosh
-$ scp wordpress-aws.yml ubuntu@ec2-23-23-248-166.compute-1.amazonaws.com:/tmp/wordpress-aws.yml
+$ scp wordpress-aws.yml ubuntu@BOSH_DIRECTOR:/tmp/wordpress-aws.yml
 $ ssh ubuntu@BOSH_DIRECTOR
-sudo su -
-gem install bosh_cli
-bosh target localhost:25555
-bosh deployment /tmp/wordpress-aws.yml
+# sudo su -
+# gem install bosh_cli
+# bosh target localhost:25555
+# bosh deployment /tmp/wordpress-aws.yml
 ```
 
 You can now SSH into the deployment instances from within your BOSH instance:
