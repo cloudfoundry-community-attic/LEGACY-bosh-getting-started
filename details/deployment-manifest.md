@@ -2,7 +2,7 @@
 
 In this document, let's look at the parts of a deployment manifest file for AWS.
 
-There are 10 top-level properties of a deployment manifest (such as [examples/wordpress/deployment-manifest-initial.yml](../../examples/wordpress/deployment-manifest-initial.yml))
+There are 10 top-level properties of a deployment manifest (such as [examples/wordpress/deployment-manifest-initial.yml](../examples/wordpress/deployment-manifest-initial.yml))
 
 * `name` - expected deployment name
 * `director_uuid` - confirmation of target BOSH director
