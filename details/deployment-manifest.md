@@ -16,3 +16,8 @@ There are 10 top-level properties of a deployment manifest (such as [examples/wo
 * `cloud` - IaaS properties to be used for this deployment
 
 
+
+## Bits & pieces
+
+* `persistent_disk` - is an attached volume (EBS on AWS)
+* ``
