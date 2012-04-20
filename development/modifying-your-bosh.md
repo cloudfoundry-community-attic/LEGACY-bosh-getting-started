@@ -64,4 +64,17 @@ To deploy our local changes to your BOSH instances, tell `chef_deployer` to use 
 ruby ../chef_deployer/bin/chef_deployer deploy ~/.microbosh --local
 ```
 
+## Troubleshooting
 
+When running the `chef_deployer` command above, with all the git commands, rsyncing and chef that goes on, its possible that something might not work.
+
+Try deleting the local copy and the remote copy of BOSH:
+
+```
+$ rm -rf /tmp/repos/
+$ ssh ubuntu@BOSH_DIRECTOR
+sudo su -
+rm -rf /var/vcap/deploy/repos/bosh/
+```
+
+Then re-run the `chef_deployer` command above.
