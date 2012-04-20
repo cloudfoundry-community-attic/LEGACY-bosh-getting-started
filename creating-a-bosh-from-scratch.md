@@ -59,6 +59,8 @@ when 'us-east-1'
   'ami-3202f25b'
 when 'us-west-1'
   'ami-f5bfefb0'
+when 'us-west-2'
+  'ami-e0ec60d0'
 ```
 
 The rest of the BOSH creation tutorial assumes you used a fog-provided AMI with a user account of `ubuntu`. If you do something different and have a different end experience, please let me know in the Issues.
