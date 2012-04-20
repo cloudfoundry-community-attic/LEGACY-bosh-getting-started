@@ -20,6 +20,15 @@ cd bosh
 
 You're now ready to contribute any changes back to CloudFoundry.
 
+## Modify BOSH source code
+
+Create a branch, make changes, commit your changes into your branch.
+
+```
+git checkout -b my-new-changes
+git commit
+```
+
 ## Deploying your modified BOSH code
 
 When you [initially created your BOSH](../creating-a-bosh-from-scratch.md), you used a `chef_deployer` script from your local machine.
@@ -46,4 +55,13 @@ bosh:
   - director
   - health_monitor
 ```
+
+The value `bosh.uri` tells the `chef_deployer` where to get the source from to deploy the BOSH source code on your BOSH instances.
+
+To deploy our local changes to your BOSH instances, tell `chef_deployer` to use it the local folder instead of the `bosh.uri` value:
+
+```
+ruby ../chef_deployer/bin/chef_deployer deploy ~/.microbosh --local
+```
+
 
