@@ -6,10 +6,6 @@ There are also a few steps to have your changes merged upstream for everyone to 
 
 ## Fetch the source code
 
-Follow the section "[OSS Contributions](https://github.com/cloudfoundry/bosh#readme)" in the BOSH source code for how to use Gerrit to clone and contribute to the source code.
-
-The short summary is
-
 Create an account at [http://reviews.cloudfoundry.org/](http://reviews.cloudfoundry.org/ "Gerrit Code Review"). Then clone the bosh git repository from gerrit (rather than from github).
 
 ```
