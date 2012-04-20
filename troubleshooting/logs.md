@@ -24,8 +24,8 @@ Deployment `wordpress'
 Next, use `bosh logs` to get a tarball of that job's logs.
 
 ```
-$ mkdir -p /tmp/bosh/logs/mysql
-$ cd /tmp/bosh/logs/mysql
+$ mkdir -p /tmp/bosh/logs/job/mysql.0
+$ cd /tmp/bosh/logs/job/mysql.0
 $ bosh logs mysql 0
 Tracking task output for task#43...
 
@@ -75,3 +75,27 @@ $ bosh tasks recent 5
 $ bosh task 47
 ```
 
+## Job Agent logs
+
+The instance that a Job runs on is controlled by the BOSH Director via an Agent. For all the communication that goes on between the Director and an Agent is stored in the Agent's logs.
+
+```
+$ mkdir -p /tmp/bosh/logs/agent/mysql.0
+$ cd /tmp/bosh/logs/agent/mysql.0
+$ bosh logs mysql 0 --agent
+Tracking task output for task#48...
+
+Fetching logs for mysql/0
+  finding and packing log files (00:00:01)                                                          
+Done                    1/1 00:00:01                                                                
+
+Task 48: state is 'done', took 00:00:01 to complete
+
+Downloading log bundle (99d07cbc-4fc9-4607-8f2b-08d412b760b3)...
+Logs saved in `/tmp/bosh/logs/agent/mysql.0/mysql.0.2012-04-20@22-39-47.tgz'
+$ tar xfv mysql.0.2012-04-20@22-39-47.tgz
+./
+./current
+./lock
+$ tail -n 200 current
+```
