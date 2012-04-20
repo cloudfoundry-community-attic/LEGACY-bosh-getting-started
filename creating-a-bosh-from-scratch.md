@@ -139,11 +139,13 @@ exit
 
 **From another terminal on your local machine:**
 
-Make a copy of the `examples/microbosh` folder and add your AWS credentials as appropriate into `config.yml`:
+Make a copy of the `examples/microbosh` folder contents and add your AWS credentials as appropriate into `config.yml`:
 
 ```
 mkdir -p ~/.microbosh
+chmod 700 ~/.microbosh
 cd ~/.microbosh
+
 git clone git://github.com/drnic/bosh-getting-started.git
 cp -r bosh-getting-started/examples/microbosh/* .
 vim config.yml
