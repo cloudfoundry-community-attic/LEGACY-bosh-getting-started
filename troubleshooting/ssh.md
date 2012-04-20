@@ -32,7 +32,7 @@ bosh ssh wordpress 0
 This takes a few lines to setup:
 
 ```
-$ cd /tmp/microbosh/bosh-getting-started-on-aws/examples/microbosh
+$ cd /tmp/microbosh/bosh-getting-started/examples/microbosh
 $ scp wordpress-aws.yml ubuntu@BOSH_DIRECTOR:/tmp/wordpress-aws.yml
 $ ssh ubuntu@BOSH_DIRECTOR
 # sudo su -

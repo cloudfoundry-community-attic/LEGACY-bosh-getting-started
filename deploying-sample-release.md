@@ -83,7 +83,7 @@ The sample release is already created for us, so "how to create a release" is an
 cd /tmp/microbosh/
 git clone https://github.com/cloudfoundry/bosh-sample-release.git
 cd bosh-sample-release
-cp /tmp/microbosh/bosh-getting-started-on-aws/examples/wordpress/deployment-manifest-initial.yml wordpress-aws.yml
+cp /tmp/microbosh/bosh-getting-started/examples/wordpress/deployment-manifest-initial.yml wordpress-aws.yml
 ```
 
 If you look at the bosh-sample-release folder you'll see a full BOSH release for an environment. We've also added an AWS-specific manifest for deploying our environment (wordpress-aws.yml).

@@ -114,7 +114,7 @@ cp /home/ubuntu/.ssh/authorized_keys /var/vcap/
 vim /etc/apt/sources.list
 ```
 
-Add the following line:
+Add the following line. **If you're in a different AWS region, change the URL prefix.**
 
 ```
 deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse
@@ -126,7 +126,8 @@ Back in the remote terminal (you can copy and paste each chunk):
 apt-get update
 apt-get install git-core -y
 
-cd /tmp
+mkdir /var/vcap/bootstrap
+cd /var/vcap/bootstrap
 git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/release/template/instance
 ./prepare_instance.sh
@@ -141,11 +142,10 @@ exit
 Make a copy of the `examples/microbosh` folder and add your AWS credentials as appropriate into `config.yml`:
 
 ```
-rm -rf /tmp/microbosh
-mkdir -p /tmp/microbosh
-cd /tmp/microbosh
-git clone git://github.com/drnic/bosh-getting-started-on-aws.git
-cd bosh-getting-started-on-aws/examples/microbosh
+mkdir -p ~/.microbosh
+cd ~/.microbosh
+git clone git://github.com/drnic/bosh-getting-started.git
+cp -r bosh-getting-started/examples/microbosh/* .
 vim config.yml
 ```
 
@@ -164,7 +164,7 @@ We'll now use chef to install and start all the parts of BOSH. The `chef_deploye
 Get the chef_deployer & cookbooks (all from the same [bosh](https://github.com/cloudfoundry/bosh) repository) and we're almost done!
 
 ```
-cd /tmp/microbosh
+cd ~/.microbosh
 git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/chef_deployer
 bundle
@@ -181,7 +181,7 @@ vim cookbooks/nats/attributes/default.rb
 Now we can run chef to install BOSH:
 
 ```
-ruby ../chef_deployer/bin/chef_deployer deploy /tmp/microbosh/bosh-getting-started-on-aws/examples/microbosh
+ruby ../chef_deployer/bin/chef_deployer deploy ~/.microbosh
 ...lots of chef...
 ```
 
@@ -201,7 +201,7 @@ Username/password was configured as admin/admin unless you changed it.
 If you ask your BOSH a few questions it will tell you the following:
 
 ```
- bosh status
+$ bosh status
 Updating director data... done
 
 Target         yourboshname (http://ec2-10-2-3-4.compute-1.amazonaws.com:25555) Ver: 0.4 (1e5bed5c)
