@@ -54,4 +54,24 @@ For the mysql job, there is only one log file `mysqld.err.log`. You can look at 
 tail -n 200 mysql/mysqld.err.log
 ```
 
+## Task logs
+
+Each time you use the bosh CLI, it stores all the activities in a task log.
+
+You can see the recent tasks performed by everyone and then display one of them:
+
+```
+$ bosh tasks recent 5
++----+-------+-------------------------+-----------------------------------------------+--------------------------------------+
+| #  | State | Timestamp               | Description                                   | Result                               |
++----+-------+-------------------------+-----------------------------------------------+--------------------------------------+
+| 47 | done  | 2012-04-20 19:23:59 UTC | ssh: cleanup:{"job"=>"mysql", "indexes"=>[0]} | #<File:0x00000002eb1cc8>             |
+| 46 | done  | 2012-04-20 19:23:09 UTC | ssh: setup:{"job"=>"mysql", "indexes"=>[0]}   | #<File:0x00000004326618>             |
+| 45 | done  | 2012-04-20 19:15:34 UTC | fetch logs                                    | 22cb3f46-b818-4c44-8f71-c1afdxxxxxxx |
+| 44 | done  | 2012-04-20 19:12:57 UTC | retrieve vm-stats                             |                                      |
+| 43 | done  | 2012-04-20 19:09:37 UTC | fetch logs                                    | fc339e17-544a-419f-9b69-927479xxxxxx |
++----+-------+-------------------------+-----------------------------------------------+--------------------------------------+
+
+$ bosh task 47
+```
 
