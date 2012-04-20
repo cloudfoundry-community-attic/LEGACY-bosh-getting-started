@@ -28,3 +28,7 @@ This repo is a collection of tutorials/documentation on getting started with BOS
 * [Troubleshooting](troubleshooting/README.md)
 * [Extra Details](details/README.md)
 * [Dictionary](dictionary.md)
+
+## Presentations
+
+* [Cloud Foundry and OpenStack](http://www.slideshare.net/vadimspivak/cloud-foundry-and-openstack) from [Vadim Spivak](https://twitter.com/#!/VadimSpivak) at OpenStack Design Summit [[blog post](http://blog.cloudfoundry.org/post/13481011461/cloud-foundry-at-the-openstack-design-summit "Cloud Foundry at the OpenStack Design Summit | Blog")] on April 18, 2012
