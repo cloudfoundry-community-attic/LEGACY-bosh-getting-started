@@ -173,14 +173,6 @@ bundle
 cd ../release/
 ```
 
-Currently you need fix the specific `nats` version. Inside the `bosh/release` folder:
-
-```
-vim cookbooks/nats/attributes/default.rb
-
--> change "0.4.22.beta.4" to "0.4.22"
-```
-
 Now we can run chef to install BOSH:
 
 ```
