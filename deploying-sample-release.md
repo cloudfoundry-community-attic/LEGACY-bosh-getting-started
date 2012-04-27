@@ -27,7 +27,9 @@ BOSH can provision VMs and disks. The Deployment Manifest will describe how many
 
 ### Elastic IPs
 
-Currently, until BOSH adds DNS support, you'll need IP address per VM that BOSH manages. BOSH can provision and deprovision VMs on its own; yet you need to pre-provision the IP addresses.
+Currently, until BOSH adds DNS support, you'll need one IP address per VM so that each job within the release can reference the other VMs.
+
+BOSH can provision and deprovision VMs on its own; but you need to pre-provision the IP addresses.
 
 In AWS, that's one Elastic IP per managed VM. BOSH will manage the attachment of the IPs to the VMs. You will tell BOSH about the Elastic IPs in your deployment manifest later.
 
@@ -45,11 +47,9 @@ Write those down on a Post-it note. You'll need them later. In the initial deplo
 
 FIXME - find some stupid Post-it notes and insert a picture. This FIXME is not as funny as a real picture of a post-it note.
 
-For simplicity, the examples will assume that IPs in the 23.23.10.XX range are for nginx, 23.23.11.XX are for wordpress, and 23.23.12.XX are for mysql. In reality, you'll get whatever IP addresses that AWS thinks you are worthy of. Keep track of which IPs go with which type of VM on your post-it note or a whiteboard. That's how all sysadmins do this.
+For simplicity, this tutorial will assume that IPs in the 23.23.10.XX range are for nginx, 23.23.11.XX are for wordpress, and 23.23.12.XX are for mysql. In reality, you'll get whatever IP addresses that AWS thinks you are worthy of. Keep track of which IPs go with which type of VM on your post-it note or a whiteboard. That's how all sysadmins do it.
 
 ### AWS Elastic IPs are scarce
-
-FUTURE - currently this section isn't required.
 
 So far in the tutorial we've created 4 Elastic IPs (one for the BOSH and three for this sample release) in the us-east-1 region.
 
@@ -57,7 +57,7 @@ AWS accounts initially restrict each region to 5 Elastic IP addresses. In curren
 
 Perhaps when AWS support IPv6 for Elastic IPs they won't be such a scare resource anymore. 
 
-Better still, when BOSH includes its own DNS then it won't need public Elastic IPs to be able to reference each of the VMs. You'll just need Elastic IPs for any real, public IPs that your deployed environment actually requires. You know, for getting traffic from your customers.
+Better still, when BOSH includes its own DNS then it won't need public Elastic IPs to be able to reference each of the VMs. You'll only need Elastic IPs for any real, public IPs that your deployed environment actually requires. You know, for getting traffic from your customers.
 
 ### Security Groups
 
@@ -73,7 +73,9 @@ group.authorize_port_range(8008..8008) # to access wordpress on its VMs
 group.authorize_port_range(3306..3306) # to access mysql on its VMs
 ```
 
-This assumes that port 80 is already open for nginx.
+This assumes that port 80 is already open for nginx on its VM.
+
+As an experiment for you, dear reader, try creating three separate security groups with only the required ports open for the nginx VM (port 80), wordpress (port 8008), and mysql (port 3306) and update your deployment manifest.
 
 ## Sample release
 
@@ -92,7 +94,7 @@ You'll need to change the `ACCESS_KEY` and `SECRET_ACCESS_KEY` values for your A
 
 You'll also change `BOSH_AWS_REGISTRY_DNS_NAME` to the domain name of your BOSH. In our tutorial this was `ec2-10-2-3-4.compute-1.amazonaws.com`.
 
-You'll also change `BOSH_DIRECTOR_UUID`
+You'll also change `BOSH_DIRECTOR_UUID` with the value from running `bosh status`, and using the `UUID` value.
 
 FUTURE - You'll also change the 3 elastic IP addresses (`NGINX_ELASTICIP`, `WORDPRESS_ELASTICIP`, `MYSQL_ELASTICIP`) to the ones that you created.
 
