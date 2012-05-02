@@ -9,6 +9,13 @@ At the time of writing, there are 4 example BOSH releases. Below is the list and
 
 In this tutorial you will deploy the sample release. It is a 3-tier LAMP application: a wordpress blog which consists of a number of apache servers running php & wordpress, fronted by nginx, and using one mysql database for storage.
 
+## Working area
+
+```
+mkdir -p ~/.bosh_deployments/wordpress
+cd ~/.bosh_deployments/wordpress
+```
+
 ## Get the release code
 
 You can get the sample release project using normal `git clone` or using the `gerrit clone` if you think you'll be contributing to the repository:
