@@ -33,3 +33,4 @@ This repo is a collection of tutorials/documentation on getting started with BOS
 
 * [Cloud Foundry Update](http://www.slideshare.net/marklucovsky/cloud-foundry-anniversary-technical-slides "Cloud Foundry Anniversary: Technical Slides") from [Mark Lucovsky](https://twitter.com/#!/marklucovsky) on April 11, 2012
 * [Cloud Foundry and OpenStack](http://www.slideshare.net/vadimspivak/cloud-foundry-and-openstack) from [Vadim Spivak](https://twitter.com/#!/VadimSpivak) at OpenStack Design Summit [[blog post](http://blog.cloudfoundry.org/post/13481011461/cloud-foundry-at-the-openstack-design-summit "Cloud Foundry at the OpenStack Design Summit | Blog")] on April 18, 2012
+* [What is BOSH?](http://speakerdeck.com/u/drnic/p/what-is-bosh "What is BOSH? // Speaker Deck") from [Dr Nic Williams](http://drnicwilliams.com), lightning talk, at CloudCamp, May 1, 2012
