@@ -49,4 +49,5 @@ Hurray, you found it!
 
 **NOTE:** Remember that BOSH Director runs (by default) on port 25555, not port 80. You need to include the target port :25555 in the URI above.
 
-
+Now you can update `PUBLIC_DNS_NAME` in your fresh `config.yml` file.
+ 
