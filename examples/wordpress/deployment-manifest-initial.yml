@@ -26,17 +26,17 @@ networks:
     cloud_properties:
       security_groups:
       - default
-  - name: nginx
+  - name: nginx_network
     type: vip
     cloud_properties:
       security_groups:
       - default
-  - name: wordpress
+  - name: wordpress_network
     type: vip
     cloud_properties:
       security_groups:
       - default
-  - name: mysql
+  - name: mysql_network
     type: vip
     cloud_properties:
       security_groups:
@@ -60,7 +60,7 @@ jobs:
     instances: 1
     resource_pool: common
     networks:
-    - name: default
+    - name: nginx_network
       default: [dns, gateway]
       static_ips:
       - NGINX_ELASTICIP
@@ -69,7 +69,7 @@ jobs:
     instances: 1
     resource_pool: common
     networks:
-    - name: default
+    - name: wordpress_network
       default: [dns, gateway]
       static_ips:
       - WORDPRESS_ELASTICIP
@@ -79,7 +79,7 @@ jobs:
     resource_pool: common
     persistent_disk: 16384
     networks:
-    - name: default
+    - name: mysql_network
       default: [dns, gateway]
       static_ips:
       - MYSQL_ELASTICIP
@@ -109,18 +109,3 @@ properties:
     address: MYSQL_ELASTICIP
     port: 3306
     password: rootpass
-
-cloud:
-  plugin: aws
-  properties:
-    aws:
-      access_key_id:     ACCESS_KEY
-      secret_access_key: SECRET_ACCESS_KEY
-      default_key_name: fog_default
-      default_security_groups: ["default"]
-      ec2_endpoint: ec2.us-east-1.amazonaws.com
-      max_retries: 2
-    registry:
-      endpoint: http://admin:admin@BOSH_AWS_REGISTRY_DNS_NAME:25777
-      user: admin
-      password: admin
