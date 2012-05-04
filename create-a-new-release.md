@@ -97,9 +97,6 @@ Each package has two executable hooks that are run during the package compilatio
 For the redis package, only the `packaging` script is necessary. Copy the following into `packages/redis/packaging`. If you are using a more modern redis download, then replace `2.4.13` below with your version number.
 
 ```bash
-# abort script on any command that exit with a non zero value
-set -e
-
 tar zxf redis/redis-2.4.13.tar.gz
 
 if [[ $? != 0 ]] ; then
