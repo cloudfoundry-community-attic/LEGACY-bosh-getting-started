@@ -18,7 +18,7 @@ This will generate the scaffold for the release in a folder `~/.bosh_deployments
 
 The generated project will also be converted into a Git repository. If you don't want this, then delete the `~/.bosh_deployments/redis-on-demand/redis-on-demand/.git` folder .
 
-## Installing the redis server
+## Packages built from original source
 
 ```
 $ bosh-gen package redis
@@ -41,10 +41,7 @@ If we were to attempt to create a release now, we'll see that BOSH requires that
 
 ```
 $ bosh create release
-Syncing blobs...
-
-Building DEV release
----------------------------------
+...
 
 Building packages
 -----------------
@@ -88,7 +85,42 @@ Release version: 1
 Release manifest: .../dev_releases/tmp-1.yml
 ```
 
+## Packaging a package source
 
+Packages are compiled on demand during the deployment. This process is completely automated by BOSH. How it works and how compilation is triggered will be discussed later. In this section, we need to tell BOSH how to compile the redis source code into binary executables. These compiled executables will be automatically available during deployment on all VMs that need it. 
+
+Each package has two executable hooks that are run during the package compilation process
+
+* `pre_packaging` - run when the source of the package is assembled during the `bosh create release` (in developer environment)
+* `packaging` - compilation process run during deployment (in a clean stemcell VM)
+
+For the redis package, only the `packaging` script is necessary. Copy the following into `packages/redis/packaging`. If you are using a more modern redis download, then replace `2.4.13` below with your version number.
+
+```shell
+# abort script on any command that exit with a non zero value
+set -e
+
+tar zxf redis/redis-2.4.13.tar.gz
+
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting redis"
+  exit 1
+fi
+
+(
+  cd redis-2.4.13
+  make
+  make PREFIX=$BOSH_INSTALL_TARGET install
+)
+```
+
+Note `PREFIX=$BOSH_INSTALL_TARGET` above. All `packaging` scripts must place their compiled outputs in a specific folder that BOSH determines. This folder location is provided by the `$BOSH_INSTALL_TARGET` environment variable. Only the contents of this folder are used as the "compiled package", and only the contents of this folder will be installed into the VMs during deployment.
+
+This is different from many other packaging systems which assume that they can install files anywhere on the file system. In BOSH, packages can only manage files within a specific subfolder. This ensures clean separation of all packages and all versions of the same package.
+
+At this time in the tutorial, it is not yet possible to test our packaging scripts in isolation. Package compilation is performed automatically during deployment. Deployment of a package requires a deployment manifest and one or more jobs that use the package. 
+
+Let's wire up the redis job and a simple deployment manifest now.
 
 ## Starting processes or jobs
 
