@@ -29,7 +29,7 @@ $ bosh-gen package redis
 
 The initial `spec` manifest shows below that this package requires no files and has no dependencies on any other packages.
 
-```yaml
+```yml
 $ cat packages/redis/spec
 ---
 name: redis
@@ -121,12 +121,27 @@ Let's wire up the redis job and a simple deployment manifest now.
 
 ## Starting processes or jobs
 
-```
-$ bosh generate job myserver
-create	jobs/myserver
-create	jobs/myserver/templates
-create	jobs/myserver/spec
-create	jobs/myserver/monit
+We can now install redis, but we cannot yet run redis (specifically we care about `redis-server`). How to start or stop a process is described by a job. In fact, packages are only installed on VMs during deployment if they are required directly or indirectly by the job assigned to that VM.
 
-Generated skeleton for `myserver' job in `jobs/myserver'
+To create a redis job that requires the redis package:
+
 ```
+$ bosh-gen job redis -d redis
+      create  jobs/redis
+      create  jobs/redis/monit
+      create  jobs/redis/templates/redis_ctl
+      create  jobs/redis/spec
+```
+
+Jobs each have a spec file of their dependencies and of templates/files that they want to be created during deployment.
+
+```yml
+$ cat jobs/redis/spec 
+---
+name: redis
+packages:
+- redis
+templates:
+  redis_ctl: redis_ctl
+```
+
