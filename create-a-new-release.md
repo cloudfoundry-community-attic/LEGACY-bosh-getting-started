@@ -72,6 +72,23 @@ files:
 - redis/redis-2.4.13.tar.gz
 ```
 
+We now have a valid release (albeit, without any jobs that will require our redis package)
+
+```
+$ bosh create release --force
+...
+Packages
++-------+---------+-------------+------------------------------------------+
+| Name  | Version | Notes       | Fingerprint                              |
++-------+---------+-------------+------------------------------------------+
+| redis | 0.1-dev | new version | aa3d5904ca4fbc49a13b71a98e44d0660abf905f |
++-------+---------+-------------+------------------------------------------+
+...
+Release version: 1
+Release manifest: .../dev_releases/tmp-1.yml
+```
+
+
 
 ## Starting processes or jobs
 
