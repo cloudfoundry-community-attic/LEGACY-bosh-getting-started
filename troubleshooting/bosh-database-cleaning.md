@@ -7,7 +7,41 @@ By default, BOSH PostgreSQL server has a single user account `bosh` with a passw
 To access your BOSH PostgreSQL server, first SSH into your BOSH director instance, and then connect via the `psql` command line tool:
 
 ```
-$ ssh ubuntu@ec2-10-2-3-4.compute-1.amazonaws.com
-# psql -h localhost -U bosh -W
+local$ ssh ubuntu@ec2-10-2-3-4.compute-1.amazonaws.com
+ubuntu$ psql -h localhost -U bosh -W
 ```
 
+## Schema
+
+To get you started, below is the list of tables in the BOSH database at the time of writing.
+
+```
+ubuntu$ psql -h localhost -U bosh -W
+bosh=# SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+
+ schema_migrations
+ compiled_packages
+ releases
+ users
+ packages
+ release_versions
+ packages_release_versions
+ tasks
+ instances
+ vms
+ release_versions_templates
+ deployments
+ deployments_stemcells
+ stemcells
+ deployment_properties
+ deployments_release_versions
+ log_bundles
+ templates
+ persistent_disks
+ vsphere_cpi_schema
+ deployment_problems
+ vsphere_disk
+ aws_registry_schema
+ aws_instances
+(24 rows)
+```
