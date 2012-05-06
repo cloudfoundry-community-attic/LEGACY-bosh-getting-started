@@ -145,3 +145,21 @@ templates:
   redis_ctl: redis_ctl
 ```
 
+We need to update the initial `redis_ctl` script to tell the job how to start the `redis-server` command.
+
+Replace:
+
+```bash
+exec /var/vcap/packages/redis/bin/EXECUTABLE_SERVER
+```
+
+with
+
+```bash
+exec /var/vcap/packages/redis/bin/redis-server
+```
+
+It happens that `redis-server` can take configuration via its first argument. We will set up the configuration and pass properties from the deployment manifest later. For the moment, we will run redis using all its defaults.
+
+The control script `reds_ctl` also determines where STDOUT and STDERR from the redis job will go. From the template, we will be able to find the log files at `/var/vcap/sys/log/redis` on any redis job VM.
+
