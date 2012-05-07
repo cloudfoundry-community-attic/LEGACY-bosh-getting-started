@@ -9,9 +9,10 @@ gem install bosh-gen
 ```
 
 ```
-~/.bosh_deployments/redis-on-demand
-bosh-gen new redis-on-demand
-cd redis-on-demand
+$ mkdir -p ~/.bosh_deployments/redis-on-demand
+$ cd ~/.bosh_deployments/redis-on-demand
+$ bosh-gen new redis-on-demand
+$ cd redis-on-demand
 ```
 
 This will generate the scaffold for the release in a folder `~/.bosh_deployments/redis-on-demand/redis-on-demand`. Later we will put the one or more deployment manifest files in the parent folder `~/.bosh_deployments/redis-on-demand`.
@@ -40,7 +41,7 @@ files: []
 If we were to attempt to create a release now, we'll see that BOSH requires that packages all require one or more source files.
 
 ```
-$ bosh create release
+$ bosh create release --force
 ...
 
 Building packages
@@ -82,7 +83,7 @@ Packages
 +-------+---------+-------------+------------------------------------------+
 ...
 Release version: 1
-Release manifest: .../dev_releases/tmp-1.yml
+Release manifest: .../dev_releases/redis-on-demand-1.yml
 ```
 
 ## Packaging a package source
@@ -128,9 +129,15 @@ To create a redis job that requires the redis package:
 ```
 $ bosh-gen job redis -d redis
       create  jobs/redis
+      create  jobs/redis/TODO.md
       create  jobs/redis/monit
       create  jobs/redis/templates/redis_ctl
+       chmod  jobs/redis/templates/redis_ctl
       create  jobs/redis/spec
+Next step for redis job:
+
+* Replace "`exec /var/vcap/packages/redis/bin/EXECUTABLE_SERVER`" in jobs/redis/templates/redis_ctl
+
 ```
 
 Jobs each have a spec file of their dependencies and of templates/files that they want to be created during deployment.
@@ -142,15 +149,15 @@ name: redis
 packages:
 - redis
 templates:
-  redis_ctl: redis_ctl
+  redis_ctl: bin/redis_ctl
 ```
 
 We need to update the initial `redis_ctl` script to tell the job how to start the `redis-server` command.
 
-Replace:
+Replace the start of the following line:
 
 ```bash
-exec /var/vcap/packages/redis/bin/EXECUTABLE_SERVER
+exec /var/vcap/packages/redis/bin/EXECUTABLE_SERVER 
 ```
 
 with
@@ -159,7 +166,115 @@ with
 exec /var/vcap/packages/redis/bin/redis-server
 ```
 
+NOTE: keep the remainder of the line that stores the `STDOUT` and `STDERR` pipes into log files.
+
 It happens that `redis-server` can take configuration via its first argument. We will set up the configuration and pass properties from the deployment manifest later. For the moment, we will run redis using all its defaults.
 
 The control script `redis_ctl` also determines where STDOUT and STDERR from the redis job will go. From the template, we will be able to find the log files at `/var/vcap/sys/log/redis` on any redis job VM.
 
+We are not done yet. As it stands, when redis-server is run we are not storing the process ID (PID) anywhere. The PID is necessary so that the job process can be stopped and restarted.
+
+How a process generates a PID and returns it to the control script can vary. For `redis-server` we can tell it where to store a PID via a configuration file.
+
+First, let's finish the `redis_ctl` script and tell it to use a `redis.conf` file, which will in turn tell it where to store the PID value. Next, we will generate the `redis.conf` file from our job.
+
+Change the lines we created above
+
+```bash
+exec /var/vcap/packages/redis/bin/redis-server ...
+```
+
+with
+
+```bash
+exec /var/vcap/packages/redis/bin/redis-server /var/vcap/jobs/redis/config/redis.yml ...
+```
+
+The control script now expects that there will be a `redis.yml` file. Our redis job is responsible for creating it.
+
+In the release, create a new template file:
+
+```
+$ bosh-gen template redis config/redis.conf
+      create  jobs/redis/templates/redis.conf.erb
+       force  jobs/redis/spec
+```
+
+The redis job spec is updated to put the generated `redis.conf` into the `config/` folder. When BOSH deploys the job, this will be at `/var/vcap/job/redis/config/redis.conf`; just as we provided to the `redis-server` in the `redis_ctl` above.
+
+Initially, `redis.conf.erb` is blank. Populate it with the following redis configuration:
+
+```
+daemonize no
+pidfile /var/vcap/sys/run/redis/redis.pid
+timeout 300
+loglevel notice
+logfile stdout
+databases 16
+dir /var/vcap/store/redis
+maxclients 0
+maxmemory-policy noeviction
+appendonly no
+```
+
+For redis, we can tell it where to store its PID via the `pidfile` config value. The value provided `/var/vcap/sys/run/redis/redis.pid` matches the value of `$PIDFILE` in `jobs/redis/templates/redis_ctl`.
+
+## Upload our release to BOSH
+
+Before deploying a new or updated release, we must upload the latest version to BOSH.
+
+First, commit our release repository changes and create a new release:
+
+```
+$ git add .
+$ git commit -m "added redis package & job"
+$ bosh create release
+...
+Release version: 2
+...
+```
+
+Now upload the latest release to your BOSH:
+
+```
+$ bosh upload release
+...
+Release info
+------------
+Name:    redis-on-demand
+Version: 2
+...
+Creating new packages
+  redis/0.2-dev (00:00:00)                                                                          
+Done                    1/1 00:00:00                                                                
+
+Creating new jobs
+  redis/0.1-dev (00:00:00)                                                                          
+Done                    1/1 00:00:00
+...
+```
+
+There are three concepts in our redis release and hence three release numbers being show above.
+
+* release "redis-on-demand" is at version 2
+* package "redis" is at version 0.2
+* job "redis" is at version 0.1
+
+If we change the contents of a job or a package then those jobs/packages increase their version number, and the release number increases.
+
+You may notice the "dev" suffix. We will discuss "dev" and "final" releases later.
+
+## Deploying our release
+
+
+
+
+
+## Configuring Redis
+
+There are two redis configuration options we will add that will use properties from the deployment manifest.
+
+```
+port <%= properties.redis.port %>
+requirepass <%= properties.redis.password %>
+```
