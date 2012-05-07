@@ -60,3 +60,35 @@ Enter password (use it to sudo on remote host):
 
 At this point, type in any random characters that you can remember. This will be the password you will use to run `sudo` on the remote VM whilst you are temporarily in your SSH session.
 
+## Check job logs
+
+In the redis tutorial, all log files were sent to `/var/vcap/sys/log/redis`.
+
+```
+$ cat /var/vcap/sys/log/redis/redis.std*
+[1040] 07 May 21:03:44 # Fatal error, can't open config file '/var/vcap/jobs/redis/config/redis.yml'
+[1046] 07 May 21:04:24 # Fatal error, can't open config file '/var/vcap/jobs/redis/config/redis.yml'
+[1059] 07 May 21:05:04 # Fatal error, can't open config file '/var/vcap/jobs/redis/config/redis.yml'
+```
+
+Apparently we are expecting a `redis.yml` file. What is in that folder?
+
+```$ ls /var/vcap/jobs/redis/config/
+redis.conf
+```
+
+There is a config file there, just not `redis.yml`. What was trying to use `redis.yml` instead of `redis.conf`?
+
+```$ cat /var/vcap/jobs/redis/bin/redis_ctl | grep redis.yml
+    exec /var/vcap/packages/redis/bin/redis-server /var/vcap/jobs/redis/config/redis.yml ...
+```
+
+In this case, the redis_ctl has a bug. 
+
+The resolution is to: 
+
+1. fix "redis.yml" to "redis.conf"
+1. create a new release
+1. upload the new release
+1. update the deployment manifest to the new release version
+1. deploy again
