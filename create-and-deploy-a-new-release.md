@@ -490,3 +490,90 @@ requirepass <%= properties.redis.password %>
 
 ## Storing Redis DB on persistent attached disk
 
+Most operations on Job VMs clean them out. Even `bosh restart redis 0` will delete the data stored.
+
+```
+$ bosh restart redis 0
+...
+$ redis-cli -h 107.22.225.123                
+redis 107.22.225.123:6379> get inside
+(nil)
+```
+
+We need to use a persistent, attached disk with BOSH to ensure data is persistent whilst the VMs themselves are ephemeral. On AWS, we will be attaching a single EBS volume.
+
+Before attaching an EBS volume:
+
+```
+$ bosh ssh redis 0
+# df
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/xvda              1233648   1068624    102356  92% /
+none                    834756       120    834636   1% /dev
+none                    848504         0    848504   0% /dev/shm
+none                    848504        52    848452   1% /var/run
+none                    848504         0    848504   0% /var/lock
+none                    848504         0    848504   0% /lib/init/rw
+none                   1233648   1068624    102356  92% /var/lib/ureadahead/debugfs
+/dev/xvdb2           152214948    207532 144275332   1% /var/vcap/data
+/dev/loop0              126931      5646    119975   5% /tmp
+```
+
+To add an 8G EBS volume add the `persistent_disk: 8196` line to the redis job in `redis-dev.yml`:
+
+```yaml
+jobs:
+- name: redis
+  template: redis
+  instances: 1
+  persistent_disk: 8192
+  resource_pool: common
+  networks:
+  - name: default
+    default:
+    - dns
+    - gateway
+  - name: vip_network
+    static_ips:
+    - 107.22.225.243
+```
+
+Re-deploy and confirm the persistent disk:
+
+```
+$ bosh deploy
+...
+Jobs
+redis
+  added persistent_disk: 8192
+```
+
+The available file structures after this deployment are:
+
+```
+$ df
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/xvda              1233648   1068648    102332  92% /
+none                    834756       128    834628   1% /dev
+none                    848504         0    848504   0% /dev/shm
+none                    848504        52    848452   1% /var/run
+none                    848504         0    848504   0% /var/lock
+none                    848504         0    848504   0% /lib/init/rw
+none                   1233648   1068648    102332  92% /var/lib/ureadahead/debugfs
+/dev/xvdb2           152214948    207532 144275332   1% /var/vcap/data
+/dev/loop0              126931      5646    119975   5% /tmp
+/dev/xvdf1             8254272    149496   7685480   2% /var/vcap/store
+```
+
+Note that `/var/vcap/store` is now mounted as the EBS volume `/dev/xvdf1`.
+
+The `bosh-gen job` generator already sets up a variable `$STORE` in the `templates/redis_ctl` file:
+
+```bash
+STORE=/var/vcap/store/redis
+```
+
+Additionally, the `redis.conf` is already telling redis to store data inside `/var/vcap/store` in preparation of this section.
+
+TODO - why is the data being reset still after `bosh restart redis 0`?!
+
