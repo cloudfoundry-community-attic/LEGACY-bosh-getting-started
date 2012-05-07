@@ -1,4 +1,4 @@
-# Create a new release
+# Create and deploy a new release
 
 You can quickly create the initial scaffold for a new release using the 3rd-party `bosh-gen` tool (ok, to be fair, Dr Nic wrote it).
 
