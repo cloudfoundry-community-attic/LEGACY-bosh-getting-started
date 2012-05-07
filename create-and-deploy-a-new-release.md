@@ -354,8 +354,132 @@ Initially VMs are booted into resource pools (based on the stemcell). Next they 
 
 For our redis release, we will boot a single VM into a resource pool called "common", and it is assigned to a single instance of the redis job.
 
+In progress...
 
-## Configuring Redis
+```
+Updating job redis
+redis/0 (canary)                    |oooooooooooooooooooo    | 0/1 00:00:30  ETA: --:--:--
+```
+
+Complete!
+
+```
+...
+Updating job redis
+  redis/0 (canary) (00:00:41)                                                                       
+Done                    1/1 00:00:41                                                                
+
+Task 73: state is 'done', took 00:00:41 to complete
+Deployed `redis-dev.yml' to `myfirstbosh'
+```
+
+We have successfully booted a VM and run the redis-server.
+
+Well, we think so. How do we access the VM? AWS will allocate it a private IP address, as shown below, but you cannot access that IP from your development machine.
+
+```
+$ bosh vms
+Deployment `redis-dev'
+
++-----------+---------+---------------+--------------+
+| Job/index | State   | Resource Pool | IPs          |
++-----------+---------+---------------+--------------+
+| redis/0   | running | common        | 10.62.73.100 |
++-----------+---------+---------------+--------------+
+
+VMs total: 1
+```
+
+To access the redis-server from our local development machine, we need to allocate a public accessible IP to the VM. On AWS this is called an "Elastic IP". On BOSH this is called a "Static IP". Yep, funny joke I'm sure.
+
+## Accessing redis remotely with Static IPs
+
+BOSH can assign an AWS Elastic IP to a VM; though it cannot provision an Elastic IP.
+
+To allocate an IP to job VMs:
+
+1. Provision the Elastic IPs
+1. Add them to the required job as a VIP network
+1. Deploy the release again
+
+Use fog to create an Elastic IP:
+
+```
+$ fog
+connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
+address = connection.addresses.create
+address.public_ip
+"107.22.225.123"
+```
+
+Next, we update our deployment manifest with the static IP `107.22.225.123`.
+
+As we haven't modified the deployment manifest yet, since we generated it with `bosh-gen manifest`, we can re-generate the manifest and pass the IP:
+
+```
+$ cd ~/.bosh_deployments/redis-on-demand 
+$ bosh-gen manifest redis-dev redis-on-demand c897319f-9b4b-41ae-9ed7-XXXXXXXX -a 107.22.225.123
+    conflict  redis-dev.yml
+Overwrite .../redis-dev.yml? (enter "h" for help) [Ynaqdh]
+```
+
+Press 'd' to see what will be changed (hence what you would add to do this manually):
+
+```diff
+  jobs:
+  - name: redis
+    template: redis
+    instances: 1
+    resource_pool: common
+    networks:
+    - name: default
+      default:
+      - dns
+      - gateway
++   - name: vip_network
++     static_ips:
++     - 107.22.225.123
+  properties: {}
+```
+
+To allocate IPs to job VMs, you add an extra "vip" network to the job. The generated deployment manifest already specifies a "vip" network, called "vip_network".
+
+```yaml
+networks:
+- name: default
+  type: dynamic
+  cloud_properties:
+    security_groups:
+    - default
+- name: vip_network
+  type: vip
+  cloud_properties:
+    security_groups:
+    - default
+```
+
+You can now re-deploy and it will show you what you are proposing to change:
+
+```
+$ bosh deploy
+...
+Jobs
+redis
+  changed networks: 
+    + {"name"=>"vip_network", "static_ips"=>["107.22.225.123"]}
+```
+
+When deployment has completed your redis server is now accessible to your local development machine:
+
+```
+$ redis-cli -h 107.22.225.123
+redis 107.22.225.123:6379> get inside
+(nil)
+redis 107.22.225.123:6379> set inside 123
+OK
+```
+
+## Configuring a Job from Deployment Manifest
 
 There are two redis configuration options we will add that will use properties from the deployment manifest.
 
@@ -363,3 +487,6 @@ There are two redis configuration options we will add that will use properties f
 port <%= properties.redis.port %>
 requirepass <%= properties.redis.password %>
 ```
+
+## Storing Redis DB on persistent attached disk
+
