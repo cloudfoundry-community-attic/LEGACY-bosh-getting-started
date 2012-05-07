@@ -266,8 +266,93 @@ You may notice the "dev" suffix. We will discuss "dev" and "final" releases late
 
 ## Deploying our release
 
+To deploy Redis we need the final component of the trio: the deployment manifest. As a reminder, the trio are:
 
+* stemcell
+* release
+* deployment manifest
 
+A deployment manifest needs the unique id (UUID) of our BOSH Director to ensure it is always targeting the correct BOSH:
+
+```
+$ bosh status | grep UUID                                                                                  
+UUID           c897319f-9b4b-41ae-9ed7-XXXXXXX
+```
+
+We can now create a deployment manifest based on the redis release we have created in this tutorial.
+
+```
+$ cd ~/.bosh_deployments/redis-on-demand
+$ bosh-gen manifest redis-dev redis-on-demand c897319f-9b4b-41ae-9ed7-XXXXXXX
+      create  redis-dev.yml
+```
+
+The three arguments being passed to `bosh-gen manifest` are, in order:
+
+1. Deployment name (also the manifest file name)
+1. Path to the release project
+1. BOSH Director UUID
+
+The remaining information required for a default deployment manifest is determined from the release project, such as the list of jobs and the latest release information.
+
+```
+$ cat redis-dev.yml
+---
+name: redis-dev
+director_uuid: c897319f-9b4b-41ae-9ed7-XXXXXXX
+release:
+  name: redis-on-demand
+  version: 2
+...
+jobs:
+- name: redis
+  template: redis
+  instances: 1
+  resource_pool: common
+  networks:
+  - name: default
+    default:
+    - dns
+    - gateway
+properties: {}
+```
+
+To deploy our release, change into the release folder, run `bosh deploy` and type `"yes"` as requested:
+
+```
+$ cd redis-on-demand
+$ bosh deploy
+```
+
+First it will validate your deployment manifest against the releases that your BOSH knows about. It will find "redis-on-demand version 2", since we previously uploaded it.
+
+It will appear to pause at the following:
+
+```
+Compiling packages
+redis/0.2-dev         |                        | 0/1 00:01:59  ETA: --:--:--          
+```
+
+Wait patiently a few minutes. BOSH is automatically compiling your redis source code into redis binary executables, including `redis-server`. It does this with a new, clean VM; and then destroys the VM when it is completed. If you have a release with 40 packages, then 40 VMs will be used. This ensures that each package is built in a clean environment, with only its own dependencies available.
+
+The terminal will then change to show that VMs are being booted to run the redis job:
+
+```
+Compiling packages
+  redis/0.2-dev (00:03:20)                                                                          
+Done                    1/1 00:03:20                                                                
+
+Preparing DNS
+  binding DNS (00:00:00)                                                                            
+Done                    1/1 00:00:00                                                                
+
+Creating bound missing VMs
+common/0              |                        | 0/1 00:00:55  ETA: --:--:--
+```
+
+Initially VMs are booted into resource pools (based on the stemcell). Next they are converted into a job, which includes installing the pre-compiled packages that the job needs.
+
+For our redis release, we will boot a single VM into a resource pool called "common", and it is assigned to a single instance of the redis job.
 
 
 ## Configuring Redis
