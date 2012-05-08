@@ -73,13 +73,15 @@ $ cat /var/vcap/sys/log/redis/redis.std*
 
 Apparently we are expecting a `redis.yml` file. What is in that folder?
 
-```$ ls /var/vcap/jobs/redis/config/
+```
+$ ls /var/vcap/jobs/redis/config/
 redis.conf
 ```
 
 There is a config file there, just not `redis.yml`. What was trying to use `redis.yml` instead of `redis.conf`?
 
-```$ cat /var/vcap/jobs/redis/bin/redis_ctl | grep redis.yml
+```
+$ cat /var/vcap/jobs/redis/bin/redis_ctl | grep redis.yml
     exec /var/vcap/packages/redis/bin/redis-server /var/vcap/jobs/redis/config/redis.yml ...
 ```
 
