@@ -2,13 +2,13 @@
 
 A collection of anecdotes about using BOSH.
 
-* [Logs](troubleshooting/logs.md)
-* [SSH into deployment instances](troubleshooting/ssh.md)
-* [Cloud consistency check and interactive repair](troubleshooting/cloudcheck.md)
-* [Disk cannot be attached](troubleshooting/disk-cannot-be-attached.md)
-* [Updated Instance Not Healthy?](troubleshooting/updated-instance-not-healthy.md)
-* [Recreate microbosh config](troubleshooting/recreate-microbosh-config.md)
+* [Logs](logs.md)
+* [SSH into deployment instances](ssh.md)
+* [Cloud consistency check and interactive repair](cloudcheck.md)
+* [Disk cannot be attached](disk-cannot-be-attached.md)
+* [Updated Instance Not Healthy?](updated-instance-not-healthy.md)
+* [Recreate microbosh config](recreate-microbosh-config.md)
 
 Last and definitely least:
 
-* [Database cleaning](troubleshooting/bosh-database-cleaning.md)
+* [Database cleaning](bosh-database-cleaning.md)
