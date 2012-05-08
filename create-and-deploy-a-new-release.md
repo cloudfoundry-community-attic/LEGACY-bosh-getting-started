@@ -480,15 +480,6 @@ redis 107.22.225.123:6379> set inside 123
 OK
 ```
 
-## Configuring a Job from Deployment Manifest
-
-There are two redis configuration options we will add that will use properties from the deployment manifest.
-
-```
-port <%= properties.redis.port %>
-requirepass <%= properties.redis.password %>
-```
-
 ## Storing Redis DB on persistent attached disk
 
 If a job VM needs to be replaced - for example if you scale it upwards or downwards - then the data will be lost. 
@@ -609,4 +600,45 @@ common
 $ redis-cli -h 107.22.225.123
 redis 107.22.225.123:6379> get inside
 "123"
+```
+
+## Configuring a Job from Deployment Manifest
+
+Our redis server is now available on a standard port without any password protection on the public Internet. We can provide a password to `redis-server` via the configuration file. Though if we hardcode the password into `redis.conf` then we cannot change it between releases (dev, staging, QA, and production). 
+
+Different configuration properties can be provided from the deployment manifest via the `properties: {}` key.
+
+First, we will modify the deployment manifest to provide a specific port and password. Then we will modify the `redis.conf.erb` to use those values.
+
+Replace `properties: {}` in the `redis-dev.yml` deployment manifest with the following:
+
+```
+properties:
+  redis:
+    port: 6379
+    password: r3D!$
+```
+
+There are two redis configuration options we will add that will use properties from the deployment manifest.
+
+These values are available within the job templates that end with `.erb` suffix. The `port` field value above can be placed in any such template using the snippet `<%= properties.redis.port %>`.
+
+Add the following lines to `jobs/redis/templates/redis.conf.erb`:
+
+```
+port <%= properties.redis.port %>
+requirepass <%= properties.redis.password %>
+```
+
+As before, modifying a job or package means that we must re-release and deploy.
+
+```
+$ bosh create release
+$ bosh upload release
+```
+
+Then update `redis-dev.yml` to the new release number, then deploy.
+
+```
+$ bosh deploy
 ```
