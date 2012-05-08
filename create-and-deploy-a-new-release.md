@@ -214,7 +214,8 @@ databases 16
 dir /var/vcap/store/redis
 maxclients 0
 maxmemory-policy noeviction
-appendonly no
+save 60 1000
+appendonly yes
 ```
 
 For redis, we can tell it where to store its PID via the `pidfile` config value. The value provided `/var/vcap/sys/run/redis/redis.pid` matches the value of `$PIDFILE` in `jobs/redis/templates/redis_ctl`.
@@ -490,15 +491,7 @@ requirepass <%= properties.redis.password %>
 
 ## Storing Redis DB on persistent attached disk
 
-Most operations on Job VMs clean them out. Even `bosh restart redis 0` will delete the data stored.
-
-```
-$ bosh restart redis 0
-...
-$ redis-cli -h 107.22.225.123                
-redis 107.22.225.123:6379> get inside
-(nil)
-```
+If a job VM needs to be replaced - for example if you scale it upwards or downwards - then the data will be lost. 
 
 We need to use a persistent, attached disk with BOSH to ensure data is persistent whilst the VMs themselves are ephemeral. On AWS, we will be attaching a single EBS volume.
 
@@ -575,5 +568,45 @@ STORE=/var/vcap/store/redis
 
 Additionally, the `redis.conf` is already telling redis to store data inside `/var/vcap/store` in preparation of this section.
 
-TODO - why is the data being reset still after `bosh restart redis 0`?!
+Now that the EBS persistent disk is attached, let's store some data, upgrade the VM and check that our data is indeed persistent.
 
+```
+$ redis-cli -h 107.22.225.123
+redis 107.22.225.123:6379> set inside 123
+OK
+redis 107.22.225.123:6379> get inside
+"123"
+```
+
+In the deployment manifest, change the VM `instance_type` from `m1.small` to `m1.medium`:
+
+```
+resource_pools:
+- name: common
+  network: default
+  size: 1
+  persistent_disk: 8192
+  stemcell:
+    name: bosh-stemcell
+    version: 0.5.1
+  cloud_properties:
+    instance_type: m1.medium
+```
+
+Now deploy the deployment and check that our data is retained:
+
+```
+$ bosh deploy
+...
+Resource pools
+common
+  cloud_properties
+    changed instance_type: 
+      - m1.small
+      + m1.medium
+...
+
+$ redis-cli -h 107.22.225.123
+redis 107.22.225.123:6379> get inside
+"123"
+```
