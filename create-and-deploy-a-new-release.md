@@ -2,16 +2,16 @@
 
 You can quickly create the initial scaffold for a new release using the 3rd-party `bosh-gen` tool (ok, to be fair, Dr Nic wrote it).
 
-Install the tool using RubyGems:
+Install the tool using RubyGems, then create a new release with `bosh-gen new`:
 
 ```
-gem install bosh-gen
-```
+$ gem install bosh-gen
 
-```
 $ mkdir -p ~/.bosh_deployments/redis-on-demand
 $ cd ~/.bosh_deployments/redis-on-demand
+
 $ bosh-gen new redis-on-demand
+
 $ cd redis-on-demand
 ```
 
