@@ -142,15 +142,15 @@ exit
 
 **From another terminal on your local machine:**
 
-Make a copy of the `examples/microbosh` folder contents and add your AWS credentials as appropriate into `config.yml`:
+Make a copy of the `examples/chefbosh` folder contents and add your AWS credentials as appropriate into `config.yml`:
 
 ```
-mkdir -p ~/.microbosh
-chmod 700 ~/.microbosh
-cd ~/.microbosh
+mkdir -p ~/.chefbosh
+chmod 700 ~/.chefbosh
+cd ~/.chefbosh
 
 git clone git://github.com/drnic/bosh-getting-started.git
-cp -r bosh-getting-started/examples/microbosh/* .
+cp -r bosh-getting-started/examples/chefbosh/* .
 vim config.yml
 ```
 
@@ -169,7 +169,7 @@ We'll now use chef to install and start all the parts of BOSH. The `chef_deploye
 Get the chef_deployer & cookbooks (all from the same [bosh](https://github.com/cloudfoundry/bosh) repository) and we're almost done!
 
 ```
-cd ~/.microbosh
+cd ~/.chefbosh
 git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/chef_deployer
 bundle
@@ -179,7 +179,7 @@ cd ../release/
 Now we can run chef to install BOSH:
 
 ```
-ruby ../chef_deployer/bin/chef_deployer deploy ~/.microbosh
+ruby ../chef_deployer/bin/chef_deployer deploy ~/.chefbosh
 ...lots of chef...
 ```
 

@@ -33,10 +33,10 @@ The command you ran was effectively, from within your BOSH source code:
 
 ```
 cd release
-ruby ../chef_deployer/bin/chef_deployer deploy ~/.microbosh
+ruby ../chef_deployer/bin/chef_deployer deploy ~/.chefbosh
 ```
 
-It used `~/.microbosh/config.yml` to determine the location of the instances to install the various components/jobs of the BOSH. We installed all jobs into the one instance.
+It used `~/.chefbosh/config.yml` to determine the location of the instances to install the various components/jobs of the BOSH. We installed all jobs into the one instance.
 
 This `config.yml` did not determine which version of BOSH source code was to be installed on each BOSH instance (we only used one instance, but you could have used a cluster of instances).
 
@@ -57,7 +57,7 @@ The value `bosh.uri` tells the `chef_deployer` where to get the source from to d
 To deploy our local changes to your BOSH instances, tell `chef_deployer` to use it the local folder instead of the `bosh.uri` value:
 
 ```
-ruby ../chef_deployer/bin/chef_deployer deploy ~/.microbosh --local
+ruby ../chef_deployer/bin/chef_deployer deploy ~/.chefbosh --local
 ```
 
 ## Troubleshooting

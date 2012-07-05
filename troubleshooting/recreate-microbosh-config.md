@@ -1,16 +1,16 @@
 # How to recreate microbosh config
 
-If you move to a new machine, if `~/.microbosh` is accidentally deleted, or if you need to update any BOSH configuration (change your AWS credentials) then this is the troubleshooting guide for you.
+If you move to a new machine, if `~/.chefbosh` is accidentally deleted, or if you need to update any BOSH configuration (change your AWS credentials) then this is the troubleshooting guide for you.
 
-## Recreate .microbosh
+## Recreate .chefbosh
 
 ```
-mkdir -p ~/.microbosh
-chmod 700 ~/.microbosh
-cd ~/.microbosh
+mkdir -p ~/.chefbosh
+chmod 700 ~/.chefbosh
+cd ~/.chefbosh
 
 git clone git://github.com/drnic/bosh-getting-started.git
-cp -r bosh-getting-started/examples/microbosh/* .
+cp -r bosh-getting-started/examples/chefbosh/* .
 vim config.yml
 ```
 
