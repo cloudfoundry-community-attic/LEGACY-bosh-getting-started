@@ -1,3 +1,5 @@
+# Create a BOSH from Scratch
+
 These instructions are a combination of "Boot an AWS instance" and "Install BOSH via its chef_deployer"
 
 Follow along with [this 16 min screencast](https://vimeo.com/40484383).
