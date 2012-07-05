@@ -43,7 +43,8 @@ connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
 server = connection.servers.bootstrap({
   :public_key_path => '~/.ssh/id_rsa.pub',
   :private_key_path => '~/.ssh/id_rsa',
-  :flavor_id => 'm1.large', # 64 bit, normal large
+  :flavor_id => 'm1.medium', # 64 bit, normal medium
+  :bits => 64,
   :username => 'ubuntu'
 })
 ```
