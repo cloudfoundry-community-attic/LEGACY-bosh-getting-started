@@ -122,7 +122,7 @@ $ bosh create release
 ...
 
 Release version: 1
-Release manifest: /private/tmp/microbosh/bosh-sample-release/dev_releases/wordpress-1.yml
+Release manifest: /private/tmp/chefbosh/bosh-sample-release/dev_releases/wordpress-1.yml
 ```
 
 You can look at this file and see how it explicitly expresses which packages and jobs will be used. You'll see that a total of 6 packages are installed and 3 jobs will be managed (nginx, wordpress and mysql).
@@ -161,7 +161,7 @@ Now tell the BOSH CLI which deployment we care about using `bosh deployment MANI
 
 ```
 $ bosh deployment wordpress-aws.yml
-Deployment set to '/private/tmp/microbosh/bosh-sample-release/wordpress-aws.yml'
+Deployment set to '/private/tmp/chefbosh/bosh-sample-release/wordpress-aws.yml'
 $ bosh deploy
 Getting deployment properties from director...
 Unable to get properties list from director, trying without it...
@@ -221,7 +221,7 @@ Updating director data... done
 Target         yourboshname (http://ec2-10-2-3-4.compute-1.amazonaws.com:25555) Ver: 0.4 (6122358b)
 UUID           e28ebc07-3b27-43d7-8219-XXXXXXXXX
 User           drnic
-Deployment     /private/tmp/microbosh/bosh-sample-release/wordpress-aws.yml
+Deployment     /private/tmp/chefbosh/bosh-sample-release/wordpress-aws.yml
 
 You are in release directory
 ----------------------------

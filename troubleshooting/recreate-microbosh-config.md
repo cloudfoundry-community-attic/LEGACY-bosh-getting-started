@@ -1,4 +1,4 @@
-# How to recreate microbosh config
+# How to recreate chefbosh config
 
 If you move to a new machine, if `~/.chefbosh` is accidentally deleted, or if you need to update any BOSH configuration (change your AWS credentials) then this is the troubleshooting guide for you.
 

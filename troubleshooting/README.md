@@ -7,7 +7,7 @@ A collection of anecdotes about using BOSH.
 * [Cloud consistency check and interactive repair](cloudcheck.md)
 * [Disk cannot be attached](disk-cannot-be-attached.md)
 * [Updated Instance Not Healthy?](updated-instance-not-healthy.md)
-* [Recreate microbosh config](recreate-microbosh-config.md)
+* [Recreate chefbosh config](recreate-chefbosh-config.md)
 
 Last and definitely least:
 
