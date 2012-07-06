@@ -22,6 +22,11 @@ cloud:
     aws:
       access_key_id:     ACCESS_KEY_ID
       secret_access_key: SECRET_ACCESS_KEY
+      ec2_endpoint: ec2.us-west-2.amazonaws.com
       default_key_name: fog_default
       default_security_groups: ["default"]
       ec2_private_key: /home/vcap/.ssh/id_rsa
+    stemcell:
+      disk: 4096
+    
+      

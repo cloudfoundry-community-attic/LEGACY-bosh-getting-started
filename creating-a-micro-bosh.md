@@ -5,8 +5,8 @@ This tutorial shows you how to create your first BOSH (called a Micro BOSH as al
 That is, there are three machines/VM being referenced in this tutorial. We will create two VMs in two different AWS regions, and there is your local machine (for example, an OS X machine)
 
 1. Local machine - use fog to provision Inception VM; use ssh to access/prepare Inception VM
-1. Inception VM in us-east-1 - prepare an available Ubuntu VM; we'll create a new one
-1. Micro BOSH VM in us-west-2 - use BOSH CLI to bootstrap a new VM that is a BOSH (called "Micro BOSH")
+1. Inception VM - prepare an available Ubuntu VM; we'll create a new one
+1. Micro BOSH VM - use BOSH CLI to bootstrap a new VM that is a BOSH (called "Micro BOSH")
 
 That is, by the end of this tutorial you will have two Ubuntu VMs. An Inception VM used to create a BOSH VM.
 
@@ -216,13 +216,15 @@ WARNING! Your target has been changed to `http://1.2.3.4:25555'!
 Deployment set to '/var/vcap/deployments/microbosh-aws-us-west-2/micro_bosh.yml'
 ```
 
-Now fetch the basic AMI image ("stemcell" in BOSH terminology) used to create a Micro BOSH VM:
+Now fetch the basic image ("stemcell" in BOSH terminology) used to create a Micro BOSH VM:
 
 ```
 bosh public stemcells
 # confirm that micro-bosh-stemcell-0.1.0.tgz is the latest one
 bosh download public stemcell micro-bosh-stemcell-0.1.0.tgz
 ```
+
+NOTE: You want one called "micro-bosh-stemcell..." rather than a base stemcell with "aws" in its name.
 
 Now we can deploy our first Micro BOSH!
 
