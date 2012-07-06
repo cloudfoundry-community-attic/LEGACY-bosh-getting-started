@@ -154,7 +154,7 @@ $ find . -name micro_bosh.yml
 
 For this tutorial, we will do option 2 and host the BOSH deployments within the same region/account that they will be managing. We will use the same AWS credentials used to create the first Ubuntu VM, but will deploy to a different region (although we could deploy to the same region; remember, each region requires a new BOSH deployment).
 
-Provision an elastic public IP in the target infrastructure/region with fog:
+On your local machine using fog, provision an elastic public IP in the target infrastructure/region (us-west-2 in this tutorial):
 
 ``` ruby
 >> connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-west-2' })
@@ -165,7 +165,13 @@ Provision an elastic public IP in the target infrastructure/region with fog:
 
 The "1.2.3.4" value will replace `IPADDRESS` in the micro_bosh.yml below.
 
-For AWS us-west-2 (Oregon), create a `/var/vcap/deployments/microbosh-aws-us-west-2/micro_bosh.yml` file as follows:
+Back to the Inception VM, create a deployments folder for our `micro_bosh.yml` file. For AWS us-west-2 (Oregon), name the folder `microbosh-aws-us-west-2` so you can quickly tell the purpose of the Micro BOSH.
+
+```
+mkdir -p /var/vcap/deployments/microbosh-aws-us-west-2
+```
+
+Inside this folder, create `/var/vcap/deployments/microbosh-aws-us-west-2/micro_bosh.yml` file as follows:
 
 ```
 ---
