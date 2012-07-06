@@ -106,6 +106,7 @@ $ ssh ubuntu@ec2-10-9-8-7.compute-1.amazonaws.com
 export ORIGUSER=$(whoami)
 sudo su -
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_inception.sh | bash
+source /etc/profile
 ```
 
 TODO: Why/when does RVM prompt for "q"? How do I make that silent?
