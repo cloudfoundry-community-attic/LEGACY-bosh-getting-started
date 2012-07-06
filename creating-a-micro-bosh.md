@@ -220,12 +220,12 @@ Now fetch the basic AMI image ("stemcell" in BOSH terminology) used to create a 
 
 ```
 bosh public stemcells
-# confirm that bosh-stemcell-aws-0.5.1.tgz is the latest one
-bosh download public stemcell bosh-stemcell-aws-0.5.1.tgz
+# confirm that micro-bosh-stemcell-0.1.0.tgz is the latest one
+bosh download public stemcell micro-bosh-stemcell-0.1.0.tgz
 ```
 
 Now we can deploy our first Micro BOSH!
 
 ```
-bosh micro deploy bosh-stemcell-aws-0.5.1.tgz
+bosh micro deploy micro-bosh-stemcell-0.1.0.tgz
 ```
