@@ -227,12 +227,12 @@ cloud:
       ec2_endpoint: ec2.us-west-2.amazonaws.com
       default_key_name: fog_default
       default_security_groups: ["default"]
-      ec2_private_key: /home/vcap/.ssh/id_rsa
+      ec2_private_key: /home/vcap/.ssh/ec2.pem
 ```
 
 TODO: How to create salted passwords?
 
-Replace ACCESS_KEY_ID and SECRET_ACCESS_KEY with your AWS credentials.
+Replace ACCESS_KEY_ID and SECRET_ACCESS_KEY with your AWS credentials, IPADDRESS with your elastic IP, and SALTED_PASSWORD with your `mkpasswd` encrypted password.
 
 
 ```
