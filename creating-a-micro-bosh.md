@@ -2,8 +2,9 @@
 
 This tutorial shows you how to create your first BOSH (called a Micro BOSH as all the components are in on VM), and the preceding steps for preparing the Inception VM that will be required.
 
-That is, we will create two VMs in two different AWS regions:
+That is, there are three machines/VM being referenced in this tutorial. We will create two VMs in two different AWS regions, and there is your local machine (for example, an OS X machine)
 
+1. Local machine - use fog to provision Inception VM; use ssh to access/prepare Inception VM
 1. Inception VM in us-east-1 - prepare an available Ubuntu VM; we'll create a new one
 1. Micro BOSH VM in us-west-2 - use BOSH CLI to bootstrap a new VM that is a BOSH (called "Micro BOSH")
 
@@ -106,6 +107,8 @@ export ORIGUSER=$(whoami)
 sudo su -
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_inception.sh | bash
 ```
+
+TODO: Why/when does RVM prompt for "q"? How do I make that silent?
 
 After this script prepares the inception VM, it will display the help information for `bosh micro` CLI commands:
 
