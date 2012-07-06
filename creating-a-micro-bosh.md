@@ -1,17 +1,19 @@
 # Create a Micro BOSH
 
-These instructions are a combination of "Boot an AWS instance" and "Install BOSH via its chef_deployer"
+This tutorial shows you how to create your first BOSH (called a Micro BOSH as all the components are in on VM), and the preceding steps for preparing the Inception VM that will be required.
 
-* Use an available Ubuntu VM (we'll create a new one)
-* Use BOSH CLI to bootstrap a new VM that is BOSH (called "Micro BOSH")
+That is, we will create two VMs:
 
-That is, by the end of this tutorial you will have two Ubuntu VMs. The initial VM will be used to create the second VM. The latter is BOSH.
+1. Inception VM - prepare an available Ubuntu VM; we'll create a new one
+1. Micro BOSH VM - use BOSH CLI to bootstrap a new VM that is a BOSH (called "Micro BOSH")
+
+That is, by the end of this tutorial you will have two Ubuntu VMs. An Inception VM used to create a BOSH VM.
 
 This tutorial is the preferred method for bootstrapping a BOSH. Alternately, you can [create a BOSH from scratch](creating-a-bosh-from-scratch.md) using provided chef recipes.
 
-## Create the first Ubuntu VM
+## Create the Inception VM
 
-This section is only necessary if you do not have an available Ubuntu VM, such as you are on a Mac OS X machine or Windows machine.
+This short section is only necessary if you do not have an available Ubuntu VM, such as you are on a Mac OS X machine or Windows machine.
 
 We will use fog to create the first Ubuntu VM on AWS. You could alternately create one any way that you want.
 
