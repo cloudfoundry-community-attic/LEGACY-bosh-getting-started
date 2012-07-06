@@ -124,11 +124,9 @@ micro deployments         Show the list of deployments
 
 Each Micro BOSH that you create will be described by a single YAML configuration file, commonly named `micro_bosh.yml`. This allows you to easily reference different Micro BOSH deployments, boot them, change them, and delete them.
 
-We will store them all in `/var/vcap/deployments`.
+We will store them all in `/var/vcap/deployments` (created by `prepare_inception.sh`)
 
 ```
-mkdir -p /var/vcap/deployments
-chown vcap:vcap /var/vcap/deployments
 cd /var/vcap/deployments
 ```
 

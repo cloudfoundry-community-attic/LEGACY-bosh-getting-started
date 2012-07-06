@@ -20,8 +20,8 @@ bosh_app_dir=/var/vcap
 mkdir -p ${bosh_app_dir}
 mkdir -p ${bosh_app_dir}/bosh
 export PATH=${bosh_app_dir}/bosh/bin:$PATH
-mkdir -p ${bosh_app_dir}/deploy ${bosh_app_dir}/storage
-chown vcap:vcap ${bosh_app_dir}/deploy ${bosh_app_dir}/storage
+mkdir -p ${bosh_app_dir}/deploy ${bosh_app_dir}/storage mkdir ${bosh_app_dir}/deployments
+chown vcap:vcap ${bosh_app_dir}/deploy ${bosh_app_dir}/storage ${bosh_app_dir}/deployments
 echo "export PATH=${bosh_app_dir}/bosh/bin:\$PATH" >> /root/.bashrc
 echo "export PATH=${bosh_app_dir}/bosh/bin:\$PATH" >> /home/vcap/.bashrc
 
@@ -30,6 +30,7 @@ then
   cp /home/${ORIGUSER}/.ssh/authorized_keys ${bosh_app_dir}/
   cp /home/${ORIGUSER}/.ssh/authorized_keys /home/vcap/.ssh/authorized_keys
   cp /home/${ORIGUSER}/.bashrc /home/vcap/
+  echo "export PATH=${bosh_app_dir}/bosh/bin:\$PATH" >> /home/${ORIGUSER}/.bashrc
 else
   echo "Skipping copying authorized_keys to vcap user"
   echo "Skipping copying .bashrc to vcap user"
