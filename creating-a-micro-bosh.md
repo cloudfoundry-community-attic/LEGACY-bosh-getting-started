@@ -2,10 +2,10 @@
 
 This tutorial shows you how to create your first BOSH (called a Micro BOSH as all the components are in on VM), and the preceding steps for preparing the Inception VM that will be required.
 
-That is, we will create two VMs:
+That is, we will create two VMs in two different AWS regions:
 
-1. Inception VM - prepare an available Ubuntu VM; we'll create a new one
-1. Micro BOSH VM - use BOSH CLI to bootstrap a new VM that is a BOSH (called "Micro BOSH")
+1. Inception VM in us-east-1 - prepare an available Ubuntu VM; we'll create a new one
+1. Micro BOSH VM in us-west-2 - use BOSH CLI to bootstrap a new VM that is a BOSH (called "Micro BOSH")
 
 That is, by the end of this tutorial you will have two Ubuntu VMs. An Inception VM used to create a BOSH VM.
 
