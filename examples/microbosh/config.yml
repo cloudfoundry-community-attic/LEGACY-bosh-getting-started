@@ -15,6 +15,7 @@ network:
 resources:
   cloud_properties:
     instance_type: m1.small
+    root_device_name: /dev/sda1
 
 cloud:
   plugin: aws
@@ -25,8 +26,10 @@ cloud:
       ec2_endpoint: ec2.us-west-2.amazonaws.com
       default_key_name: fog_default
       default_security_groups: ["default"]
-      ec2_private_key: /home/vcap/.ssh/id_rsa
+      ec2_private_key: /home/vcap/.ssh/ec2.pem
     stemcell:
       disk: 4096
-    
+      kernel_id: aki-b4aa75dd
+      root_device_name: /dev/sda1
+
       

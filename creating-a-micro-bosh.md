@@ -156,7 +156,7 @@ For this tutorial, we will do option 2 and host the BOSH deployments within the 
 On your local machine using fog, provision an elastic public IP in the target infrastructure/region (us-west-2 in this tutorial):
 
 ``` ruby
->> connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-west-2' })
+>> connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
 >> address = connection.addresses.create
 >> address.public_ip
 "1.2.3.4"
@@ -169,6 +169,27 @@ Back to the Inception VM, create a deployments folder for our `micro_bosh.yml` f
 ```
 mkdir -p /var/vcap/deployments/microbosh-aws-us-west-2
 ```
+
+Create an AWS keypair and store the `.pem` file. Inside the Inception VM, as the vcap user:
+
+```
+sudo su - vcap
+gem install fog --no-ri --no-rdoc
+irb
+```
+
+Inside irb console:
+
+``` ruby
+connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1', \
+:aws_access_key_id => 'ACCESS_KEY', \
+:aws_secret_access_key => 'SECRET_KEY', \
+})
+kp = connection.key_pairs.create(:name => 'ec2.pem')
+kp.write("/home/vcap/.ssh/ec2.pem")
+```
+
+TODO: convert the above to a ruby script like prepare_inception.sh
 
 Inside this folder, create `/var/vcap/deployments/microbosh-aws-us-west-2/micro_bosh.yml` file as follows:
 

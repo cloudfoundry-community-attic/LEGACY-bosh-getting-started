@@ -38,7 +38,8 @@ fi
 
 apt-get update
 apt-get install build-essential libsqlite3-dev curl rsync git-core \
-libmysqlclient-dev libxml2-dev libxslt-dev libpq-dev libsqlite3-dev genisoimage -y
+libmysqlclient-dev libxml2-dev libxslt-dev libpq-dev libsqlite3-dev \
+genisoimage mkpasswd -y
 
 echo "install: --no-ri --no-rdoc" > /etc/gemrc
 echo "update: --no-ri --no-rdoc" > /etc/gemrc
@@ -52,7 +53,7 @@ fi
 command rvm install 1.9.3 # oh god this takes a long time
 rvm 1.9.3
 rvm alias create default 1.9.3
-
+gem install fog --no-ri --no-rdoc
 
 mkdir -p /var/vcap/bootstrap
 cd /var/vcap/bootstrap
