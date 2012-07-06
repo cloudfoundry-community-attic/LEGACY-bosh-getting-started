@@ -26,10 +26,14 @@ chown vcap:vcap ${bosh_app_dir}/deploy ${bosh_app_dir}/storage
 echo "export PATH=${bosh_app_dir}/bosh/bin:\$PATH" >> /root/.bashrc
 echo "export PATH=${bosh_app_dir}/bosh/bin:\$PATH" >> /home/vcap/.bashrc
 
-if [[ -n $orig_user ]]; then
+if [[ -n $orig_user ]]
+then
   cp /home/${orig_user}/.ssh/authorized_keys ${bosh_app_dir}/
   cp /home/${orig_user}/.ssh/authorized_keys /home/vcap/.ssh/authorized_keys
   cp /home/${orig_user}/.bashrc /home/vcap/
+else
+  echo "Skipping copying authorized_keys to vcap user"
+  echo "Skipping copying .bashrc to vcap user"
 fi
 
 apt-get update
