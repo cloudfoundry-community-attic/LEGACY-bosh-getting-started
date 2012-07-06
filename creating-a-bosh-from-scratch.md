@@ -10,7 +10,7 @@ Follow along with [this 16 min screencast](https://vimeo.com/40484383).
 
 ## Setup
 
-Install fog, \~/.fog credentials (for AWS), and \~/.ssh/id_rsa(.pub) keys
+Install fog, `~/.fog` credentials (for AWS), and `~/.ssh/id_rsa(.pub)` keys
 
 Install fog
 
@@ -18,7 +18,7 @@ Install fog
 gem install fog
 ```
 
-Example \~/.fog credentials:
+Example `~/.fog` credentials:
 
 ```
  :default:
