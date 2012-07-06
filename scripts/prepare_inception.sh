@@ -5,9 +5,8 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-orig_user=$1
-if [[ -z $orig_user ]]; then
-  echo "WARNING: Can pass non-root username to copy authorized_keys and .bashrc to vcap user"
+if [[ -z $ORIGUSER ]]; then
+  echo "SUGGESTION: $ORIGUSER to pass non-root username to copy authorized_keys and .bashrc to vcap user"
 fi
 
 groupadd vcap 
@@ -26,11 +25,11 @@ chown vcap:vcap ${bosh_app_dir}/deploy ${bosh_app_dir}/storage
 echo "export PATH=${bosh_app_dir}/bosh/bin:\$PATH" >> /root/.bashrc
 echo "export PATH=${bosh_app_dir}/bosh/bin:\$PATH" >> /home/vcap/.bashrc
 
-if [[ -n $orig_user ]]
+if [[ -n $ORIGUSER ]]
 then
-  cp /home/${orig_user}/.ssh/authorized_keys ${bosh_app_dir}/
-  cp /home/${orig_user}/.ssh/authorized_keys /home/vcap/.ssh/authorized_keys
-  cp /home/${orig_user}/.bashrc /home/vcap/
+  cp /home/${ORIGUSER}/.ssh/authorized_keys ${bosh_app_dir}/
+  cp /home/${ORIGUSER}/.ssh/authorized_keys /home/vcap/.ssh/authorized_keys
+  cp /home/${ORIGUSER}/.bashrc /home/vcap/
 else
   echo "Skipping copying authorized_keys to vcap user"
   echo "Skipping copying .bashrc to vcap user"
