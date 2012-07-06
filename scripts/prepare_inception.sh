@@ -47,7 +47,7 @@ then
   rvm get stable
 else
   curl -L get.rvm.io | bash -s stable
-  source /etc/profile
+  source /etc/profile.d/rvm.sh
 fi
 rvm install 1.9.3 # oh god this takes a long time
 rvm 1.9.3
