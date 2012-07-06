@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
+if [[ $EUID -eq 0 ]]; then
+   echo "ERROR: This script must not be run as root" 1>&2
+   exit 1
+fi
 orig_user=$(whoami)
+
 groupadd vcap 
 useradd vcap -m -g vcap
 mkdir /home/vcap/.ssh
