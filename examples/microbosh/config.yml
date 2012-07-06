@@ -3,7 +3,7 @@ name: microbosh-aws-us-east-1
 
 env:
   bosh:
-    password: $6$salt$password
+    password: SALTED_PASSWORD
 
 logging:
   level: DEBUG

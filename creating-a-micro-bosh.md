@@ -191,6 +191,12 @@ kp.write("/home/vcap/.ssh/ec2.pem")
 
 TODO: convert the above to a ruby script like prepare_inception.sh
 
+You can pass an encrypted password to the Micro BOSH. Run the following for you own `PASSWORD` and replace `SALTED_PASSWORD` with the returned value.
+
+```
+mkpasswd -m sha-512 PASSWORD
+```
+
 Inside this folder, create `/var/vcap/deployments/microbosh-aws-us-west-2/micro_bosh.yml` file as follows:
 
 ```
@@ -199,7 +205,7 @@ name: microbosh-aws-us-west-2
 
 env:
   bosh:
-    password: $6$salt$password
+    password: SALTED_PASSWORD
 
 logging:
   level: DEBUG
