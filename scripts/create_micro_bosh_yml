@@ -16,6 +16,7 @@ def usage
   exit 1
 end
 
+usage unless provider
 usage unless provider.upcase == 'AWS'
 usage unless password
 
@@ -36,7 +37,7 @@ name: #{name}
 
 env:
   bosh:
-    password: #{password}
+    password: #{salted_password}
 
 logging:
   level: DEBUG
