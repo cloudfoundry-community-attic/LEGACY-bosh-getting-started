@@ -174,27 +174,12 @@ chmod 755 /tmp/create_keypair
 /tmp/create_keypair ACCESS_KEY_ID SECRET_ACCESS_KEY ec2
 ```
 
-You can pass an encrypted password to the Micro BOSH. Run the following for you own `PASSWORD` and replace `SALTED_PASSWORD` with the returned value.
-
 ```
-mkpasswd -m sha-512 PASSWORD
-```
-
-Create a deployments folder for our `micro_bosh.yml` file. For AWS us-east-1 (Virginia), name the folder `microbosh-aws-us-east-1` so you can quickly tell the purpose of the Micro BOSH.
-
-Inside this folder, create `/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml` file as follows:
-
-```
-mkdir -p /var/vcap/deployments/microbosh-aws-us-east-1
-curl https://raw.github.com/drnic/bosh-getting-started/master/examples/microbosh/micro_bosh.yml > /var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml
-vim /var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml
+curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_micro_bosh_yml > /tmp/create_micro_bosh_yml
+ruby /tmp/create_micro_bosh_yml microbosh-aws-us-east-1 aws ACCESS_KEY SECRET_KEY IP_ADDRESS PASSWORD us-east-1 ec2
 ```
 
-Inside vim, edit the ALLCAPS variables:
-
-* replace SALTED_PASSWORD with your `mkpasswd` encrypted password
-* replace IPADDRESS with your elastic IP
-* replace ACCESS_KEY_ID and SECRET_ACCESS_KEY with your AWS credentials
+This will create a file `microbosh-aws-us-east-1/micro_bosh.yml` that looks as below with the ALLCAPS values filled in. `PASSWORD` above (e.g. 'abc123') will be replaced by the salted version.
 
 ```
 ---
