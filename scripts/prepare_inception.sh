@@ -53,7 +53,7 @@ fi
 command rvm install 1.9.3 # oh god this takes a long time
 rvm 1.9.3
 rvm alias create default 1.9.3
-gem install fog --no-ri --no-rdoc
+gem install bundler fog --no-ri --no-rdoc
 
 mkdir -p /var/vcap/bootstrap
 cd /var/vcap/bootstrap
