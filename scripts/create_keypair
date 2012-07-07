@@ -1,28 +1,35 @@
 #!/usr/bin/env ruby
 
 require "fileutils"
+require "fog"
 
 access_key = ARGV.shift
 secret_key = ARGV.shift
 keypair_name = ARGV.shift || "ec2"
-user = "vcap"
 
 unless secret_key
   $stderr.puts "USAGE: create_keypair ACCESS_KEY SECRET_KEY [KEYNAME=ec2]"
   exit 1
 end
 
-def create_keypair(access_key, secret_key, keypair_name)
-  connection = Fog::Compute.new({
-    :provider => 'AWS', :region => 'us-east-1',
-    :aws_access_key_id => access_key,
-    :aws_secret_access_key => secret_key,
-  })
-  kp = connection.key_pairs.create(:name => keypair_name)
+def create_keypair(access_key, secret_key, keypair_name, options={})
+  user = options.delete(:user) || "vcap"
+  provider = options.delete(:provider) || "AWS"
+  options[:region] = 'us-east-1' if provider == "AWS" && options[:region].nil?
   pem = "/home/#{user}/.ssh/#{keypair_name}.pem"
-  kp.write(pem)
+  if File.exist?(pem)
+    $stderr.puts "#{provider} key #{keypair_name} already created at #{pem}"
+  else
+    connection = Fog::Compute.new({
+      :provider => provider,
+      :aws_access_key_id => access_key,
+      :aws_secret_access_key => secret_key,
+    }.merge(options))
+    kp = connection.key_pairs.create(:name => keypair_name)
+    kp.write(pem)
+    FileUtils.chown user, user, pem
+  end
   pem
 end
 
-pem = create_keypair(access_key, secret_key, keypair_name)
-FileUtils.chown user, user, pem
+create_keypair(access_key, secret_key, keypair_name)
