@@ -1,8 +1,11 @@
 #!/usr/bin/env ruby
 
+require "fileutils"
+
 access_key = ARGV.shift
 secret_key = ARGV.shift
 keypair_name = ARGV.shift || "ec2"
+user = "vcap"
 
 unless secret_key
   $stderr.puts "USAGE: $0 access_key secret key"
@@ -16,7 +19,10 @@ def create_keypair(access_key, secret_key, keypair_name)
     :aws_secret_access_key => secret_key,
   })
   kp = connection.key_pairs.create(:name => keypair_name)
-  kp.write("/home/vcap/.ssh/#{keypair_name}.pem")
+  pem = "/home/#{user}/.ssh/#{keypair_name}.pem"
+  kp.write(pem)
+  pem
 end
 
-create_keypair(access_key, secret_key, keypair_name)
+pem = create_keypair(access_key, secret_key, keypair_name)
+FileUtils.chown user, user, pem
