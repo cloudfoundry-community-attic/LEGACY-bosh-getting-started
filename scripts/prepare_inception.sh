@@ -50,8 +50,7 @@ else
   curl -L get.rvm.io | bash -s stable
   source /etc/profile.d/rvm.sh
 fi
-rvm pkg install readline
-command rvm install 1.9.3 --with-readline-dir=$rvm_path/usr # oh god this takes a long time
+command rvm install 1.9.3 # oh god this takes a long time
 rvm 1.9.3
 rvm alias create default 1.9.3
 gem install fog --no-ri --no-rdoc

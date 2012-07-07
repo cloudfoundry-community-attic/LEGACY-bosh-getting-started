@@ -8,7 +8,7 @@ keypair_name = ARGV.shift || "ec2"
 user = "vcap"
 
 unless secret_key
-  $stderr.puts "USAGE: create_keypair ACCESS_KEY SECRET_KEY"
+  $stderr.puts "USAGE: create_keypair ACCESS_KEY SECRET_KEY [KEYNAME=ec2]"
   exit 1
 end
 
