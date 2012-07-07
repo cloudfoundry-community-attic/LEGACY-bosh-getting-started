@@ -14,7 +14,12 @@ useradd vcap -m -g vcap
 mkdir -p /home/vcap/.ssh
 chown -R vcap:vcap /home/vcap/.ssh
 
-su -c "ssh-keygen -f ~/.ssh/id_rsa -N ''" vcap
+if [[ -f /home/vcap/.ssh/id_rsa ]]
+then
+  echo "public keys for vcap already exist, skipping..."
+else
+  su -c "ssh-keygen -f ~/.ssh/id_rsa -N ''" vcap
+fi
 
 bosh_app_dir=/var/vcap
 mkdir -p ${bosh_app_dir}
