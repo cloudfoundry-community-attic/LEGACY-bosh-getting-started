@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+access_key = ARGV.shift
+secret_key = ARGV.shift
+keypair_name = ARGV.shift || "ec2"
+
+unless secret_key
+  $stderr.puts "USAGE: $0 access_key secret key"
+  exit 1
+end
+
+def create_keypair(access_key, secret_key, keypair_name)
+  connection = Fog::Compute.new({
+    :provider => 'AWS', :region => 'us-east-1',
+    :aws_access_key_id => access_key,
+    :aws_secret_access_key => secret_key,
+  })
+  kp = connection.key_pairs.create(:name => keypair_name)
+  kp.write("/home/vcap/.ssh/#{keypair_name}.pem")
+end
+
+create_keypair(access_key, secret_key, keypair_name)
