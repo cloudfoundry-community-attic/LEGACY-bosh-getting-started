@@ -170,26 +170,13 @@ Back to the Inception VM, create a deployments folder for our `micro_bosh.yml` f
 mkdir -p /var/vcap/deployments/microbosh-aws-us-west-2
 ```
 
-Create an AWS keypair and store the `.pem` file. Inside the Inception VM, as the vcap user:
+Create an AWS keypair and store the `.pem` file. Inside the Inception VM:
 
 ```
-sudo su - vcap
-gem install fog --no-ri --no-rdoc
-irb
+curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_keypair > /tmp/create_keypair
+chmod 755 /tmp/create_keypair
+/tmp/create_keypair ACCESS_KEY_ID SECRET_ACCESS_KEY ec2
 ```
-
-Inside irb console:
-
-``` ruby
-connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1', \
-:aws_access_key_id => 'ACCESS_KEY', \
-:aws_secret_access_key => 'SECRET_KEY', \
-})
-kp = connection.key_pairs.create(:name => 'ec2.pem')
-kp.write("/home/vcap/.ssh/ec2.pem")
-```
-
-TODO: convert the above to a ruby script like prepare_inception.sh
 
 You can pass an encrypted password to the Micro BOSH. Run the following for you own `PASSWORD` and replace `SALTED_PASSWORD` with the returned value.
 
@@ -225,7 +212,7 @@ cloud:
       access_key_id:     ACCESS_KEY_ID
       secret_access_key: SECRET_ACCESS_KEY
       ec2_endpoint: ec2.us-west-2.amazonaws.com
-      default_key_name: fog_default
+      default_key_name: fog_ec2
       default_security_groups: ["default"]
       ec2_private_key: /home/vcap/.ssh/ec2.pem
 ```
