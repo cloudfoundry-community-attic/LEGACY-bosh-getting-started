@@ -65,11 +65,11 @@ bundle exec rake install
 
 cd /var/vcap/bootstrap/bosh/deployer/
 
-# patch for matching bosh_cli gem (http://reviews.cloudfoundry.org/6937)
+# patches
 git remote add drnic https://github.com/drnic/bosh.git
 git fetch drnic
-git checkout -b deployer-bump-bosh-cli
-git pull drnic deployer-bump-bosh-cli
+git checkout -b deployer-patches
+git pull drnic deployer-patches
 
 bundle install --without=development test
 bundle exec rake install
