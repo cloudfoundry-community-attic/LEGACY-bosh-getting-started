@@ -164,11 +164,7 @@ On your local machine using fog, provision an elastic public IP in the target in
 
 The "1.2.3.4" value will replace `IPADDRESS` in the micro_bosh.yml below.
 
-Back to the Inception VM, create a deployments folder for our `micro_bosh.yml` file. For AWS us-west-2 (Oregon), name the folder `microbosh-aws-us-west-2` so you can quickly tell the purpose of the Micro BOSH.
-
-```
-mkdir -p /var/vcap/deployments/microbosh-aws-us-west-2
-```
+Back to the Inception VM... 
 
 Create an AWS keypair and store the `.pem` file. Inside the Inception VM:
 
@@ -184,11 +180,25 @@ You can pass an encrypted password to the Micro BOSH. Run the following for you 
 mkpasswd -m sha-512 PASSWORD
 ```
 
-Inside this folder, create `/var/vcap/deployments/microbosh-aws-us-west-2/micro_bosh.yml` file as follows:
+Create a deployments folder for our `micro_bosh.yml` file. For AWS us-east-1 (Virginia), name the folder `microbosh-aws-us-east-1` so you can quickly tell the purpose of the Micro BOSH.
+
+Inside this folder, create `/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml` file as follows:
+
+```
+mkdir -p /var/vcap/deployments/microbosh-aws-us-east-1
+curl https://raw.github.com/drnic/bosh-getting-started/master/examples/microbosh/micro_bosh.yml > /var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml
+vim /var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml
+```
+
+Inside vim, edit the ALLCAPS variables:
+
+* replace SALTED_PASSWORD with your `mkpasswd` encrypted password
+* replace IPADDRESS with your elastic IP
+* replace ACCESS_KEY_ID and SECRET_ACCESS_KEY with your AWS credentials
 
 ```
 ---
-name: microbosh-aws-us-west-2
+name: microbosh-aws-us-east-1
 
 env:
   bosh:
@@ -211,35 +221,32 @@ cloud:
     aws:
       access_key_id:     ACCESS_KEY_ID
       secret_access_key: SECRET_ACCESS_KEY
-      ec2_endpoint: ec2.us-west-2.amazonaws.com
+      ec2_endpoint: ec2.us-east-1.amazonaws.com
       default_key_name: ec2
       default_security_groups: ["default"]
       ec2_private_key: /home/vcap/.ssh/ec2.pem
 ```
 
-TODO: How to create salted passwords?
-
-Replace ACCESS_KEY_ID and SECRET_ACCESS_KEY with your AWS credentials, IPADDRESS with your elastic IP, and SALTED_PASSWORD with your `mkpasswd` encrypted password.
 
 
 ```
-$ bosh micro deployment microbosh-aws-us-west-2
+$ bosh micro deployment microbosh-aws-us-east-1
 WARNING! Your target has been changed to `http://1.2.3.4:25555'!
-Deployment set to '/var/vcap/deployments/microbosh-aws-us-west-2/micro_bosh.yml'
+Deployment set to '/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml'
+
+$ bosh micro deploy ami-0743ef6e
 ```
 
-Now fetch the basic image ("stemcell" in BOSH terminology) used to create a Micro BOSH VM:
+
+## Build from a stemcell
+
+Alternately, create the base AMI image ("stemcell" in BOSH terminology) used to create a Micro BOSH VM. This requires that the Inception VM is in the same account/region as the Micro BOSH will be.
 
 ```
 bosh public stemcells
 # confirm that micro-bosh-stemcell-0.1.0.tgz is the latest one
 bosh download public stemcell micro-bosh-stemcell-0.1.0.tgz
+bosh micro deploy micro-bosh-stemcell-0.1.0.tgz
 ```
 
 NOTE: You want one called "micro-bosh-stemcell..." rather than a base stemcell with "aws" in its name.
-
-Now we can deploy our first Micro BOSH!
-
-```
-bosh micro deploy micro-bosh-stemcell-0.1.0.tgz
-```
