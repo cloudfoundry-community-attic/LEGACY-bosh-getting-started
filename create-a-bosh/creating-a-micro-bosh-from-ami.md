@@ -6,24 +6,7 @@ This tutorial shows you how to create your first BOSH on AWS using an existing A
 
 In BOSH terminology, you will be creating a Micro BOSH. You will provision a single VM that contains all the parts of BOSH, which is bootstrapped from a pre-baked AWS AMI. That is, the AMI contains all the software packages required to run BOSH. 
 
-It is not a simple matter of launching the AMI via the AWS console as a standalone appliance VM. BOSH needs to be configured with:
-
-* IaaS/region selection (e.g. AWS/us-east-1)
-* IaaS credentials
-* BOSH API admin password
-
-The BOSH VM need to be configured with information such as:
-
-* SSH keys
-* Root user password
-* VM type/size, such as m1.small
-* AMI image ID ([in the future](https://cloudfoundry.atlassian.net/browse/CF-72))
-* Persistent disk size, default is 2G
-* Specific kernel, such as aki-b4aa75dd
-* Security groups
-* Optional elastic IP address to use
-
-Both BOSH configuration and BOSH VM/networking configuration will be described using a single YAML file ([example](../examples/microbosh/micro_bosh.yml)). With everything documented in 
+[Why can't I just boot the AWS AMI and start using BOSH?](#why-cant-i-just-boot-the-aws-ami-and-start-using-bosh)
 
 This tutorial will take you through the steps related to preparation, creating the configuration file and using the BOSH CLI to deploy the Micro BOSH VM.
 
@@ -269,6 +252,11 @@ $ bosh micro deploy ami-0743ef6e
 
 Alternately, create the base AMI image ("stemcell" in BOSH terminology) used to create a Micro BOSH VM. This requires that the Inception VM is in the same account/region as the Micro BOSH will be.
 
+
+## Questions
+
+### Why can't I just boot the AWS AMI and start using BOSH?
+
 ```
 bosh public stemcells
 # confirm that micro-bosh-stemcell-0.1.0.tgz is the latest one
@@ -277,3 +265,22 @@ bosh micro deploy micro-bosh-stemcell-0.1.0.tgz
 ```
 
 NOTE: You want one called "micro-bosh-stemcell..." rather than a base stemcell with "aws" in its name.
+
+It is not a simple matter of launching the AMI via the AWS console as a standalone appliance VM. BOSH needs to be configured with:
+
+* IaaS/region selection (e.g. AWS/us-east-1)
+* IaaS credentials
+* BOSH API admin password
+
+The BOSH VM need to be configured with information such as:
+
+* SSH keys
+* Root user password
+* VM type/size, such as m1.small
+* AMI image ID ([in the future](https://cloudfoundry.atlassian.net/browse/CF-72))
+* Persistent disk size, default is 2G
+* Specific kernel, such as aki-b4aa75dd
+* Security groups
+* Optional elastic IP address to use
+
+Both BOSH configuration and BOSH VM/networking configuration will be described using a single YAML file ([example](../examples/microbosh/micro_bosh.yml)). With everything documented in 
