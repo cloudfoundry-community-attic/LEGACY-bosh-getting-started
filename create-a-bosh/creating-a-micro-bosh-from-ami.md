@@ -1,8 +1,35 @@
 # Create a Micro BOSH from AWS AMI
 
-This tutorial shows you how to create your first BOSH (called a Micro BOSH as all the components are in on VM), and the preceding steps for preparing the Inception VM that will be required.
+STATUS: Still being written.
 
-That is, there are three machines/VM being referenced in this tutorial. We will create two VMs in two different AWS regions, and there is your local machine (for example, an OS X machine)
+This tutorial shows you how to create your first BOSH on AWS using an existing AMI. This is one of several tutorials for [creating a BOSH](creating-a-bosh-overview.md).
+
+In BOSH terminology, you will be creating a Micro BOSH. You will provision a single VM that contains all the parts of BOSH, which is bootstrapped from a pre-baked AWS AMI. That is, the AMI contains all the software packages required to run BOSH. 
+
+It is not a simple matter of launching the AMI via the AWS console as a standalone appliance VM. BOSH needs to be configured with:
+
+* IaaS/region selection (e.g. AWS/us-east-1)
+* IaaS credentials
+* BOSH API admin password
+
+The BOSH VM need to be configured with information such as:
+
+* SSH keys
+* Root user password
+* VM type/size, such as m1.small
+* AMI image ID ([in the future](https://cloudfoundry.atlassian.net/browse/CF-72))
+* Persistent disk size, default is 2G
+* Specific kernel, such as aki-b4aa75dd
+* Security groups
+* Optional elastic IP address to use
+
+Both BOSH configuration and BOSH VM/networking configuration will be described using a single YAML file ([example](../examples/microbosh/micro_bosh.yml)). With everything documented in 
+
+This tutorial will take you through the steps related to preparation, creating the configuration file and using the BOSH CLI to deploy the Micro BOSH VM.
+
+## What will happen in this tutorial
+
+There are three machines/VM being referenced in this tutorial. In addition to your local machine, we will create two VMs in the same AWS region:
 
 1. Local machine - use fog to provision Inception VM; use ssh to access/prepare Inception VM
 1. Inception VM - prepare an available Ubuntu VM; we'll create a new one
@@ -10,7 +37,16 @@ That is, there are three machines/VM being referenced in this tutorial. We will 
 
 That is, by the end of this tutorial you will have two Ubuntu VMs. An Inception VM used to create a BOSH VM.
 
-This tutorial is the preferred method for bootstrapping a BOSH. Alternately, you can [create a BOSH from scratch](creating-a-bosh-from-scratch.md) using provided chef recipes.
+[sidebar] 
+
+The Inception VM is used to:
+
+* run a registry of AWS to track provisioned components in AWS
+* store a registry of deployed Micro BOSHes
+* store log files of BOSH CLI interactions with each Micro BOSH
+* create a private AMI from a generic micro BOSH stemcell (not in this tutorial, only when [deploying a Micro BOSH from a stemcell in another tutorial](creating-a-micro-bosh-from-stemcell.md))
+
+[/sidebar]
 
 ## Create the Inception VM
 
@@ -31,7 +67,7 @@ gem install fog
 Example `~/.fog` credentials:
 
 ```
- :default:
+:default:
   :aws_access_key_id:     PERSONAL_ACCESS_KEY
   :aws_secret_access_key: PERSONAL_SECRET
 ```
