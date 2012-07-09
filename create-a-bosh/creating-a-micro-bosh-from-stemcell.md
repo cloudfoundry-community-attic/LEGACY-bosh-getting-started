@@ -254,7 +254,14 @@ We now use the BOSH CLI, on the Inception VM, to deploy the Micro BOSH.
 $ bosh micro deployment microbosh-aws-us-east-1
 WARNING! Your target has been changed to `http://1.2.3.4:25555'!
 Deployment set to '/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml'
+```
 
+
+## Method 1: Deploy an AMI
+
+On us-east-1 a public AMI is published for the micro-bosh-stemcell-0.1.0
+On other regions it is required to download the stemcell and publish the AMI.
+```
 $ bosh micro deploy ami-0743ef6e
 ```
 
@@ -270,6 +277,6 @@ bosh public stemcells
 bosh download public stemcell micro-bosh-stemcell-0.1.0.tgz
 bosh micro deploy micro-bosh-stemcell-0.1.0.tgz
 ```
-
+NOTE: no need to specify the aki in the stemcell.MF of the tarballed stemcell.
 NOTE: You want one called "micro-bosh-stemcell..." rather than a base stemcell with "aws" in its name.
 
