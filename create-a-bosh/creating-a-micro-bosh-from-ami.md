@@ -1,4 +1,4 @@
-# Create a Micro BOSH
+# Create a Micro BOSH from AWS AMI
 
 This tutorial shows you how to create your first BOSH (called a Micro BOSH as all the components are in on VM), and the preceding steps for preparing the Inception VM that will be required.
 
