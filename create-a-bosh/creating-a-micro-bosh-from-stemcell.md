@@ -228,6 +228,7 @@ resources:
   cloud_properties:
     instance_type: m1.small
     root_device_name: /dev/sda1
+    availability_zone: us-east-1a
 
 cloud:
   plugin: aws
@@ -253,6 +254,8 @@ We now use the BOSH CLI, on the Inception VM, to deploy the Micro BOSH.
 $ bosh micro deployment microbosh-aws-us-east-1
 WARNING! Your target has been changed to `http://1.2.3.4:25555'!
 Deployment set to '/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml'
+
+$ bosh micro deploy ami-0743ef6e
 ```
 
 To run the `bosh micro deployment microbosh-aws-us-east-1` command you must be in a folder that itself contains a folder `microbosh-aws-us-east-1` that contains `micro-bosh.yml`. In our tutorial, we are in `/var/vcap/deployments` which contains `/var/vcap/deployments/microbosh-aws-us-east-1/micro-bosh.yml`.
