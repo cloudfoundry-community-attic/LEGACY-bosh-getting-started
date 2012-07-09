@@ -25,9 +25,11 @@ def salted_password(password)
 end
 
 def aws_config_yml(name, access_key, secret_key, ipaddress, salted_password, options={})
+
   region         = options[:region] || 'us-east-1'
   key_name       = options[:key_name] || 'ec2'
   kernel_id      = options[:kernel_id] || 'aki-b4aa75dd'
+  image_id       = options[:image_id] || 'ami-0743ef6e' # TODO not currently used in micro_bosh.yml
   stemcell_disk  = options[:stemcell_disk] || 4096
   security_group = options[:security_group] || 'default'
   instance_type  = options[:instance_type] || 'm1.small'
