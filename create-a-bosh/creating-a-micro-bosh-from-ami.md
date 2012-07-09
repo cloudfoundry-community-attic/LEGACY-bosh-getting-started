@@ -56,9 +56,15 @@ We will use fog to create the first Ubuntu VM on AWS. You could alternately crea
 
 ### Setup
 
-Install fog, `~/.fog` credentials (for AWS), and `~/.ssh/id_rsa(.pub)` keys
+In this tutorial we're going to use a command-line program called [fog](http://fog.io) to create our Inception VM, and then later on for provisioning an elastic IP address for the BOSH VM.
 
-Install fog
+Three setup steps to run on your local machine:
+
+1. Install fog
+1. Create `.fog` credentials file (with your [AWS API credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials))
+1. Create SSH keys
+
+Install latest version of fog as a RubyGem:
 
 ```
 gem install fog
@@ -72,7 +78,7 @@ Example `~/.fog` credentials:
   :aws_secret_access_key: PERSONAL_SECRET
 ```
 
-To create id_rsa keys:
+If you've never created SSH keys before, run the following command to create `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub` files:
 
 ```
 $ ssh-keygen
@@ -90,13 +96,13 @@ connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
 server = connection.servers.bootstrap({
   :public_key_path => '~/.ssh/id_rsa.pub',
   :private_key_path => '~/.ssh/id_rsa',
-  :flavor_id => 'm1.small', # 64 bit, small large
+  :flavor_id => 'm1.small',
   :bits => 64,
   :username => 'ubuntu'
 })
 ```
 
-**Not using fog?** Here are a selection of AMIs to use that are [used by the fog](https://github.com/fog/fog/blob/master/lib/fog/aws/models/compute/server.rb#L55-66) example above:
+**Not using fog?** Here are a selection of public AMIs to use that are [used by the fog](https://github.com/fog/fog/blob/master/lib/fog/aws/models/compute/server.rb#L55-66) example above:
 
 ```ruby
 when 'ap-northeast-1'
@@ -113,7 +119,7 @@ when 'us-west-2'
   'ami-e0ec60d0'
 ```
 
-Check that SSH key credentials are setup. The following should return "ubuntu", or similar, and shouldn't timeout.
+You can check that SSH key credentials are setup. The following should return "ubuntu" and shouldn't timeout.
 
 ```
 >> puts server.ssh("whoami").first.stdout
