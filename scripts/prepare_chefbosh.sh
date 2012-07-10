@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export REGION=${REGION:-'us-east-1'}
+
 if [[ $EUID -ne 0 ]]; then
   echo "ERROR: This script must be run as root" 1>&2
   exit 1
@@ -8,6 +10,7 @@ fi
 if [[ -z $ORIGUSER ]]; then
   echo "SUGGESTION: $ORIGUSER to pass non-root username to copy authorized_keys and .bashrc to vcap user"
 fi
+
 
 groupadd vcap
 useradd vcap -m -g vcap
@@ -43,7 +46,7 @@ else
 fi
 cat ~/.ssh/id_rsa.pub >> /home/vcap/.ssh/authorized_keys
 
-echo 'deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse' >> /etc/apt/sources.list
+echo 'deb http://${REGION}.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse' >> /etc/apt/sources.list
 
 apt-get update
 apt-get install git-core -y
@@ -62,20 +65,3 @@ source ~/.profile
 # Need Ruby 1.9 to run chef_deployer; but
 # Need Ruby 1.8.7 to run chef-solo (installed at /var/vcap/bosh/bin/ruby via prepare_instance.sh above)
 #
-if [[ -x rvm ]]
-then
-  rvm get stable
-else
-  curl -L get.rvm.io | bash -s stable
-  source /etc/profile.d/rvm.sh
-fi
-command rvm install 1.9.3 # oh god this takes a long time
-
-cd ${bosh_app_dir}/bootstrap/bosh/chef_deployer
-rvm 1.9.3 exec bundle install
-
-cd /tmp
-git clone git://github.com/drnic/bosh-getting-started.git
-
-cd  ${bosh_app_dir}/deployments
-cp -R /tmp/bosh-getting-started/examples/chefbosh .
