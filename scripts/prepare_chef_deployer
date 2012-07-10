@@ -9,30 +9,41 @@
 # Creates a ~/.chefbosh folder
 #
 
-name       = $1
-provider   = $2
-access_key = $3
-secret_key = $4
-region     = $5
-bosh_dns   = $6
-password   = $7
+name=$1
+provider=$2
+access_key=$3
+secret_key=$4
+region=$5
+bosh_dns=$6
+password=$7
 
-chefbosh_path             = ~/.chefbosh
-bosh_path                 = ${chefbosh_path}/bosh
-bosh_getting_started_path = ${chefbosh_path}/bosh-getting-started
-scripts_path              = ${bosh_getting_started_path}/scripts
-deployments_path          = ${chefbosh_path}/deployments
-bosh_config_path          = ${chefbosh_path}/${name}
+chefbosh_path=~/.chefbosh
+bosh_path=${chefbosh_path}/bosh
+bosh_getting_started_path=${chefbosh_path}/bosh-getting-started
+scripts_path=${bosh_getting_started_path}/scripts
+deployments_path=${chefbosh_path}/deployments
+bosh_config_path=${chefbosh_path}/${name}
 
-cd ${chefbosh_path}
-git clone ${BOSH_REPO:='https://github.com/cloudfoundry/bosh.git'}
+mkdir -p ${chefbosh_path}
 
+if [[ -d ${bosh_path} ]]; then
+  echo "Already exists ${bosh_path}, ignoring..."
+else
+  cd ${chefbosh_path}
+  echo "Cloning bosh..."
+  git clone ${BOSH_REPO:='https://github.com/cloudfoundry/bosh.git'}
+fi
 
 cd ${bosh_path}/chef_deployer
 bundle install
 
-cd ${chefbosh_path}
-git clone ${BOSH_GETTING_STARTED:='git://github.com/drnic/bosh-getting-started.git'}
+if [[ -d ${bosh_getting_started_path} ]]; then
+  echo "Already exists ${bosh_path}, ignoring..."
+else
+  cd ${chefbosh_path}
+  echo "Cloning bosh-getting-started..."
+  git clone ${BOSH_GETTING_STARTED:='git://github.com/drnic/bosh-getting-started.git'}
+fi
 
 mkdir -p ${deployments_path}
 cd  ${deployments_path}
