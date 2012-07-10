@@ -35,10 +35,10 @@ $ ssh-keygen
 
 From Wesley's [fog blog post](http://www.engineyard.com/blog/2011/spinning-up-cloud-compute-instances/ "Spinning Up Cloud Compute Instances | Engine Yard Blog"), boot a vanilla Ubuntu 64-bit image:
 
-```
+``` ruby
 $ fog
-  Welcome to fog interactive!
-  :default provides AWS and VirtualBox
+  Welcome to fog interactive!
+  :default provides AWS and VirtualBox
 connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
 server = connection.servers.bootstrap({
   :public_key_path => '~/.ssh/id_rsa.pub',
@@ -71,10 +71,11 @@ The rest of the BOSH creation tutorial assumes you used a fog-provided AMI with 
 Check that SSH key credentials are setup. The following should return "ubuntu", and shouldn't timeout.
 
 ```
-server.ssh "whoami"
+server.ssh("whoami").first.stdout
+"ubuntu"
 ```
 
-Now create an elastic IP and associate it with the instance. (I did this via the console).
+Now create an elastic IP and associate it with the instance.
 
 ```
 address = connection.addresses.create

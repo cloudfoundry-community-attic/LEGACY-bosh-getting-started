@@ -76,10 +76,10 @@ Example `~/.fog` credentials:
 
 From Wesley's [fog blog post](http://www.engineyard.com/blog/2011/spinning-up-cloud-compute-instances/ "Spinning Up Cloud Compute Instances | Engine Yard Blog"), boot a vanilla Ubuntu 64-bit image:
 
-```
+``` ruby
 $ fog
-  Welcome to fog interactive!
-  :default provides AWS and VirtualBox
+  Welcome to fog interactive!
+  :default provides AWS and VirtualBox
 connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
 server = connection.servers.bootstrap({
   :public_key_path => '~/.ssh/id_rsa.pub',
@@ -110,14 +110,17 @@ when 'us-west-2'
 You can check that SSH key credentials are setup. The following should return "ubuntu" and shouldn't timeout.
 
 ```
->> puts server.ssh("whoami").first.stdout
-ubuntu
+server.ssh("whoami").first.stdout
+"ubuntu"
 ```
 
-The AWS VM has an available public URL:
+Now create an elastic IP and associate it with the instance.
 
-```
->> puts server.dns_name
+``` ruby
+address = connection.addresses.create
+address.server = server
+server.reload
+server.dns_name
 "ec2-10-9-8-7.compute-1.amazonaws.com"
 ```
 
