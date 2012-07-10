@@ -47,9 +47,16 @@ In this tutorial we're going to use a command-line program called [fog](http://f
 
 Three setup steps to run on your local machine:
 
+1. Create SSH keys
 1. Install fog
 1. Create `.fog` credentials file (with your [AWS API credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials))
-1. Create SSH keys
+
+If you've never created SSH keys before, run the following command to create `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub` files:
+
+```
+$ ssh-keygen
+```
+
 
 Install latest version of fog as a RubyGem:
 
@@ -63,12 +70,6 @@ Example `~/.fog` credentials:
 :default:
   :aws_access_key_id:     PERSONAL_ACCESS_KEY
   :aws_secret_access_key: PERSONAL_SECRET
-```
-
-If you've never created SSH keys before, run the following command to create `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub` files:
-
-```
-$ ssh-keygen
 ```
 
 ### Boot Ubuntu instance
