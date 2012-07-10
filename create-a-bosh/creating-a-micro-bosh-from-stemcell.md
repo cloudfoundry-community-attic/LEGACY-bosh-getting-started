@@ -121,6 +121,8 @@ TODO: Attach EBS to /var/vcap/storage
 
 TODO: Open security group ports: 25555 (bosh director/API), 6868 (message bus), 25888 (AWS registry)
 
+TODO: Elastic IP for Inception VM
+
 ## Preparation
 
 We now need to prepare our Ubuntu VM with the source code to be able to run the Micro BOSH deployment command.
