@@ -112,7 +112,6 @@ sudo su -
 
 export ORIGUSER=ubuntu
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_chefbosh.sh | bash
-source /etc/profile
 ```
 
 **From another terminal on your local machine:**
