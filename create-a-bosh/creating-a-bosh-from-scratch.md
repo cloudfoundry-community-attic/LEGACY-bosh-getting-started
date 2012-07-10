@@ -114,49 +114,20 @@ sudo su -
 
 export ORIGUSER=ubuntu
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_chefbosh.sh | bash
+cd /var/vcap/deployments/chefbosh
+
+curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_chefbosh_yml > /tmp/create_chefbosh_yml
+/tmp/create_chefbosh_yml aws ACCESS_KEY SECRET_KEY us-east-1 IP_ADDRESS PASSWORD
 ```
 
-**From another terminal on your local machine:**
+`IP_ADDRESS` can also be the public DNS for the VM.
 
-Make a copy of the `examples/chefbosh` folder contents and add your AWS credentials as appropriate into `config.yml`:
 
-```
-mkdir -p ~/.chefbosh
-chmod 700 ~/.chefbosh
-cd ~/.chefbosh
-
-git clone git://github.com/drnic/bosh-getting-started.git
-cp -r bosh-getting-started/examples/chefbosh/* .
-vim config.yml
-```
-
-* replace all `PUBLIC_DNS_NAME` with your fog-created VM's `server.dns_name` (e.g. ec2-10-2-3-4.compute-1.amazonaws.com)
-* replace `ACCESS_KEY_ID` with your AWS access key id
-* replace `SECRET_ACCESS_KEY` with your AWS secret access key
-
-In VIM, you can "replace all" by typing:
+We'll now use chef to install and start all the parts of BOSH. The `chef_deployer` subfolder of BOSH orchestrates this, which we run from within the chef cookbook folder `releases`.
 
 ```
-:%s/PUBLIC_DNS_NAME/ec2-10-2-3-4.compute-1.amazonaws.com/g
-```
-
-We'll now use chef to install and start all the parts of BOSH. The `chef_deployer` subfolder of BOSH orchestrates this.
-
-Get the chef_deployer & cookbooks (all from the same [bosh](https://github.com/cloudfoundry/bosh) repository) and we're almost done!
-
-```
-cd ~/.chefbosh
-git clone https://github.com/cloudfoundry/bosh.git
-cd bosh/chef_deployer
-bundle
-cd ../release/
-```
-
-Now we can run chef to install BOSH:
-
-```
-ruby ../chef_deployer/bin/chef_deployer deploy ~/.chefbosh
-...lots of chef...
+cd /var/vcap/bootstrap/bosh/release
+ruby ../chef_deployer/bin/chef_deployer deploy /var/vcap/deployments/chefbosh --local --default-password=''
 ```
 
 We can now connect to our BOSH!
