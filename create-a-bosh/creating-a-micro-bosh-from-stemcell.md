@@ -204,14 +204,15 @@ Create an AWS keypair and store the `.pem` file. Inside the Inception VM:
 ```
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_keypair > /tmp/create_keypair
 chmod 755 /tmp/create_keypair
-/tmp/create_keypair ACCESS_KEY_ID SECRET_ACCESS_KEY ec2
+/tmp/create_keypair ACCESS_KEY_ID SECRET_ACCESS_KEY inception
 ```
 
 TODO: `create_keypair` needs an AWS region
 
 ```
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_micro_bosh_yml > /tmp/create_micro_bosh_yml
-ruby /tmp/create_micro_bosh_yml microbosh-aws-us-east-1 aws ACCESS_KEY SECRET_KEY IP_ADDRESS PASSWORD us-east-1 ec2
+chmod 755 /tmp/create_micro_bosh_yml
+/tmp/create_micro_bosh_yml microbosh-aws-us-east-1 aws ACCESS_KEY SECRET_KEY IP_ADDRESS PASSWORD us-east-1 inception
 ```
 
 This will create a file `microbosh-aws-us-east-1/micro_bosh.yml` that looks as below with the ALLCAPS values filled in. `PASSWORD` above (e.g. 'abc123') will be replaced by the salted version.
@@ -244,9 +245,9 @@ cloud:
       access_key_id:     ACCESS_KEY_ID
       secret_access_key: SECRET_ACCESS_KEY
       ec2_endpoint: ec2.us-east-1.amazonaws.com
-      default_key_name: ec2
+      default_key_name: inception
       default_security_groups: ["default"]
-      ec2_private_key: /home/vcap/.ssh/ec2.pem
+      ec2_private_key: /home/vcap/.ssh/inception.pem
     stemcell:
       kernel_id: aki-b4aa75dd
       disk: 4096

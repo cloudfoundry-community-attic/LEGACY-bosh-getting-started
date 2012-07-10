@@ -124,6 +124,8 @@ server.dns_name
 "ec2-10-9-8-7.compute-1.amazonaws.com"
 ```
 
+This DNS name will be used later to SSH into our Inception VM.
+
 The security group for the Inception & BOSH VMs will need some TCP ports opened:
 
 ``` ruby
@@ -133,7 +135,36 @@ group.authorize_port_range(6868..6868) # Message Bus
 group.authorize_port_range(25888..25888) # AWS Registry API
 ```
 
-TODO: Attach EBS to /var/vcap/storage https://gist.github.com/724912/116f35d0b7ab30db765b858faea123919592d067
+Our Inception VM will store the configuration and deployment details of our Micro BOSH VMs. So we want to ensure all data is persistent beyond the lifespan of the Inception VM itself. In AWS, we use EBS volumes. We will construct the Inception VM in the manner that BOSH itself constructs VMs and attach a volume at the `/var/vcap/store` mount point.
+
+
+``` ruby
+# Create/attach a volume at /dev/sdi (or somewhere free)
+volume = connection.volumes.create(:size => 5, :device => "/dev/sdi", :availability_zone => server.availability_zone)
+volume.server = server
+
+# Format and mount the volume
+server.ssh(['sudo mkfs.ext4 /dev/sdi -F']) 
+server.ssh(['sudo mkdir -p /var/vcap/store'])
+server.ssh(['sudo mount /dev/sdi /var/vcap/store'])
+```
+
+NOTE: If you get `Errno::ETIMEDOUT: Operation timed out - connect(2)` errors, please create a ticket to let me know. I get them sometimes. You can also run these shell commands directly from within the SSH session later.
+
+You can now view the mounted 5G volume at `/var/vcap/store`
+
+```
+>> puts server.ssh(['df']).first.stdout
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/sda1              8256952    740388   7097136  10% /
+none                    830428       120    830308   1% /dev
+none                    880720         0    880720   0% /dev/shm
+none                    880720        48    880672   1% /var/run
+none                    880720         0    880720   0% /var/lock
+none                    880720         0    880720   0% /lib/init/rw
+/dev/sdb             153899044    192068 145889352   1% /mnt
+/dev/sdi               5160576    141304   4757128   3% /var/vcap/store
+```
 
 ## Preparation
 
@@ -212,12 +243,13 @@ Create an AWS keypair and store the `.pem` file. Inside the Inception VM:
 ```
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_keypair > /tmp/create_keypair
 chmod 755 /tmp/create_keypair
-/tmp/create_keypair ACCESS_KEY_ID SECRET_ACCESS_KEY ec2
+/tmp/create_keypair ACCESS_KEY_ID SECRET_ACCESS_KEY inception
 ```
 
 ```
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_micro_bosh_yml > /tmp/create_micro_bosh_yml
-ruby /tmp/create_micro_bosh_yml microbosh-aws-us-east-1 aws ACCESS_KEY SECRET_KEY IP_ADDRESS PASSWORD us-east-1 ec2
+chmod 755 /tmp/create_micro_bosh_yml
+/tmp/create_micro_bosh_yml microbosh-aws-us-east-1 aws ACCESS_KEY SECRET_KEY IP_ADDRESS PASSWORD us-east-1 inception
 ```
 
 This will create a file `microbosh-aws-us-east-1/micro_bosh.yml` that looks as below with the ALLCAPS values filled in. `PASSWORD` above (e.g. 'abc123') will be replaced by the salted version.
@@ -249,9 +281,9 @@ cloud:
       access_key_id:     ACCESS_KEY_ID
       secret_access_key: SECRET_ACCESS_KEY
       ec2_endpoint: ec2.us-east-1.amazonaws.com
-      default_key_name: ec2
+      default_key_name: inception
       default_security_groups: ["default"]
-      ec2_private_key: /home/vcap/.ssh/ec2.pem
+      ec2_private_key: /home/vcap/.ssh/inception.pem
     stemcell:
       image_id: ami-0743ef6e
       kernel_id: aki-b4aa75dd
