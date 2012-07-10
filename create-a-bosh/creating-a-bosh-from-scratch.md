@@ -112,7 +112,7 @@ NOTE: see $REGION set to `us-east-1` below. Change as appropriate.
 $ ssh ubuntu@ec2-10-2-3-4.compute-1.amazonaws.com
 sudo su -
 
-export ORIGUSER=vcap
+export ORIGUSER=ubuntu
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_chefbosh.sh | bash
 source /etc/profile
 ```
