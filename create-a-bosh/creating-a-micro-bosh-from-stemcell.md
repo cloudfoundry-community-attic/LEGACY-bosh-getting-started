@@ -119,6 +119,8 @@ We have now created a fresh Ubuntu VM that we will use to fetch the BOSH source 
 
 TODO: Attach EBS to /var/vcap/storage
 
+TODO: Open security group ports: 25555 (bosh director/API), 6868 (message bus), 25888 (AWS registry)
+
 ## Preparation
 
 We now need to prepare our Ubuntu VM with the source code to be able to run the Micro BOSH deployment command.
@@ -265,3 +267,4 @@ bosh micro deploy micro-bosh-stemcell-0.1.0.tgz
 ```
 
 NOTE: You want one called "micro-bosh-stemcell..." rather than a base stemcell with "aws" in its name.
+
