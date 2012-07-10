@@ -18,7 +18,7 @@ end
 
 usage unless provider
 usage unless provider.upcase == 'AWS'
-usage unless password
+usage unless keypair_name
 
 def salted_password(password)
   `mkpasswd -m sha-512 '#{password}'`.strip
