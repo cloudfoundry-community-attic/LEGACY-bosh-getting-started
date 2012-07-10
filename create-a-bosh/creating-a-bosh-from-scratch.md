@@ -109,36 +109,10 @@ Alternately, run it inside screen or tmux so you don't have to fear early termin
 ```
 $ ssh ubuntu@ec2-10-2-3-4.compute-1.amazonaws.com
 sudo su -
-groupadd vcap 
-useradd vcap -m -g vcap
 
-mkdir -p /var/vcap/
-cp /home/ubuntu/.ssh/authorized_keys /var/vcap/
-
-vim /etc/apt/sources.list
-```
-
-Add the following line. **If you're in a different AWS region, change the URL prefix.**
-
-```
-deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse
-```
-
-Back in the remote terminal (you can copy and paste each chunk):
-
-```
-apt-get update
-apt-get install git-core -y
-
-mkdir /var/vcap/bootstrap
-cd /var/vcap/bootstrap
-git clone https://github.com/cloudfoundry/bosh.git
-cd bosh/release/template/instance
-./prepare_instance.sh
-
-chmod 777 /var/vcap/deploy
-
-exit
+export ORIGUSER=vcap
+curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_chefbosh.sh | bash
+source /etc/profile
 ```
 
 **From another terminal on your local machine:**
