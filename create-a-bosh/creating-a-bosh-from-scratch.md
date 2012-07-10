@@ -103,6 +103,8 @@ We will convert the raw Ubuntu VM into a BOSH VM using Chef recipes within the b
 
 Run the following on your local machine. It only creates/modifies a `~/.chefbosh` folder and its contents.
 
+The `prepare_chef_deployer` script creates a `~/.chefbosh/bosh-aws-us-east-1` folder and a `~/.chefbosh/bosh-aws-us-east-1/config.yml` configuration file. The latter is used by bosh's `chef_deployer` CLI to locate and setup the BOSH VM.
+
 ```
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_chef_deployer > /tmp/prepare_chef_deployer
 chmod 755 /tmp/prepare_chef_deployer
@@ -112,12 +114,7 @@ export BOSH_GETTING_STARTED='git://github.com/drnic/bosh-getting-started.git -b 
 
 `IP_ADDRESS` can also be the public DNS for the VM. In this tutorial it is `ec2-10-2-3-4.compute-1.amazonaws.com`.
 
-We'll now use chef to install and start all the parts of BOSH. The `chef_deployer` subfolder of BOSH orchestrates this, which we run from within the chef cookbook folder `releases`.
-
-```
-cd /var/vcap/bootstrap/bosh/release
-rvm 1.9.3 exec
-```
+## Connect to BOSH
 
 We can now connect to our BOSH!
 
