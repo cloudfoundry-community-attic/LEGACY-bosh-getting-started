@@ -31,9 +31,7 @@ The Inception VM is used to:
 
 ## Create the Inception VM
 
-This short section is only necessary if you do not have an available Ubuntu VM, such as you are on a Mac OS X machine or Windows machine.
-
-We will use fog to create the first Ubuntu VM on AWS. You could alternately create one any way that you want.
+We will use fog to create the first Ubuntu VM on AWS. You could alternately create one any way that you want. In the next section we will prepare the VM with all the packages and source required for deploying a BOSH VM.
 
 ### Setup
 
