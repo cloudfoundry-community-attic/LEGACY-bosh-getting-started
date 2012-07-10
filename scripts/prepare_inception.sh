@@ -70,12 +70,6 @@ bundle exec rake install
 
 cd /var/vcap/bootstrap/bosh/deployer/
 
-# patches
-git remote add drnic https://github.com/drnic/bosh.git
-git fetch drnic
-git checkout -b deployer-patches
-git pull drnic deployer-patches
-
 bundle install --without=development test
 bundle exec rake install
 
