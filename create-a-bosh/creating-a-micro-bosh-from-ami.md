@@ -20,6 +20,10 @@ There are three machines/VM being referenced in this tutorial. In addition to yo
 
 That is, by the end of this tutorial you will have two Ubuntu VMs. An Inception VM used to create a BOSH VM.
 
+NOTE, the BOSH VM must be in the same IaaS/region as the public image. In this tutorial it is an AWS AMI in the us-east-1 region (Virginia, the one that has all the public outages).
+
+TODO: Can the Inception VM be in us-west-2, and boot the us-east-1 public AMI?
+
 [sidebar] 
 
 The Inception VM is used to:
@@ -224,6 +228,7 @@ network:
 resources:
   cloud_properties:
     instance_type: m1.small
+    root_device_name: /dev/sda1
 
 cloud:
   plugin: aws
@@ -235,11 +240,22 @@ cloud:
       default_key_name: ec2
       default_security_groups: ["default"]
       ec2_private_key: /home/vcap/.ssh/ec2.pem
+    stemcell:
+      image_id: ami-0743ef6e
+      kernel_id: aki-b4aa75dd
+      disk: 4096
+      root_device_name: /dev/sda1
 ```
 
+## Deployment
 
+We now use the BOSH CLI, on the Inception VM, to deploy the Micro BOSH.
+
+1. Tell the BOSH CLI which Micro BOSH deployment "microbosh-aws-us-east-1" to work on
+1. Deploy the deployment using a specific public AMI
 
 ```
+$ cd /var/vcap/deployments
 $ bosh micro deployment microbosh-aws-us-east-1
 WARNING! Your target has been changed to `http://1.2.3.4:25555'!
 Deployment set to '/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml'
@@ -247,10 +263,12 @@ Deployment set to '/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml'
 $ bosh micro deploy ami-0743ef6e
 ```
 
+To run the `bosh micro deployment microbosh-aws-us-east-1` command you must be in a folder that itself contains a folder `microbosh-aws-us-east-1` that contains `micro-bosh.yml`. In our tutorial, we are in `/var/vcap/deployments` which contains `/var/vcap/deployments/microbosh-aws-us-east-1/micro-bosh.yml`.
 
-## Build from a stemcell
+TODO: Only specify the AMI `image_id` in the micro-bosh.yml and not the CLI command [[CF-72](https://cloudfoundry.atlassian.net/browse/CF-72)]
 
-Alternately, create the base AMI image ("stemcell" in BOSH terminology) used to create a Micro BOSH VM. This requires that the Inception VM is in the same account/region as the Micro BOSH will be.
+## Destroy your Micro BOSH
+
 
 
 ## Questions

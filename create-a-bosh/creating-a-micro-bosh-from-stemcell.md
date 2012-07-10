@@ -1,16 +1,33 @@
 # Create a Micro BOSH from a stemcell
 
-This tutorial shows you how to create your first BOSH (called a Micro BOSH as all the components are in on VM), and the preceding steps for preparing the Inception VM that will be required.
+This tutorial shows you how to create your first BOSH on AWS (on any region or any available IaaS). This is one of several tutorials for [creating a BOSH](creating-a-bosh-overview.md).
 
-That is, there are three machines/VM being referenced in this tutorial. We will create two VMs in two different AWS regions, and there is your local machine (for example, an OS X machine)
+In BOSH terminology, you will be creating a Micro BOSH. You will provision a single VM that contains all the parts of BOSH, which is bootstrapped from a pre-baked generic image (called a "stemcell" in BOSH language). That is, the image contains all the software packages required to run BOSH. During the deployment, a private AMI will be created from the stemcell, which will be used to boot the Micro BOSH VM.
+
+This tutorial will take you through the steps related to preparation, creating the configuration file and using the BOSH CLI to deploy the Micro BOSH VM.
+
+## What will happen in this tutorial
+
+There are three machines/VM being referenced in this tutorial. In addition to your local machine, we will create two VMs in the same AWS region:
 
 1. Local machine - use fog to provision Inception VM; use ssh to access/prepare Inception VM
 1. Inception VM - prepare an available Ubuntu VM; we'll create a new one
 1. Micro BOSH VM - use BOSH CLI to bootstrap a new VM that is a BOSH (called "Micro BOSH")
 
-That is, by the end of this tutorial you will have two Ubuntu VMs. An Inception VM used to create a BOSH VM.
+That is, by the end of this tutorial you will have two Ubuntu VMs. An Inception VM used to create a BOSH VM. 
 
-This tutorial is the preferred method for bootstrapping a BOSH. Alternately, you can [create a BOSH from scratch](creating-a-bosh-from-scratch.md) using provided chef recipes.
+NOTE: Both VMs must be in the same IaaS/region because the Inception VM is used to create the private AMI. If you want to deploy a Micro BOSH into different IaaS/regions from the generic stemcell, you also need to create an Inception VM in that IaaS/region.
+
+[sidebar] 
+
+The Inception VM is used to:
+
+* create a private AMI from a generic micro BOSH stemcell
+* run a registry of AWS to track provisioned components in AWS
+* store a registry of deployed Micro BOSHes
+* store log files of BOSH CLI interactions with each Micro BOSH
+
+[/sidebar]
 
 ## Create the Inception VM
 
@@ -20,9 +37,15 @@ We will use fog to create the first Ubuntu VM on AWS. You could alternately crea
 
 ### Setup
 
-Install fog, `~/.fog` credentials (for AWS), and `~/.ssh/id_rsa(.pub)` keys
+In this tutorial we're going to use a command-line program called [fog](http://fog.io) to create our Inception VM, and then later on for provisioning an elastic IP address for the BOSH VM.
 
-Install fog
+Three setup steps to run on your local machine:
+
+1. Install fog
+1. Create `.fog` credentials file (with your [AWS API credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials))
+1. Create SSH keys
+
+Install latest version of fog as a RubyGem:
 
 ```
 gem install fog
@@ -31,12 +54,12 @@ gem install fog
 Example `~/.fog` credentials:
 
 ```
- :default:
+:default:
   :aws_access_key_id:     PERSONAL_ACCESS_KEY
   :aws_secret_access_key: PERSONAL_SECRET
 ```
 
-To create id_rsa keys:
+If you've never created SSH keys before, run the following command to create `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub` files:
 
 ```
 $ ssh-keygen
@@ -199,6 +222,7 @@ network:
 resources:
   cloud_properties:
     instance_type: m1.small
+    root_device_name: /dev/sda1
 
 cloud:
   plugin: aws
@@ -210,22 +234,27 @@ cloud:
       default_key_name: ec2
       default_security_groups: ["default"]
       ec2_private_key: /home/vcap/.ssh/ec2.pem
+    stemcell:
+      kernel_id: aki-b4aa75dd
+      disk: 4096
+      root_device_name: /dev/sda1
 ```
 
+## Deployment
 
+We now use the BOSH CLI, on the Inception VM, to deploy the Micro BOSH.
 
 ```
 $ bosh micro deployment microbosh-aws-us-east-1
 WARNING! Your target has been changed to `http://1.2.3.4:25555'!
 Deployment set to '/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml'
-
-$ bosh micro deploy ami-0743ef6e
 ```
 
+To run the `bosh micro deployment microbosh-aws-us-east-1` command you must be in a folder that itself contains a folder `microbosh-aws-us-east-1` that contains `micro-bosh.yml`. In our tutorial, we are in `/var/vcap/deployments` which contains `/var/vcap/deployments/microbosh-aws-us-east-1/micro-bosh.yml`.
 
-## Build from a stemcell
+Unlike [deploying Micro BOSH using a public AMI](creating-a-micro-bosh-from-ami.md#deployment), when deploying with a generic stemcell we must explicitly download the stemcell to the Inception VM and use it. 
 
-Alternately, create the base AMI image ("stemcell" in BOSH terminology) used to create a Micro BOSH VM. This requires that the Inception VM is in the same account/region as the Micro BOSH will be.
+During this process the Inception VM will create a private AMI within the AWS region, and use that AMI to boot the BOSH VM. This means that the BOSH VM and the Inception VM must be in the same IaaS/region/account.
 
 ```
 bosh public stemcells
