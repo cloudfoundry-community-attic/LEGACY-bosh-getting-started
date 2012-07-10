@@ -7,12 +7,12 @@ provider     = ARGV.shift
 access_key   = ARGV.shift
 secret_key   = ARGV.shift
 region       = ARGV.shift
+keypair_name = ARGV.shift
 ipaddress    = ARGV.shift
 password     = ARGV.shift
-keypair_name = ARGV.shift
 
 def usage
-  $stderr.puts "USAGE: create_micro_bosh_yml NAME aws ACCESS_KEY SECRET_KEY REGION IP_ADDRESS RAW_PASSWORD KEYNAME"
+  $stderr.puts "USAGE: create_micro_bosh_yml NAME aws ACCESS_KEY SECRET_KEY REGION KEYNAME IP_ADDRESS RAW_PASSWORD"
   exit 1
 end
 
@@ -87,7 +87,7 @@ YAML
 end
 
 salty = salted_password(password)
-yml = aws_config_yml(name, access_key, secret_key, region, ipaddress, salty, keypair_name, options={})
+yml = aws_config_yml(name, access_key, secret_key, region, keypair_name, ipaddress, salty, options={})
 
 micro_bosh_yml = File.join(name, "micro_bosh.yml")
 FileUtils.mkdir_p(name)
