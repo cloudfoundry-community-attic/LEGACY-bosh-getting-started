@@ -117,7 +117,7 @@ The AWS VM has an available public URL:
 
 We have now created a fresh Ubuntu VM that we will use to fetch the BOSH source and then launch the Micro BOSH deployer sequence to create a BOSH VM.
 
-TODO: Attach EBS to /var/vcap/storage
+TODO: Attach EBS to /var/vcap/storage https://gist.github.com/724912/116f35d0b7ab30db765b858faea123919592d067
 
 TODO: Open security group ports: 25555 (bosh director/API), 6868 (message bus), 25888 (AWS registry)
 
@@ -270,3 +270,15 @@ bosh micro deploy micro-bosh-stemcell-0.1.0.tgz
 
 NOTE: You want one called "micro-bosh-stemcell..." rather than a base stemcell with "aws" in its name.
 
+
+## Destroy your Micro BOSH
+
+You can delete a specific Micro BOSH deployment:
+
+```
+$ cd /var/vcap/deployments
+$ bosh micro deployment microbosh-aws-us-east-1
+$ bosh micro delete
+```
+
+TODO - will the Micro BOSH delete all its own deployments first?
