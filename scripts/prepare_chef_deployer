@@ -50,7 +50,7 @@ cd  ${deployments_path}
 cp -R ${bosh_getting_started_path}/examples/chefbosh ${bosh_config_path}
 
 cd ${bosh_config_path}
-${scripts_path}/create_chefbosh_yml ${access_key} ${secret_key} ${region} ${bosh_dns} ${password}
+${scripts_path}/create_chefbosh_yml aws ${access_key} ${secret_key} ${region} ${bosh_dns} ${password}
 
 cd ${bosh_path}/release
-ruby ../chef_deployer/bin/chef_deployer deploy /var/vcap/deployments/chefbosh --local --default-password=''
+ruby ../chef_deployer/bin/chef_deployer deploy ${bosh_config_path} --default-password=''
