@@ -60,8 +60,3 @@ cd bosh/release/template/instance
 ./prepare_instance.sh
 
 source ~/.profile
-
-#
-# Need Ruby 1.9 to run chef_deployer; but
-# Need Ruby 1.8.7 to run chef-solo (installed at /var/vcap/bosh/bin/ruby via prepare_instance.sh above)
-#

@@ -22,7 +22,7 @@ def aws_config_yml(access_key, secret_key, region, ipaddress, password, options=
 
   security_group = options[:security_group] || 'default'
   key_name       = options[:key_name] || 'fog_default'
-  ssh_user       = options[:ssh_user] || 'ubuntu'
+  ssh_user       = 'vcap'
 
 <<-YAML
 ---
