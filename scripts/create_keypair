@@ -3,15 +3,20 @@
 require "fileutils"
 require "fog"
 
+provider     = ARGV.shift
 access_key   = ARGV.shift
 secret_key   = ARGV.shift
 region       = ARGV.shift
 keypair_name = ARGV.shift
 
-unless secret_key
-  $stderr.puts "USAGE: create_keypair ACCESS_KEY SECRET_KEY REGION KEYNAME"
+def usage
+  $stderr.puts "USAGE: create_keypair aws ACCESS_KEY SECRET_KEY REGION KEYNAME"
   exit 1
 end
+
+usage unless provider
+usage unless provider.upcase == 'AWS'
+usage unless keypair_name
 
 def create_keypair(access_key, secret_key, region, keypair_name, options={})
   user = options.delete(:user) || "vcap"
