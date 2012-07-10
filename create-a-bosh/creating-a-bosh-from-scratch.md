@@ -110,7 +110,7 @@ Alternately, run it inside screen or tmux so you don't have to fear early termin
 $ ssh ubuntu@ec2-10-2-3-4.compute-1.amazonaws.com
 sudo su -
 
-export ORIGUSER=vcap
+export ORIGUSER=ubuntu
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_chefbosh.sh | bash
 source /etc/profile
 ```
