@@ -3,25 +3,26 @@
 require "fileutils"
 require "fog"
 
-access_key = ARGV.shift
-secret_key = ARGV.shift
-keypair_name = ARGV.shift || "ec2"
+access_key   = ARGV.shift
+secret_key   = ARGV.shift
+region       = ARGV.shift
+keypair_name = ARGV.shift
 
 unless secret_key
-  $stderr.puts "USAGE: create_keypair ACCESS_KEY SECRET_KEY [KEYNAME=ec2]"
+  $stderr.puts "USAGE: create_keypair ACCESS_KEY SECRET_KEY REGION KEYNAME"
   exit 1
 end
 
-def create_keypair(access_key, secret_key, keypair_name, options={})
+def create_keypair(access_key, secret_key, region, keypair_name, options={})
   user = options.delete(:user) || "vcap"
   provider = options.delete(:provider) || "AWS"
-  options[:region] = 'us-east-1' if provider == "AWS" && options[:region].nil?
   pem = "/home/#{user}/.ssh/#{keypair_name}.pem"
   if File.exist?(pem)
     $stderr.puts "#{provider} key #{keypair_name} already created at #{pem}"
   else
     connection = Fog::Compute.new({
       :provider => provider,
+      :region => region,
       :aws_access_key_id => access_key,
       :aws_secret_access_key => secret_key,
     }.merge(options))
@@ -32,4 +33,4 @@ def create_keypair(access_key, secret_key, keypair_name, options={})
   pem
 end
 
-create_keypair(access_key, secret_key, keypair_name)
+create_keypair(access_key, secret_key, region, keypair_name)

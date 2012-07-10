@@ -204,12 +204,8 @@ Create an AWS keypair and store the `.pem` file. Inside the Inception VM:
 ```
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_keypair > /tmp/create_keypair
 chmod 755 /tmp/create_keypair
-/tmp/create_keypair ACCESS_KEY_ID SECRET_ACCESS_KEY inception
-```
+/tmp/create_keypair ACCESS_KEY_ID SECRET_ACCESS_KEY us-east-1 inception
 
-TODO: `create_keypair` needs an AWS region
-
-```
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_micro_bosh_yml > /tmp/create_micro_bosh_yml
 chmod 755 /tmp/create_micro_bosh_yml
 /tmp/create_micro_bosh_yml microbosh-aws-us-east-1 aws ACCESS_KEY SECRET_KEY IP_ADDRESS PASSWORD us-east-1 inception
