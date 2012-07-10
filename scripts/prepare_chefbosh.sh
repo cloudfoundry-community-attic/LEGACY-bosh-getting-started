@@ -14,6 +14,9 @@ useradd vcap -m -g vcap
 mkdir -p /home/vcap/.ssh
 chown -R vcap:vcap /home/vcap/.ssh
 
+mkdir -p ${bosh_app_dir}/deploy
+chown vcap:vcap ${bosh_app_dir}/deploy
+
 if [[ -f /home/vcap/.ssh/id_rsa ]]
 then
   echo "public keys for vcap already exist, skipping..."
@@ -21,6 +24,16 @@ else
   su -c "ssh-keygen -f ~/.ssh/id_rsa -N ''" vcap
 fi
 
+if [[ -n $ORIGUSER ]]
+then
+  cp /home/${ORIGUSER}/.ssh/authorized_keys ${bosh_app_dir}/
+  cp /home/${ORIGUSER}/.ssh/authorized_keys /home/vcap/.ssh/authorized_keys
+  cp /home/${ORIGUSER}/.bashrc /home/vcap/
+  echo "export PATH=${bosh_app_dir}/bosh/bin:\$PATH" >> /home/${ORIGUSER}/.bashrc
+else
+  echo "Skipping copying authorized_keys to vcap user"
+  echo "Skipping copying .bashrc to vcap user"
+fi
 
 echo 'deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse' >> /etc/apt/sources.list
 
@@ -29,11 +42,10 @@ apt-get install git-core -y
 
 bosh_app_dir=/var/vcap
 
-mkdir -p ${bosh_app_dir}/deploy
-chown vcap:vcap ${bosh_app_dir}/deploy
-
 mkdir -p ${bosh_app_dir}/bootstrap
 cd ${bosh_app_dir}/bootstrap
 git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/release/template/instance
 ./prepare_instance.sh
+
+source ~/.profile
