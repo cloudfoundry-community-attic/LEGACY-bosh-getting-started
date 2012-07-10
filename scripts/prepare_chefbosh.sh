@@ -70,11 +70,9 @@ else
   source /etc/profile.d/rvm.sh
 fi
 command rvm install 1.9.3 # oh god this takes a long time
-rvm 1.9.3
-rvm alias create default 1.9.3
 
 cd ${bosh_app_dir}/bootstrap/bosh/chef_deployer
-bundle install
+rvm 1.9.3 exec bundle install
 
 cd /tmp
 git clone git://github.com/drnic/bosh-getting-started.git

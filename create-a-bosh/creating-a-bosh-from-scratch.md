@@ -104,8 +104,6 @@ In the AWS console it will look like:
 
 These commands below can take a long time. If it terminates early, re-run it until completion.
 
-Alternately, run it inside screen or tmux so you don't have to fear early termination:
-
 ```
 $ ssh ubuntu@ec2-10-2-3-4.compute-1.amazonaws.com
 sudo su -
@@ -120,12 +118,13 @@ curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_che
 
 `IP_ADDRESS` can also be the public DNS for the VM.
 
+TODO: Can/should IP_ADDRESS be 127.0.0.1 or 0.0.0.0?
 
 We'll now use chef to install and start all the parts of BOSH. The `chef_deployer` subfolder of BOSH orchestrates this, which we run from within the chef cookbook folder `releases`.
 
 ```
 cd /var/vcap/bootstrap/bosh/release
-ruby ../chef_deployer/bin/chef_deployer deploy /var/vcap/deployments/chefbosh --local --default-password=''
+rvm 1.9.3 exec ../chef_deployer/bin/chef_deployer deploy /var/vcap/deployments/chefbosh --local --default-password=''
 ```
 
 We can now connect to our BOSH!
