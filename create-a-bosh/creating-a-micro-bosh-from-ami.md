@@ -152,7 +152,7 @@ server.ssh([
 
 You can now view the mounted 5G volume at `/var/vcap/store`
 
-``` ruby
+```
 >> puts server.ssh(['df']).first.stdout
 Filesystem           1K-blocks      Used Available Use% Mounted on
 /dev/sda1              8256952    740388   7097136  10% /
