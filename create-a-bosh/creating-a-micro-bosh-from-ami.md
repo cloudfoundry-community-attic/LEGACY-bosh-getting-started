@@ -144,11 +144,12 @@ volume = connection.volumes.create(:size => 5, :device => "/dev/sdi", :availabil
 volume.server = server
 
 # Format and mount the volume
-server.ssh([
-  'sudo mkfs.ext4 /dev/sdi -F', 
-  'sudo mkdir -p /var/vcap/store', 
-  'sudo mount /dev/sdi /var/vcap/store'])
+server.ssh(['sudo mkfs.ext4 /dev/sdi -F']) 
+server.ssh(['sudo mkdir -p /var/vcap/store'])
+server.ssh(['sudo mount /dev/sdi /var/vcap/store'])
 ```
+
+NOTE: If you get `Errno::ETIMEDOUT: Operation timed out - connect(2)` errors, please create a ticket to let me know. I get them sometimes. You can also run these shell commands directly from within the SSH session later.
 
 You can now view the mounted 5G volume at `/var/vcap/store`
 
