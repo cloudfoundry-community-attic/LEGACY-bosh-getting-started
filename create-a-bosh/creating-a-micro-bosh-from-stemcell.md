@@ -116,11 +116,17 @@ server.dns_name
 "ec2-10-9-8-7.compute-1.amazonaws.com"
 ```
 
-We have now created a fresh Ubuntu VM that we will use to fetch the BOSH source and then launch the Micro BOSH deployer sequence to create a BOSH VM.
+The security group for the Inception & BOSH VMs will need some TCP ports opened:
+
+``` ruby
+group = connection.security_groups.get("default")
+group.authorize_port_range(25555..25555) # BOSH Director API
+group.authorize_port_range(6868..6868) # Message Bus
+group.authorize_port_range(25888..25888) # AWS Registry API
+```
 
 TODO: Attach EBS to /var/vcap/storage https://gist.github.com/724912/116f35d0b7ab30db765b858faea123919592d067
 
-TODO: Open security group ports: 25555 (bosh director/API), 6868 (message bus), 25888 (AWS registry)
 
 ## Preparation
 
