@@ -14,14 +14,21 @@ useradd vcap -m -g vcap
 mkdir -p /home/vcap/.ssh
 chown -R vcap:vcap /home/vcap/.ssh
 
-mkdir -p ${bosh_app_dir}/deploy
-chown vcap:vcap ${bosh_app_dir}/deploy
+mkdir -p ${bosh_app_dir}/deploy ${bosh_app_dir}/store ${bosh_app_dir}/deployments
+chown vcap:vcap ${bosh_app_dir}/deploy ${bosh_app_dir}/store ${bosh_app_dir}/deployments
 
 if [[ -f /home/vcap/.ssh/id_rsa ]]
 then
   echo "public keys for vcap already exist, skipping..."
 else
   su -c "ssh-keygen -f ~/.ssh/id_rsa -N ''" vcap
+fi
+
+if [[ -f /root/.ssh/id_rsa ]]
+then
+  echo "public keys for root already exist, skipping..."
+else
+  ssh-keygen -f ~/.ssh/id_rsa -N ''
 fi
 
 if [[ -n $ORIGUSER ]]
@@ -34,6 +41,7 @@ else
   echo "Skipping copying authorized_keys to vcap user"
   echo "Skipping copying .bashrc to vcap user"
 fi
+cat ~/.ssh/id_rsa.pub >> /home/vcap/.ssh/authorized_keys
 
 echo 'deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse' >> /etc/apt/sources.list
 
@@ -49,3 +57,28 @@ cd bosh/release/template/instance
 ./prepare_instance.sh
 
 source ~/.profile
+
+#
+# Need Ruby 1.9 to run chef_deployer; but 
+# Need Ruby 1.8.7 to run chef-solo (installed at /var/vcap/bosh/bin/ruby via prepare_instance.sh above)
+#
+if [[ -x rvm ]]
+then
+  rvm get stable
+else
+  curl -L get.rvm.io | bash -s stable
+  source /etc/profile.d/rvm.sh
+fi
+command rvm install 1.9.3 # oh god this takes a long time
+rvm 1.9.3
+rvm alias create default 1.9.3
+
+cd ${bosh_app_dir}/bootstrap/bosh/chef_deployer
+bundle install
+
+cd /tmp
+git clone git://github.com/drnic/bosh-getting-started.git
+
+cd  ${bosh_app_dir}/deployments
+cp -R /tmp/bosh-getting-started/examples/chefbosh .
+
