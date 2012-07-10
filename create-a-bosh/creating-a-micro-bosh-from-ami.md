@@ -196,7 +196,7 @@ On your local machine using fog, provision an elastic public IP in the target in
 "1.2.3.4"
 ```
 
-The "1.2.3.4" value will replace `IPADDRESS` in the micro_bosh.yml below.
+The "1.2.3.4" value will replace `IPADDRESS` in the `micro_bosh.yml` below.
 
 Back to the Inception VM... 
 
