@@ -29,10 +29,10 @@ def aws_config_yml(name, access_key, secret_key, ipaddress, salted_password, reg
   region            = options[:region] || region
   availability_zone = options[:availability_zone] || "#{region}a"
   kernel_id         = options[:kernel_id]
-  image_id       = options[:image_id] || 'ami-0743ef6e' # TODO not currently used in micro_bosh.yml
-  stemcell_disk  = options[:stemcell_disk] || 4096
-  security_group = options[:security_group] || 'default'             
-  instance_type  = options[:instance_type] || 'm1.small'
+  image_id          = options[:image_id] || 'ami-0743ef6e' # TODO not currently used in micro_bosh.yml
+  stemcell_disk     = options[:stemcell_disk] || 4096
+  security_group    = options[:security_group] || 'default'             
+  instance_type     = options[:instance_type] || 'm1.small'
   unless kernel_id
     kernel_id = case region
     when 'ap-northeast-1' then 'aki-d409a2d5'
