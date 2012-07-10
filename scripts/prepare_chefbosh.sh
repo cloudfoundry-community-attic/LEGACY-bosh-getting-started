@@ -46,7 +46,7 @@ else
 fi
 cat ~/.ssh/id_rsa.pub >> /home/vcap/.ssh/authorized_keys
 
-echo 'deb http://${REGION}.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse' >> /etc/apt/sources.list
+echo "deb http://${REGION}.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse" >> /etc/apt/sources.list
 
 apt-get update
 apt-get install git-core -y
