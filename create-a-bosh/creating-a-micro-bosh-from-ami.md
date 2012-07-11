@@ -303,11 +303,31 @@ WARNING! Your target has been changed to `http://1.2.3.4:25555'!
 Deployment set to '/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml'
 
 $ bosh micro deploy ami-0743ef6e
+WARNING! Your target has been changed to `http://55.55.55.55:25555'!
+Deployment set to '/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml'
+Deployed `microbosh-aws-us-east-1/micro_bosh.yml' to `http://1.2.3.4:25555', took 00:17:20 to complete
 ```
 
 To run the `bosh micro deployment microbosh-aws-us-east-1` command you must be in a folder that itself contains a folder `microbosh-aws-us-east-1` that contains `micro-bosh.yml`. In our tutorial, we are in `/var/vcap/deployments` which contains `/var/vcap/deployments/microbosh-aws-us-east-1/micro-bosh.yml`.
 
 TODO: Only specify the AMI `image_id` in the micro-bosh.yml and not the CLI command [[CF-72](https://cloudfoundry.atlassian.net/browse/CF-72)]
+
+## Elastic IP
+
+Note that above, we expect the IP address to be 1.2.3.4, but `bosh micro deploy` set the target to `55.55.55.55`. Why?
+
+Currently, `bosh micro deploy` does not finish the job [[CF-74](https://cloudfoundry.atlassian.net/browse/CF-74)] with your elastic IP `1.2.3.4`.
+
+We will manually assign the elastic IP to the Micro BOSH VM.
+
+``` ruby
+$ fog
+connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
+address = connection.addresses.get('1.2.3.4') # load our elastic IP
+server = connection.servers.all('ip-address' => '55.55.55.55').first
+address.server = server
+```
+
 
 ## Destroy your Micro BOSH
 
@@ -324,15 +344,6 @@ TODO - will the Micro BOSH delete all its own deployments first?
 ## Questions
 
 ### Why can't I just boot the AWS AMI and start using BOSH?
-
-```
-bosh public stemcells
-# confirm that micro-bosh-stemcell-0.1.0.tgz is the latest one
-bosh download public stemcell micro-bosh-stemcell-0.1.0.tgz
-bosh micro deploy micro-bosh-stemcell-0.1.0.tgz
-```
-
-NOTE: You want one called "micro-bosh-stemcell..." rather than a base stemcell with "aws" in its name.
 
 It is not a simple matter of launching the AMI via the AWS console as a standalone appliance VM. BOSH needs to be configured with:
 
