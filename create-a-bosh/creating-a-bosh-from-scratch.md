@@ -109,8 +109,11 @@ The `prepare_chef_deployer` script creates a `~/.chefbosh/bosh-aws-us-east-1` fo
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_chef_deployer > /tmp/prepare_chef_deployer
 chmod 755 /tmp/prepare_chef_deployer
 export BOSH_GETTING_STARTED='git://github.com/drnic/bosh-getting-started.git -b chefbosh'
+export BOSH_PATCH='ssh://$(whoami)@reviews.cloudfoundry.org:29418/bosh refs/changes/35/6935/1'
 /tmp/prepare_chef_deployer bosh-aws-us-east-1 aws ACCESS_KEY SECRET_KEY us-east-1 IP_ADDRESS PASSWORD
 ```
+
+TODO - remove the `BOSH_PATCH`
 
 `IP_ADDRESS` can also be the public DNS for the VM. In this tutorial it is `ec2-10-2-3-4.compute-1.amazonaws.com`.
 
