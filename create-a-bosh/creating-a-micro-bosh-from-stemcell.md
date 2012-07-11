@@ -276,6 +276,19 @@ bosh micro deploy micro-bosh-stemcell-aws-0.6.1.tgz
 
 NOTE: You want one called "micro-bosh-stemcell..." rather than a base stemcell with "aws" in its name.
 
+## Deployment logging
+
+If you want to watch the deployment process in more granular detail, you can tail the log file during deployment.
+
+In another terminal, run:
+
+```
+$ ssh ubuntu@ec2-10-9-8-7.compute-1.amazonaws.com
+sudo su -
+
+cd /var/vcap/deployments
+tail -f microbosh-aws-us-east-1/bosh_micro_deploy.log
+```
 
 ## Destroy your Micro BOSH
 
