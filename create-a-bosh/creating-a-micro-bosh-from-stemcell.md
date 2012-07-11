@@ -1,5 +1,9 @@
 # Create a Micro BOSH from a stemcell
 
+STATUS: Still being written.
+
+WARNING: This tutorial requires a yet-to-be-released micro-bosh stemcell 0.6.1. That is, you can't follow this tutorial yet.
+
 This tutorial shows you how to create your first BOSH on AWS (on any region or any available IaaS). This is one of several tutorials for [creating a BOSH](creating-a-bosh-overview.md).
 
 In BOSH terminology, you will be creating a Micro BOSH. You will provision a single VM that contains all the parts of BOSH, which is bootstrapped from a pre-baked generic image (called a "stemcell" in BOSH language). That is, the image contains all the software packages required to run BOSH. During the deployment, a private AMI will be created from the stemcell, which will be used to boot the Micro BOSH VM.
