@@ -341,6 +341,14 @@ cd /var/vcap/deployments
 tail -f microbosh-aws-us-east-1/bosh_micro_deploy.log
 ```
 
+## Administration
+
+WARNING: There is a default admin user created with a default password "admin". Please change this password immediately.
+
+```
+bosh create user admin very-long-and-secure-passphrase
+```
+
 ## Destroy your Micro BOSH
 
 You can delete a specific Micro BOSH deployment:

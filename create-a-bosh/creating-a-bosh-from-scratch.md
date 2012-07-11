@@ -195,7 +195,17 @@ Enter password: *****
 Logged in as 'admin'
 ```
 
-Username/password was configured as admin/admin unless you changed it.
+Username/password defaults to `admin/admin`. Please change it immediately.
+
+## Administration
+
+WARNING: There is a default admin user created with a default password "admin". Please change this password immediately.
+
+```
+bosh create user admin very-long-and-secure-passphrase
+```
+
+## Status
 
 If you ask your BOSH a few questions it will tell you the following:
 

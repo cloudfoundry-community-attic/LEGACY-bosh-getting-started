@@ -328,6 +328,13 @@ server = connection.servers.all('ip-address' => '55.55.55.55').first
 address.server = server
 ```
 
+## Administration
+
+WARNING: There is a default admin user created with a default password "admin". Please change this password immediately.
+
+```
+bosh create user admin very-long-and-secure-passphrase
+```
 
 ## Destroy your Micro BOSH
 
