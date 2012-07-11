@@ -269,9 +269,9 @@ During this process the Inception VM will create a private AMI within the AWS re
 
 ```
 bosh public stemcells
-# confirm that micro-bosh-stemcell-0.1.0.tgz is the latest one
-bosh download public stemcell micro-bosh-stemcell-0.1.0.tgz
-bosh micro deploy micro-bosh-stemcell-0.1.0.tgz
+# confirm that micro-bosh-stemcell-aws-0.6.1.tgz is the latest one
+bosh download public stemcell micro-bosh-stemcell-aws-0.6.1.tgz
+bosh micro deploy micro-bosh-stemcell-aws-0.6.1.tgz
 ```
 
 NOTE: You want one called "micro-bosh-stemcell..." rather than a base stemcell with "aws" in its name.
