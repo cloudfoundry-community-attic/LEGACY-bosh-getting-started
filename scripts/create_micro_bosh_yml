@@ -79,7 +79,7 @@ cloud:
       default_security_groups: ["#{security_group}"]
       ec2_private_key: /home/vcap/.ssh/#{key_name}.pem
     stemcell:
-      image_id #{image_id}
+      image_id: #{image_id}
       kernel_id: #{kernel_id}
       root_device_name: /dev/sda1
       disk: #{stemcell_disk}
