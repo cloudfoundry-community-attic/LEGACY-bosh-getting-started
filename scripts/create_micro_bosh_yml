@@ -24,7 +24,13 @@ def salted_password(password)
   `mkpasswd -m sha-512 '#{password}'`.strip
 end
 
-def aws_config_yml(name, access_key, secret_key, region, ipaddress, salted_password, key_name, options={})
+def aws_config_yml(name, access_key, secret_key, region, key_name, ipaddress, salted_password, options={})
+
+  # sanity checks
+  raise "Something went wrong. This is not a salted password: " +
+        "#{salted_password}" unless salted_password.start_with?("$")
+  require 'ipaddr'
+  IPAddr.new ipaddress
 
   availability_zone = options[:availability_zone] || "#{region}a"
   kernel_id         = options[:kernel_id]
