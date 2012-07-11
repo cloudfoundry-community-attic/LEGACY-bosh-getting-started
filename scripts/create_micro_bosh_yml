@@ -83,6 +83,8 @@ cloud:
       kernel_id: #{kernel_id}
       root_device_name: /dev/sda1
       disk: #{stemcell_disk}
+    agent:
+      mbus: http://vcap:b00tstrap@0.0.0.0:6868
 YAML
 end
 
