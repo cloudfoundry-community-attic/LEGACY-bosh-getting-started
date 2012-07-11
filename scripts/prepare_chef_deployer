@@ -31,6 +31,10 @@ else
   cd ${chefbosh_config_path}
   echo "Cloning bosh..."
   git clone ${BOSH_REPO:='https://github.com/cloudfoundry/bosh.git'}
+
+  # TODO - remove this PATCH
+  cd bosh
+  git pull ssh://drnic@reviews.cloudfoundry.org:29418/bosh refs/changes/35/6935/1
 fi
 
 cd ${bosh_path}/chef_deployer
