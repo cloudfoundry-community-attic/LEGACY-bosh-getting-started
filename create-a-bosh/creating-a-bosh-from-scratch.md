@@ -114,6 +114,8 @@ sudo su -
 
 branch="create-user"
 curl https://raw.github.com/drnic/bosh-getting-started/${branch}/scripts/create_vcap_user.sh | bash
+
+mkdir -p /var/vcap
 cp /home/ubuntu/.ssh/authorized_keys /var/vcap/
 
 export REGION=us-east-1
