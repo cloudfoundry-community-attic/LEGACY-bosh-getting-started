@@ -125,9 +125,7 @@ cp /home/ubuntu/.ssh/authorized_keys /var/vcap/
 mkdir -p /var/vcap/bootstrap
 
 cd /var/vcap/bootstrap
-git clone https://github.com/cloudfoundry/bosh.git
-cd bosh/release/template/instance
-./prepare_instance.sh
+curl https://raw.github.com/cloudfoundry/bosh/master/release/template/instance/prepare_instance.sh | bash
 
 chown vcap:vcap -R /var/vcap
 chmod 777 /var/vcap/deploy
