@@ -112,23 +112,18 @@ NOTE: see $REGION set to `us-east-1` below. Change as appropriate.
 $ ssh ubuntu@ec2-10-2-3-4.compute-1.amazonaws.com
 sudo su -
 
-export REGION=us-east-1
-echo "deb http://${REGION}.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse" >> /etc/apt/sources.list
-
-apt-get update
-apt-get install git-core -y
-
 branch="create-user"
 curl https://raw.github.com/drnic/bosh-getting-started/${branch}/scripts/create_vcap_user.sh | bash
 cp /home/ubuntu/.ssh/authorized_keys /var/vcap/
 
-mkdir -p /var/vcap/bootstrap
-
-cd /var/vcap/bootstrap
+export REGION=us-east-1
+echo "deb http://${REGION}.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse" >> /etc/apt/sources.list
 curl https://raw.github.com/cloudfoundry/bosh/master/release/template/instance/prepare_instance.sh | bash
 
-chown vcap:vcap -R /var/vcap
-chmod 777 /var/vcap/deploy
+
+apt-get install git-core -y
+
+chown vcap:vcap -R /var/vcap/deploy
 
 exit
 ```
