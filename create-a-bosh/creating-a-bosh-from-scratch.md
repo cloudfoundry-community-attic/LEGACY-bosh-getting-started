@@ -120,6 +120,7 @@ apt-get install git-core -y
 
 branch="create-user"
 curl https://raw.github.com/drnic/bosh-getting-started/${branch}/scripts/create_vcap_user.sh | bash
+cp /home/ubuntu/.ssh/authorized_keys /var/vcap/
 
 mkdir -p /var/vcap/bootstrap
 
