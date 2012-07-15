@@ -15,8 +15,7 @@ if [[ ! -d /home/${login} ]]
 then
   /usr/sbin/addgroup --system admin
   /usr/sbin/adduser --disabled-password --gecos Ubuntu ${login}
-  echo \"${login}:${password}\" | /usr/sbin/chpasswd
-  echo \"root:${password}\" | /usr/sbin/chpasswd
+  echo "${login}:${password}" | /usr/sbin/chpasswd
 
   for grp in admin adm audio cdrom dialout floppy video plugdev dip
   do
