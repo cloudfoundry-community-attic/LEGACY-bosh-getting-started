@@ -129,7 +129,6 @@ git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/release/template/instance
 ./prepare_instance.sh
 
-cp /home/ubuntu/.ssh/authorized_keys /var/vcap/
 chown vcap:vcap -R /var/vcap
 chmod 777 /var/vcap/deploy
 
