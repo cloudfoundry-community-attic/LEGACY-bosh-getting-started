@@ -233,7 +233,7 @@ cloud:
       password: admin
 ```
 
-## Stemcell
+## Custom Stemcell
 
 Remember the warning at the top of this page? Oh yeah, this is an experiment, so we won't find any public OpenStack stemcell. But don't worry, we can create our custom stemcell!!!
 
@@ -506,7 +506,6 @@ Logged in as 'admin'
 ```
 
 You can now create user accounts the same way.
-```
 
 ## Destroy your Micro BOSH
 
