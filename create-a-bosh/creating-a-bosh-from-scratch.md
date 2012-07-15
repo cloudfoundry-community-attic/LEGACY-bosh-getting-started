@@ -159,16 +159,33 @@ Get the chef_deployer & cookbooks (all from the same [bosh](https://github.com/c
 cd ~/.chefbosh
 git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/chef_deployer
+
 bundle
 cd ../release/
 ruby ../chef_deployer/bin/chef_deployer deploy ~/.chefbosh --default-password=''
 ...lots of chef...
 ```
 
-We can now connect to our BOSH!
+Now apply patches to BOSH CLI:
 
 ```
-$ gem install bosh_cli
+# need fix for https://cloudfoundry.atlassian.net/browse/CF-71
+# http://reviews.cloudfoundry.org/#/c/7086/
+git fetch ssh://$(whoami)@reviews.cloudfoundry.org:29418/bosh refs/changes/86/7086/1 && git cherry-pick FETCH_HEAD
+cd ~/.chefbosh/bosh/cli
+bundle install --without=development test
+rake install
+```
+
+When no patches are necessary to the BOSH CLI, it can be installed from RubyGems:
+
+```
+gem install bosh_cli
+```
+
+Now target your BOSH from the CLI:
+
+```
 $ bosh target ec2-10-2-3-4.compute-1.amazonaws.com:25555
 Target set to 'myfirstbosh (http://ec2-10-2-3-4.compute-1.amazonaws.com:25555) Ver: 0.4 (1e5bed5c)'
 Your username: admin
