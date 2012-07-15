@@ -118,8 +118,11 @@ curl https://raw.github.com/drnic/bosh-getting-started/${branch}/scripts/create_
 mkdir -p /var/vcap
 cp /home/ubuntu/.ssh/authorized_keys /var/vcap/
 
-export REGION=us-east-1
-echo "deb http://${REGION}.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse" >> /etc/apt/sources.list
+az=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
+region=${az:0:${#az}-1} # remove last character of $az
+
+echo BOSH located in region ${region} in AZ ${az}
+echo "deb http://${region}.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse" >> /etc/apt/sources.list
 # curl https://raw.github.com/cloudfoundry/bosh/master/release/template/instance/prepare_instance.sh | bash
 curl https://raw.github.com/drnic/bosh/prepare_chef_deployer/release/template/instance/prepare_instance.sh | bash
 ```
