@@ -122,10 +122,6 @@ export REGION=us-east-1
 echo "deb http://${REGION}.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse" >> /etc/apt/sources.list
 # curl https://raw.github.com/cloudfoundry/bosh/master/release/template/instance/prepare_instance.sh | bash
 curl https://raw.github.com/drnic/bosh/prepare_chef_deployer/release/template/instance/prepare_instance.sh | bash
-
-chown vcap:vcap -R /var/vcap/deploy
-
-exit
 ```
 
 **From another terminal on your local machine:**
