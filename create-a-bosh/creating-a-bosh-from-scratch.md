@@ -161,7 +161,7 @@ In VIM, you can "replace all" by typing:
 
 We'll now use chef to install and start all the parts of BOSH. The `chef_deployer` subfolder of BOSH orchestrates this.
 
-Get the chef_deployer & cookbooks (all from the same [bosh](https://github.com/cloudfoundry/bosh) repository) and we're almost done!
+Get the chef_deployer & cookbooks (all from the same [bosh](https://github.com/cloudfoundry/bosh) repository) and run chef upon your VM.
 
 ```
 cd ~/.chefbosh
@@ -169,12 +169,7 @@ git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/chef_deployer
 bundle
 cd ../release/
-```
-
-Now we can run chef to install BOSH:
-
-```
-ruby ../chef_deployer/bin/chef_deployer deploy ~/.chefbosh
+ruby ../chef_deployer/bin/chef_deployer deploy ~/.chefbosh --default-password=''
 ...lots of chef...
 ```
 
