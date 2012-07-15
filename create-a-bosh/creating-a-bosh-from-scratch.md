@@ -120,18 +120,16 @@ apt-get install git-core -y
 
 branch="create-user"
 curl https://raw.github.com/drnic/bosh-getting-started/${branch}/scripts/create_vcap_user.sh | bash
-mkdir -p /var/vcap/
 
-cp /home/ubuntu/.ssh/authorized_keys /var/vcap/
+mkdir -p /var/vcap/bootstrap
 
-
-
-mkdir /var/vcap/bootstrap
 cd /var/vcap/bootstrap
 git clone https://github.com/cloudfoundry/bosh.git
 cd bosh/release/template/instance
 ./prepare_instance.sh
 
+cp /home/ubuntu/.ssh/authorized_keys /var/vcap/
+chown vcap:vcap -R /var/vcap
 chmod 777 /var/vcap/deploy
 
 exit
