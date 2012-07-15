@@ -333,8 +333,24 @@ address.server = server
 WARNING: There is a default admin user created with a default password "admin". Please change this password immediately.
 
 ```
-bosh create user admin very-long-and-secure-passphrase
+$ bosh create user admin
+Enter password: *****************
+
+# or
+
+$ bosh create user admin very-long-and-secure-passphrase
 ```
+
+Then re-login
+
+```
+$ bosh login
+Your username: admin
+Enter password: *****************
+Logged in as 'admin'
+```
+
+You can now create user accounts the same way.
 
 ## Destroy your Micro BOSH
 

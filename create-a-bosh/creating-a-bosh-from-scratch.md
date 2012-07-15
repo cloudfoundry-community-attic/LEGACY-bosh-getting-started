@@ -104,7 +104,9 @@ In the AWS console it will look like:
 
 These commands below can take a long time. If it terminates early, re-run it until completion.
 
-Alternately, run it inside screen or tmux so you don't have to fear early termination:
+Alternately, run it inside screen or tmux so you don't have to fear early termination.
+
+NOTE: see $REGION set to `us-east-1` below. Change as appropriate.
 
 ```
 $ ssh ubuntu@ec2-10-2-3-4.compute-1.amazonaws.com
@@ -115,18 +117,9 @@ useradd vcap -m -g vcap
 mkdir -p /var/vcap/
 cp /home/ubuntu/.ssh/authorized_keys /var/vcap/
 
-vim /etc/apt/sources.list
-```
+export REGION=us-east-1
+echo "deb http://${REGION}.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse" >> /etc/apt/sources.list
 
-Add the following line. **If you're in a different AWS region, change the URL prefix.**
-
-```
-deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ lucid multiverse
-```
-
-Back in the remote terminal (you can copy and paste each chunk):
-
-```
 apt-get update
 apt-get install git-core -y
 
@@ -202,8 +195,24 @@ Username/password defaults to `admin/admin`. Please change it immediately.
 WARNING: There is a default admin user created with a default password "admin". Please change this password immediately.
 
 ```
-bosh create user admin very-long-and-secure-passphrase
+$ bosh create user admin
+Enter password: *****************
+
+# or
+
+$ bosh create user admin very-long-and-secure-passphrase
 ```
+
+Then re-login
+
+```
+$ bosh login
+Your username: admin
+Enter password: *****************
+Logged in as 'admin'
+```
+
+You can now create user accounts the same way.
 
 ## Status
 
