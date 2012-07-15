@@ -16,6 +16,7 @@ then
   /usr/sbin/addgroup --system admin
   /usr/sbin/adduser --disabled-password --gecos Ubuntu ${login}
   echo "${login}:${password}" | /usr/sbin/chpasswd
+  echo "${login}    ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
   for grp in admin adm audio cdrom dialout floppy video plugdev dip
   do
