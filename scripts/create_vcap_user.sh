@@ -8,16 +8,8 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-function show_usage {
-  echo USAGE: create_user LOGIN [PASSWORD]
-}
-
-login=$1
-password=${2:=${login}}
-
-if [[ -n ${login} ]]; then
-  show_usage
-fi
+login=vcap
+password=vcap
 
 if [[ ! -d /home/${login} ]]
 then
