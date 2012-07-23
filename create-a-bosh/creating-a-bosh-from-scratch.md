@@ -111,6 +111,7 @@ NOTE: see $REGION set to `us-east-1` below. Change as appropriate.
 ```
 $ ssh ubuntu@ec2-10-2-3-4.compute-1.amazonaws.com
 sudo su -
+
 groupadd vcap 
 useradd vcap -m -g vcap
 
