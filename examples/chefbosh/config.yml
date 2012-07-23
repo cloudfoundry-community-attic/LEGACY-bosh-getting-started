@@ -25,4 +25,4 @@ chef_node:
     endpoint: http://admin:admin@PUBLIC_DNS_NAME:25777
     http:
       user: admin
-      passwrd: admin
+      password: admin
