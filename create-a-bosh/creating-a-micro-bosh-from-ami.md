@@ -283,8 +283,7 @@ cloud:
       default_security_groups: ["default"]
       ec2_private_key: /home/vcap/.ssh/inception.pem
     stemcell:
-      image_id: ami-0743ef6e
-      kernel_id: aki-b4aa75dd
+      image_id: ami-6d9e3704
       disk: 4096
       root_device_name: /dev/sda1
 ```
@@ -302,7 +301,7 @@ $ bosh micro deployment microbosh-aws-us-east-1
 WARNING! Your target has been changed to `http://1.2.3.4:25555'!
 Deployment set to '/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml'
 
-$ bosh micro deploy ami-0743ef6e
+$ bosh micro deploy
 WARNING! Your target has been changed to `http://55.55.55.55:25555'!
 Deployment set to '/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml'
 Deployed `microbosh-aws-us-east-1/micro_bosh.yml' to `http://1.2.3.4:25555', took 00:17:20 to complete

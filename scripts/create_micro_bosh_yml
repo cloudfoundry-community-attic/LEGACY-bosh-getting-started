@@ -44,23 +44,10 @@ def aws_config_yml(name, access_key, secret_key, region, key_name, ipaddress, sa
   IPAddr.new ipaddress
 
   availability_zone = options[:availability_zone] || "#{region}a"
-  kernel_id         = options[:kernel_id]
-  image_id          = options[:image_id] || 'ami-0743ef6e' # TODO not currently used in micro_bosh.yml
+  image_id          = options[:image_id] || 'ami-6d9e3704'
   stemcell_disk     = options[:stemcell_disk] || 4096
   security_group    = options[:security_group] || 'default'             
   instance_type     = options[:instance_type] || 'm1.small'
-  unless kernel_id
-    kernel_id = case region
-    when 'ap-northeast-1' then 'aki-d409a2d5'
-    when 'ap-southeast-1' then 'aki-11d5aa43'
-    when 'eu-west-1' then 'aki-4feec43b'
-    when 'sa-east-1' then 'aki-d63ce3cb'
-    when 'us-east-1' then 'aki-b4aa75dd' # or should it be aki-427d952b ?
-    when 'us-west-1' then 'aki-9ba0f1de'
-    when 'us-west-2' then 'aki-ace26f9c'
-    else raise "Unknown aws region #{region}"
-    end
-  end
   stemcell_disk     = options[:stemcell_disk] || 4096
   security_group    = options[:security_group] || 'default'
   instance_type     = options[:instance_type] || 'm1.small'
@@ -97,7 +84,6 @@ cloud:
       ec2_private_key: /home/vcap/.ssh/#{key_name}.pem
     stemcell:
       image_id: #{image_id}
-      kernel_id: #{kernel_id}
       root_device_name: /dev/sda1
       disk: #{stemcell_disk}
     agent:
