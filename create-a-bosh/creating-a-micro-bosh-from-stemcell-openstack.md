@@ -132,7 +132,7 @@ These steps come from the [BOSH documentation](https://github.com/cloudfoundry/o
 ```
 $ ssh ubuntu@10.0.0.2
 sudo su -
-export ORIGUSER=vcap
+export ORIGUSER=ubuntu
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_inception_openstack.sh | bash
 source /etc/profile
 ```
