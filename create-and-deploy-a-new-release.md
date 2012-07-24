@@ -579,7 +579,7 @@ resource_pools:
   persistent_disk: 8192
   stemcell:
     name: bosh-stemcell
-    version: 0.5.1
+    version: 0.6.2
   cloud_properties:
     instance_type: m1.medium
 ```

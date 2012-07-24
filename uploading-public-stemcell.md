@@ -13,7 +13,7 @@ bosh public stemcells
 +-------------------------------+-----------------------------------------------------+
 | Name                          | Url                                                 |                                                                                                                                       +-------------------------------+-----------------------------------------------------+
 | bosh-stemcell-0.4.7.tgz       | https://blob.cfblob.com/rest/objects/4e4e78bc...... |
-| bosh-stemcell-aws-0.5.1.tgz   | https://blob.cfblob.com/rest/objects/4e4e78bca..... |
+| bosh-stemcell-aws-0.6.2.tgz   | https://blob.cfblob.com/rest/objects/4e4e78bca..... |
 +-------------------------------+-----------------------------------------------------+
 ```
 
@@ -21,10 +21,10 @@ You want the latest public AWS stemcell. Download it from the public server and 
 
 ```
 $ cd /tmp
-$ bosh download public stemcell bosh-stemcell-aws-0.5.1.tgz
+$ bosh download public stemcell bosh-stemcell-aws-0.6.2.tgz
 bosh-stemcell:  98% |ooooooooooooooooooooooooooooooo  | 384.0MB   1.7MB/s ETA:  00:00:03
 
-$ bosh upload stemcell bosh-stemcell-aws-0.5.1.tgz
+$ bosh upload stemcell bosh-stemcell-aws-0.6.2.tgz
 Verifying stemcell...
 File exists and readable                                     OK
 Manifest not found in cache, verifying tarball...
@@ -37,7 +37,7 @@ Stemcell properties                                          OK
 Stemcell info
 -------------
 Name:    bosh-stemcell
-Version: 0.5.1
+Version: 0.6.2
 
 Checking if stemcell already exists...
 No
@@ -50,8 +50,8 @@ Update stemcell
   extracting stemcell archive (00:00:06)                                                            
   verifying stemcell manifest (00:00:00)                                                            
   checking if this stemcell already exists (00:00:00)                                               
-  uploading stemcell bosh-stemcell/0.5.1 to the cloud (00:06:24)                                    
-  save stemcell: bosh-stemcell/0.5.1 (ami-a213cbcb) (00:00:00)                                      
+  uploading stemcell bosh-stemcell/0.6.2 to the cloud (00:06:24)                                    
+  save stemcell: bosh-stemcell/0.6.2 (ami-a213cbcb) (00:00:00)                                      
 Done                    5/5 00:06:30                                                                
 
 Task 3: state is 'done', took 00:06:30 to complete
@@ -70,6 +70,6 @@ $ bosh stemcells
 +---------------+---------+--------------+
 | Name          | Version | CID          |
 +---------------+---------+--------------+
-| bosh-stemcell | 0.5.1   | ami-a213cbcb |
+| bosh-stemcell | 0.6.2   | ami-a213cbcb |
 +---------------+---------+--------------+
 ```

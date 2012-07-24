@@ -48,7 +48,7 @@ resource_pools:
     size: 3
     stemcell:
       name: bosh-stemcell
-      version: 0.5.1
+      version: 0.6.2
     cloud_properties:
       instance_type: m1.small
       availability_zone:

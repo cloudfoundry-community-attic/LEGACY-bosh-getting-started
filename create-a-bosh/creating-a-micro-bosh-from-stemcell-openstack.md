@@ -405,7 +405,7 @@ We can now connect to our BOSH!
 
 ```
 $ bosh target http://10.0.0.3:25555
-Target set to 'micro (http://10.0.0.3:25555) Ver: 0.5.1 (release:bfc39b70 bosh:59cbcb8f)'
+Target set to 'micro (http://10.0.0.3:25555) Ver: 0.6.2 (release:bfc39b70 bosh:59cbcb8f)'
 Your username: admin
 Enter password: *****
 Logged in as 'admin'
@@ -419,7 +419,7 @@ If you ask your BOSH a few questions it will tell you the following:
 $ bosh status
 Updating director data... done
 
-Target         micro (http://10.0.0.3:25555) Ver: 0.5.1 (release:bfc39b70 bosh:59cbcb8f)
+Target         micro (http://10.0.0.3:25555) Ver: 0.6.2 (release:bfc39b70 bosh:59cbcb8f)
 UUID           2137f5c8-56ae-44f1-8d48-d18a42442f1a
 User           admin
 Deployment     not set
@@ -453,7 +453,7 @@ VM CID         d17494ce-dfe9-4acf-9c08-44d8c230f61d
 Disk CID       19
 Micro BOSH CID bm-1f9fd181-9a4b-4245-afa9-2810157c09d2
 Deployment     /var/vcap/deployments/microbosh-openstack/micro_bosh.yml
-Target         micro (http://10.0.0.3:25555) Ver: 0.5.1 (release:bfc39b70 bosh:59cbcb8f)
+Target         micro (http://10.0.0.3:25555) Ver: 0.6.2 (release:bfc39b70 bosh:59cbcb8f)
 ```
 
 ### Listing Deployments

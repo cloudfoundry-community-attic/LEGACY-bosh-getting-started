@@ -1,6 +1,6 @@
 # Creating a new stemcell
 
-If you are on a new IaaS and/or if there isn't a public stemcell for your architecture (at the time of writing the only non-vSphere public stemcell, is `bosh-stemcell-aws-0.5.1.tgz` which is for 64-bit AWS), then you will need to create a base stemcell for your environment VMs.
+If you are on a new IaaS and/or if there isn't a public stemcell for your architecture (at the time of writing the only non-vSphere public stemcell, is `bosh-stemcell-aws-0.6.2.tgz` which is for 64-bit AWS), then you will need to create a base stemcell for your environment VMs.
 
 If you want your environment VMs to boot faster - by not having to install packages - you can also create a custom stemcell that includes all the packages you need.
 

@@ -49,7 +49,7 @@ resource_pools:
     size: 1
     stemcell:
       name: bosh-stemcell
-      version: 0.5.1
+      version: 0.6.2
     cloud_properties:
       disk: 8192
       instance_type: m1.xlarge
