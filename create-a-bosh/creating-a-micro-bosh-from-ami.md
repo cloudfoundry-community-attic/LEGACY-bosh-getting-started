@@ -228,9 +228,9 @@ For this tutorial, we will do option 2 and host the BOSH deployments within the 
 On your local machine using fog, provision an elastic public IP in the target infrastructure/region (us-west-2 in this tutorial):
 
 ``` ruby
->> connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
->> address = connection.addresses.create
->> address.public_ip
+connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
+address = connection.addresses.create
+address.public_ip
 "1.2.3.4"
 ```
 
