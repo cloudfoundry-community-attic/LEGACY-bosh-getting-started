@@ -8,7 +8,7 @@ Stemcells are large. 400Mb or more. So, run all the following commands from with
 $ ssh ubuntu@ec2-10-2-3-4.compute-1.amazonaws.com
 sudo su -
 gem install bosh_cli
-bosh target localhost:25555
+bosh target localhost
 bosh public stemcells
 +-------------------------------+-----------------------------------------------------+
 | Name                          | Url                                                 |                                                                                                                                       +-------------------------------+-----------------------------------------------------+

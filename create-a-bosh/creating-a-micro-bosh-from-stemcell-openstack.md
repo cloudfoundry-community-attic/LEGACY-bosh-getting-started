@@ -404,7 +404,7 @@ NOTE: To run the `bosh micro deployment microbosh-openstack` command you must be
 We can now connect to our BOSH!
 
 ```
-$ bosh target http://10.0.0.3:25555
+$ bosh target http://10.0.0.3
 Target set to 'micro (http://10.0.0.3:25555) Ver: 0.6.2 (release:bfc39b70 bosh:59cbcb8f)'
 Your username: admin
 Enter password: *****

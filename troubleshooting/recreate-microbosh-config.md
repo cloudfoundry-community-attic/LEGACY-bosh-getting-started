@@ -39,15 +39,15 @@ connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1'})
 connection.servers.map(&:dns_name)
 ["ec2-10-2-3-4.compute-1.amazonaws.com",  "ec2-X.X.X.X.compute-1.amazonaws.com", ..., ...]
 exit
-$ bosh target ec2-X.X.X.X.compute-1.amazonaws.com:25555
+$ bosh target ec2-X.X.X.X.compute-1.amazonaws.com
 Error 103: cannot access director
-$ bosh target ec2-10-2-3-4.compute-1.amazonaws.com:25555
+$ bosh target ec2-10-2-3-4.compute-1.amazonaws.com
 Target set to 'http://ec2-10-2-3-4.compute-1.amazonaws.com:25555'
 ```
 
 Hurray, you found it!
 
-**NOTE:** Remember that BOSH Director runs (by default) on port 25555, not port 80. You need to include the target port :25555 in the URI above.
+Your BOSH Director runs (by default) on port 25555, not port 80. The latest version of BOSH should automatically default to 25555 if you do not specify it.
 
 Now you can update `PUBLIC_DNS_NAME` in your fresh `config.yml` file.
  

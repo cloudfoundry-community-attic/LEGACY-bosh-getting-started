@@ -37,7 +37,7 @@ $ scp wordpress-aws.yml ubuntu@BOSH_DIRECTOR:/tmp/wordpress-aws.yml
 $ ssh ubuntu@BOSH_DIRECTOR
 # sudo su -
 # gem install bosh_cli
-# bosh target localhost:25555
+# bosh target localhost
 # bosh deployment /tmp/wordpress-aws.yml
 ```
 
