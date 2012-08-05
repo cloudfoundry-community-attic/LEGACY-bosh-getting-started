@@ -225,7 +225,7 @@ cloud:
       tenant: OS_TENANT_NAME
       default_key_name: inception
       default_security_groups: ["default"]
-      openstack_private_key: /home/vcap/.ssh/inception.pem
+      private_key: /home/vcap/.ssh/inception.pem
     registry:
       endpoint: http://admin:admin@localhost:25889
       user: admin
