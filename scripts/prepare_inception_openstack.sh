@@ -48,7 +48,7 @@ libmysqlclient-dev libxml2-dev libxslt-dev libpq-dev genisoimage mkpasswd \
 debootstrap python-vm-builder -y
 
 echo "install: --no-ri --no-rdoc" > /etc/gemrc
-echo "update: --no-ri --no-rdoc" > /etc/gemrc
+echo "update: --no-ri --no-rdoc" >> /etc/gemrc
 if [[ -x rvm ]]
 then
   rvm get stable
