@@ -61,7 +61,7 @@ rvm 1.9.3
 rvm alias create default 1.9.3
 gem install bundler --no-ri --no-rdoc
 gem pristine rake
-gem install bundler fog --no-ri --no-rdoc
+gem install fog --no-ri --no-rdoc
 
 mkdir -p ${bosh_app_dir}/bootstrap
 cd ${bosh_app_dir}/bootstrap
