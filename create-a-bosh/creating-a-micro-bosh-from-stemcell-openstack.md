@@ -217,6 +217,7 @@ network:
   type: dynamic
 
 resources:
+  persistent_disk: 4096
   cloud_properties:
     instance_type: m1.small
 
