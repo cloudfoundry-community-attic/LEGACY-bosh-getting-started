@@ -141,7 +141,7 @@ apply_spec:
     nats:
       address: #{ipaddress}
   properties:
-    aws_registry:
+    openstack_registry:
       address: #{ipaddress}
 YAML
 end
