@@ -36,6 +36,10 @@ This repo is a collection of tutorials/documentation on getting started with BOS
 * [BOSH: What, How, When](http://drnicwilliams.com/2012/05/15/bosh-what-how-when/), 1 hour, from [Dr Nic Williams](http://drnicwilliams.com), talk at LinkedIn, blog posted May 15, 2012
 * [The Future of Deployment](http://confreaks.com/videos/976-goruco2012-the-future-of-deployment), 40 mins, from [Dr Nic Williams](http://drnicwilliams.com), GoRuCo 2012, June 23, 2012
 
+### Blogs & external tutorials
+
+* [Deploying to AWS Using Cloud Foundry BOSH](http://blog.cloudfoundry.org/2012/09/06/deploying-to-aws-using-cloud-foundry-bosh/) by Martin Englund
+
 ### Slides
 
 * [Cloud Foundry Update](http://www.slideshare.net/marklucovsky/cloud-foundry-anniversary-technical-slides "Cloud Foundry Anniversary: Technical Slides") from [Mark Lucovsky](https://twitter.com/#!/marklucovsky) on April 11, 2012
