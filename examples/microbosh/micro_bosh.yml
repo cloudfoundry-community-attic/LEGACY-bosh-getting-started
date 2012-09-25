@@ -16,7 +16,6 @@ resources:
   persistent_disk: 4096
   cloud_properties:
     instance_type: m1.small
-    root_device_name: /dev/sda1
 
 cloud:
   plugin: aws
@@ -25,12 +24,16 @@ cloud:
       access_key_id:     ACCESS_KEY_ID
       secret_access_key: SECRET_ACCESS_KEY
       ec2_endpoint: ec2.us-east-1.amazonaws.com
-      default_key_name: ec2
-      default_security_groups: ["default"]
-      ec2_private_key: /home/vcap/.ssh/ec2.pem
-    stemcell:
-      image_id: ami-6d9e3704
-      disk: 4096
-      root_device_name: /dev/sda1
+      default_key_name: microbosh
+      default_security_groups: ["microbosh"]
+      ec2_private_key: /home/vcap/.ssh/microbosh.pem
 
-      
+apply_spec:
+  agent:
+    blobstore:
+      address: IPADDRESS
+    nats:
+      address: IPADDRESS
+  properties:
+    aws_registry:
+      address: IPADDRESS

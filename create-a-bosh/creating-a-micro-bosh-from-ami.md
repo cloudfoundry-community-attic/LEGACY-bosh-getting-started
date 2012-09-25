@@ -1,6 +1,6 @@
 # Create a Micro BOSH from AWS AMI
 
-STATUS: Still being written.
+STATUS: Being updated based on [Martin's blog post](http://blog.cloudfoundry.org/2012/09/06/deploying-to-aws-using-cloud-foundry-bosh/ "Deploying to AWS Using Cloud Foundry BOSH | CloudFoundry.org Blog").
 
 This tutorial shows you how to create your first BOSH on AWS using an existing AMI. This is one of several tutorials for [creating a BOSH](creating-a-bosh-overview.md).
 
@@ -129,10 +129,12 @@ This DNS name will be used later to SSH into our Inception VM.
 The security group for the Inception & BOSH VMs will need some TCP ports opened:
 
 ``` ruby
-group = connection.security_groups.get("default")
+connection.security_groups.create name: "microbosh", description: "microboshes"
+group = connection.security_groups.get("microbosh")
 group.authorize_port_range(25555..25555) # BOSH Director API
-group.authorize_port_range(6868..6868) # Message Bus
+group.authorize_port_range(6868..6868)   # Message Bus
 group.authorize_port_range(25888..25888) # AWS Registry API
+group.authorize_port_range(22..22)       # SSH access
 ```
 
 Our Inception VM will store the configuration and deployment details of our Micro BOSH VMs. So we want to ensure all data is persistent beyond the lifespan of the Inception VM itself. In AWS, we use EBS volumes. We will construct the Inception VM in the manner that BOSH itself constructs VMs and attach a volume at the `/var/vcap/store` mount point.
@@ -243,11 +245,11 @@ Create an AWS keypair and store the `.pem` file. Inside the Inception VM:
 ```
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_keypair > /tmp/create_keypair
 chmod 755 /tmp/create_keypair
-/tmp/create_keypair aws ACCESS_KEY_ID SECRET_ACCESS_KEY us-east-1 inception
+/tmp/create_keypair aws ACCESS_KEY_ID SECRET_ACCESS_KEY us-east-1 microbosh
 
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_micro_bosh_yml > /tmp/create_micro_bosh_yml
 chmod 755 /tmp/create_micro_bosh_yml
-/tmp/create_micro_bosh_yml microbosh-aws-us-east-1 aws ACCESS_KEY SECRET_KEY us-east-1 inception IP_ADDRESS PASSWORD
+/tmp/create_micro_bosh_yml microbosh-aws-us-east-1 aws ACCESS_KEY SECRET_KEY us-east-1 microbosh IP_ADDRESS PASSWORD
 ```
 
 This will create a file `microbosh-aws-us-east-1/micro_bosh.yml` that looks as below with the ALLCAPS values filled in. `PASSWORD` above (e.g. 'abc123') will be replaced by the salted version.
@@ -271,7 +273,6 @@ resources:
   persistent_disk: 4096
   cloud_properties:
     instance_type: m1.small
-    root_device_name: /dev/sda1
 
 cloud:
   plugin: aws
@@ -280,13 +281,19 @@ cloud:
       access_key_id:     ACCESS_KEY_ID
       secret_access_key: SECRET_ACCESS_KEY
       ec2_endpoint: ec2.us-east-1.amazonaws.com
-      default_key_name: inception
-      default_security_groups: ["default"]
-      ec2_private_key: /home/vcap/.ssh/inception.pem
-    stemcell:
-      image_id: ami-6d9e3704
-      disk: 4096
-      root_device_name: /dev/sda1
+      default_key_name: microbosh
+      default_security_groups: ["microbosh"]
+      ec2_private_key: /home/vcap/.ssh/microbosh.pem
+
+apply_spec:
+  agent:
+    blobstore:
+      address: IPADDRESS
+    nats:
+      address: IPADDRESS
+  properties:
+    aws_registry:
+      address: IPADDRESS
 ```
 
 ## Deployment
