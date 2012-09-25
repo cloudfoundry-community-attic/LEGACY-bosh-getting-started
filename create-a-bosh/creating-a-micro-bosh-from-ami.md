@@ -353,6 +353,8 @@ Enter password: *****************
 $ bosh create user admin very-long-and-secure-passphrase
 ```
 
+Or create a user with a different username. The original admin/admin user will be removed when the first user is created.
+
 Then re-login
 
 ```
@@ -374,27 +376,11 @@ $ bosh micro deployment microbosh-aws-us-east-1
 $ bosh micro delete
 ```
 
-TODO - will the Micro BOSH delete all its own deployments first?
-
 ## Questions
 
 ### Why can't I just boot the AWS AMI and start using BOSH?
 
-It is not a simple matter of launching the AMI via the AWS console as a standalone appliance VM. BOSH needs to be configured with:
+Actually, you can. Martin Englund wrote a blog post [documenting this](http://blog.cloudfoundry.org/2012/09/06/deploying-to-aws-using-cloud-foundry-bosh/ "Deploying to AWS Using Cloud Foundry BOSH | CloudFoundry.org Blog").
 
-* IaaS/region selection (e.g. AWS/us-east-1)
-* IaaS credentials
-* BOSH API admin password
+This article can probably be shaved down substantially to be similar/same as Martin's article.
 
-The BOSH VM need to be configured with information such as:
-
-* SSH keys
-* Root user password
-* VM type/size, such as m1.small
-* AMI image ID ([in the future](https://cloudfoundry.atlassian.net/browse/CF-72))
-* Persistent disk size, default is 2G
-* Specific kernel, such as aki-b4aa75dd
-* Security groups
-* Optional elastic IP address to use
-
-Both BOSH configuration and BOSH VM/networking configuration will be described using a single YAML file ([example](../examples/microbosh/micro_bosh.yml)). With everything documented in 
