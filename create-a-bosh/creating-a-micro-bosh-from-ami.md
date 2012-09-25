@@ -304,16 +304,34 @@ apply_spec:
 
 We now use the BOSH CLI, on the Inception VM, to deploy the Micro BOSH.
 
+First, select which AMI is to be used to create the Micro BOSH.
+
+```
+$ MICROBOSH_AMI=ami-69dd6900
+```
+
+Where, `ami-69dd6900` comes from the list below (current as of writing) for "us-east-1":
+
+```
+Region            AMI
+ap-northeast-1 -> ami-7656eb77
+ap-southeast-1 -> ami-64d59436
+eu-west-1      -> ami-874c4af3
+sa-east-1      -> ami-6280597f
+us-east-1      -> ami-69dd6900
+us-west-1      -> ami-4f3e1a0a
+us-west-2      -> ami-7ac7494a
+```
+
 1. Tell the BOSH CLI which Micro BOSH deployment "microbosh-aws-us-east-1" to work on
 1. Deploy the deployment using a specific public AMI
 
 ```
 $ cd /var/vcap/deployments
 $ bosh micro deployment microbosh-aws-us-east-1
-WARNING! Your target has been changed to `http://1.2.3.4:25555'!
 Deployment set to '/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml'
 
-$ bosh micro deploy
+$ bosh micro deploy $MICROBOSH_AMI
 WARNING! Your target has been changed to `http://55.55.55.55:25555'!
 Deployment set to '/var/vcap/deployments/microbosh-aws-us-east-1/micro_bosh.yml'
 Deployed `microbosh-aws-us-east-1/micro_bosh.yml' to `http://1.2.3.4:25555', took 00:17:20 to complete
