@@ -4,7 +4,7 @@ require "fileutils"
 
 def usage
   $stderr.puts "USAGE:"
-  $stderr.puts "  For AWS: create_micro_bosh_yml NAME aws ACCESS_KEY SECRET_KEY REGION KEYNAME IP_ADDRESS RAW_PASSWORD"
+  $stderr.puts "  For AWS: create_micro_bosh_yml NAME aws ACCESS_KEY SECRET_KEY REGION KEYNAME SECURITY_GROUP IP_ADDRESS RAW_PASSWORD"
   $stderr.puts "  For OpenStack: create_micro_bosh_yml NAME openstack NAME OS_USERNAME OS_PASSWORD OS_TENANT_NAME OS_AUTH_URL KEYNAME IP_ADDRESS RAW_PASSWORD"
   exit 1
 end
@@ -14,12 +14,13 @@ provider = ARGV.shift
 usage unless provider
 case provider.upcase
   when "AWS"
-    access_key   = ARGV.shift
-    secret_key   = ARGV.shift
-    region       = ARGV.shift
-    keypair_name = ARGV.shift
-    ipaddress    = ARGV.shift
-    password     = ARGV.shift
+    access_key     = ARGV.shift
+    secret_key     = ARGV.shift
+    region         = ARGV.shift
+    keypair_name   = ARGV.shift
+    security_group = ARGV.shift
+    ipaddress      = ARGV.shift
+    password       = ARGV.shift
   when "OPENSTACK"
     os_username    = ARGV.shift
     os_password    = ARGV.shift
@@ -36,7 +37,7 @@ def salted_password(password)
   `mkpasswd -m sha-512 '#{password}'`.strip
 end
 
-def aws_config_yml(name, access_key, secret_key, region, key_name, ipaddress, salted_password, options={})
+def aws_config_yml(name, access_key, secret_key, region, key_name, security_group, ipaddress, salted_password, options={})
 
   # sanity checks
   raise "Something went wrong. This is not a salted password: " +
@@ -45,11 +46,8 @@ def aws_config_yml(name, access_key, secret_key, region, key_name, ipaddress, sa
   IPAddr.new ipaddress
 
   availability_zone = options[:availability_zone] || "#{region}a"
-  image_id          = options[:image_id] || 'ami-6d9e3704'
-  stemcell_disk     = options[:stemcell_disk] || 4096
-  security_group    = options[:security_group] || 'default'             
   instance_type     = options[:instance_type] || 'm1.small'
-  persistent_disk   = options[:persistent_disk] || 4096
+  persistent_disk   = options[:persistent_disk] || 8192
   <<-YAML
 ---
 name: #{name}
@@ -154,7 +152,7 @@ end
 salty = salted_password(password)
 yml = case provider.upcase
   when "AWS"
-    aws_config_yml(name, access_key, secret_key, region, keypair_name, ipaddress, salty, options={})
+    aws_config_yml(name, access_key, secret_key, region, keypair_name, security_group, ipaddress, salty, options={})
   when "OPENSTACK"
     openstack_config_yml(name, os_username, os_password, os_tenant_name, os_auth_url, keypair_name, ipaddress, salty, options={})
   else usage

@@ -243,13 +243,17 @@ Back to the Inception VM...
 Create an AWS keypair and store the `.pem` file. Inside the Inception VM:
 
 ```
+ACCESS_KEY=XXXXXX
+SECRET_ACCESS_KEY=YYYYYY
+IP_ADDRESS=1.2.3.4
+PASSWORD=somethingmemorable
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_keypair > /tmp/create_keypair
 chmod 755 /tmp/create_keypair
-/tmp/create_keypair aws ACCESS_KEY_ID SECRET_ACCESS_KEY us-east-1 microbosh
+/tmp/create_keypair aws $ACCESS_KEY $SECRET_ACCESS_KEY us-east-1 microbosh
 
 curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_micro_bosh_yml > /tmp/create_micro_bosh_yml
 chmod 755 /tmp/create_micro_bosh_yml
-/tmp/create_micro_bosh_yml microbosh-aws-us-east-1 aws ACCESS_KEY SECRET_KEY us-east-1 microbosh IP_ADDRESS PASSWORD
+/tmp/create_micro_bosh_yml microbosh-aws-us-east-1 aws $ACCESS_KEY $SECRET_ACCESS_KEY us-east-1 microbosh microbosh $IP_ADDRESS $PASSWORD
 ```
 
 This will create a file `microbosh-aws-us-east-1/micro_bosh.yml` that looks as below with the ALLCAPS values filled in. `PASSWORD` above (e.g. 'abc123') will be replaced by the salted version.
