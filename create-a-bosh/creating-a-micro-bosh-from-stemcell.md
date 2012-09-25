@@ -257,7 +257,7 @@ logging:
 
 network:
   type: dynamic
-  ip: IPADDRESS
+  vip: IPADDRESS
 
 resources:
   persistent_disk: 4096

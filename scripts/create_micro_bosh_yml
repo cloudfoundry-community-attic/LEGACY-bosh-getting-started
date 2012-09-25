@@ -61,7 +61,7 @@ logging:
 
 network:
   type: dynamic
-  ip: #{ipaddress}
+  vip: #{ipaddress}
 
 resources:
   persistent_disk: #{persistent_disk}
