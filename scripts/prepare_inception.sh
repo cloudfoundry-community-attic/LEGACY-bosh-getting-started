@@ -64,12 +64,15 @@ mkdir -p /var/vcap/bootstrap
 cd /var/vcap/bootstrap
 git clone https://github.com/cloudfoundry/bosh.git
 
+cd /var/vcap/bootstrap/bosh/common/
+bundle install --without=development test
+bundle exec rake install
+
 cd /var/vcap/bootstrap/bosh/cli/
 bundle install --without=development test
 bundle exec rake install
 
 cd /var/vcap/bootstrap/bosh/deployer/
-
 bundle install --without=development test
 bundle exec rake install
 
