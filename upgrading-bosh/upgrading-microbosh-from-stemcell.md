@@ -126,3 +126,5 @@ resource_pools:
   persistent_disk: 16196
 ...
 ```
+
+Note, when you deploy your release, using the new stemcell, it will recompile all packages again.
