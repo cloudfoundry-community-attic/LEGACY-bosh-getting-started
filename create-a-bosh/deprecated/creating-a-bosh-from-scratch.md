@@ -1,5 +1,8 @@
 # Create a BOSH from Scratch
 
+DEPRECATED - the original "bosh from scratch via chef_deployer" is no longer supported and 
+there are known bugs in `chef_deployer`.
+
 These instructions are a combination of "Boot an AWS instance" and "Install BOSH via its chef_deployer"
 
 Follow along with [this 16 min screencast](https://vimeo.com/40484383).
