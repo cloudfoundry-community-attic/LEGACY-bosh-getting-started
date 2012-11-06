@@ -1,6 +1,6 @@
 # Upgrade a microbosh using a new stemcell
 
-When a new microbosh stemcell is available, it is very simple to upgrade each of your microboshes. It takes around 20 minutes, with about 15 minutes of downtime for your microbosh.
+When a new microbosh stemcell is available, it is very simple to upgrade each of your microboshes. It takes around 30 minutes, with about 15 minutes of downtime for your microbosh.
 
 NOTE: the `bosh-stemcell-aws-0.6.7.tgz` mentioned below is not the latest stemcell to work with `micro-bosh-stemcell-aws-0.7.0.tgz` - there is a `bosh-stemcell-aws-0.6.7b.tgz` that is available for private testing; and a newer stemcell will be released to go with microbosh 0.7.0 when it is ready.
 
