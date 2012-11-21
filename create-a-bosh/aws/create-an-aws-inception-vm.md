@@ -110,7 +110,7 @@ $ ssh ubuntu@ec2-10-9-8-7.compute-1.amazonaws.com
 sudo su -
 
 export ORIGUSER=ubuntu
-curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_inception.sh | bash
+curl -s https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_inception.sh | bash
 source /etc/profile
 ```
 

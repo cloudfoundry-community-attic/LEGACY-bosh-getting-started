@@ -102,11 +102,11 @@ ACCESS_KEY=XXXXXX
 SECRET_ACCESS_KEY=YYYYYY
 IP_ADDRESS=1.2.3.4
 PASSWORD=somethingmemorable
-curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_keypair > /tmp/create_keypair
+curl -s https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_keypair > /tmp/create_keypair
 chmod 755 /tmp/create_keypair
 /tmp/create_keypair aws $ACCESS_KEY $SECRET_ACCESS_KEY us-east-1 microbosh
 
-curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_micro_bosh_yml > /tmp/create_micro_bosh_yml
+curl -s https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_micro_bosh_yml > /tmp/create_micro_bosh_yml
 chmod 755 /tmp/create_micro_bosh_yml
 /tmp/create_micro_bosh_yml microbosh-aws-us-east-1 aws $ACCESS_KEY $SECRET_ACCESS_KEY us-east-1 microbosh microbosh $IP_ADDRESS $PASSWORD
 ```

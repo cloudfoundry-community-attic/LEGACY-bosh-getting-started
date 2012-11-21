@@ -4,7 +4,7 @@ set :user, "ubuntu"
 desc "Prepare inception VM"
 task :prepare_inception, :roles => :inception do
   # export ORIGUSER=ubuntu
-  run "curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_inception.sh > /tmp/prepare_inception.sh"
+  run "curl -s https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_inception.sh > /tmp/prepare_inception.sh"
   run "chmod +x /tmp/prepare_inception.sh"
   sudo "/tmp/prepare_inception.sh"
   # source /etc/profile

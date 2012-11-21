@@ -133,7 +133,7 @@ These steps come from the [BOSH documentation](https://github.com/cloudfoundry/o
 $ ssh ubuntu@10.0.0.2
 sudo su -
 export ORIGUSER=ubuntu
-curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_inception_openstack.sh | bash
+curl -s https://raw.github.com/drnic/bosh-getting-started/master/scripts/prepare_inception_openstack.sh | bash
 source /etc/profile
 ```
 
@@ -199,11 +199,11 @@ Back to the Inception VM...
 Create an OpenStack keypair and store the `.pem` file. Inside the Inception VM:
 
 ```
-curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_keypair > /tmp/create_keypair
+curl -s https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_keypair > /tmp/create_keypair
 chmod 755 /tmp/create_keypair
 /tmp/create_keypair openstack OS_USERNAME OS_PASSWORD OS_TENANT_NAME OS_AUTH_URL inception
 
-curl https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_micro_bosh_yml > /tmp/create_micro_bosh_yml
+curl -s https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_micro_bosh_yml > /tmp/create_micro_bosh_yml
 chmod 755 /tmp/create_micro_bosh_yml
 /tmp/create_micro_bosh_yml microbosh-openstack openstack OS_USERNAME OS_PASSWORD OS_TENANT_NAME OS_AUTH_URL inception IP_ADDRESS PASSWORD
 ```
