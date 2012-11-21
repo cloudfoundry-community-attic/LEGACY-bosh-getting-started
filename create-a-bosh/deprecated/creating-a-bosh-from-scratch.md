@@ -36,7 +36,7 @@ $ ssh-keygen
 
 ## Boot instance
 
-From Wesley's [fog blog post](http://www.engineyard.com/blog/2011/spinning-up-cloud-compute-instances/ "Spinning Up Cloud Compute Instances | Engine Yard Blog"), boot a vanilla Ubuntu 64-bit image:
+From Wesley's [fog blog post](http://www.engineyard.com/blog/2011/spinning-up-cloud-compute-instances/ "Spinning Up Cloud Compute Instances | Engine Yard Blog"), boot a vanilla Ubuntu 64-bit image in `us-east-1` region, with a new elastic IP:
 
 ``` ruby
 $ fog
@@ -50,7 +50,13 @@ server = connection.servers.bootstrap({
   :bits => 64,
   :username => 'ubuntu'
 })
+address = connection.addresses.create
+address.server = server
+server.reload
+server.dns_name
 ```
+
+This DNS name will be used later to SSH into our Inception VM.
 
 The rest of the BOSH creation tutorial assumes you used a fog-provided AMI with a user account of `ubuntu`. If you do something different and have a different end experience, please let me know in the Issues.
 
@@ -60,18 +66,6 @@ Check that SSH key credentials are setup. The following should return "ubuntu", 
 server.ssh("whoami").first.stdout
 "ubuntu"
 ```
-
-Now create an elastic IP and associate it with the instance.
-
-```
-address = connection.addresses.create
-address.server = server
-server.reload
-server.dns_name
-"ec2-10-2-3-4.compute-1.amazonaws.com"
-```
-
-**The public DNS name will be used in the remainder of the tutorials to reference the BOSH VM.**
 
 ## Firewall/Security Group
 

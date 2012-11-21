@@ -73,7 +73,7 @@ Example `~/.fog` credentials:
 
 ### Boot Ubuntu instance
 
-From Wesley's [fog blog post](http://www.engineyard.com/blog/2011/spinning-up-cloud-compute-instances/ "Spinning Up Cloud Compute Instances | Engine Yard Blog"), boot a vanilla Ubuntu 64-bit image in `us-east-1` region.
+From Wesley's [fog blog post](http://www.engineyard.com/blog/2011/spinning-up-cloud-compute-instances/ "Spinning Up Cloud Compute Instances | Engine Yard Blog"), boot a vanilla Ubuntu 64-bit image in `us-east-1` region, with a new elastic IP:
 
 ``` ruby
 $ fog
@@ -87,7 +87,13 @@ server = connection.servers.bootstrap({
   :bits => 64,
   :username => 'ubuntu'
 })
+address = connection.addresses.create
+address.server = server
+server.reload
+server.dns_name
 ```
+
+This DNS name will be used later to SSH into our Inception VM.
 
 You can check that SSH key credentials are setup. The following should return "ubuntu" and shouldn't timeout.
 
@@ -95,18 +101,6 @@ You can check that SSH key credentials are setup. The following should return "u
 server.ssh("whoami").first.stdout
 "ubuntu"
 ```
-
-Now create an elastic IP and associate it with the instance.
-
-``` ruby
-address = connection.addresses.create
-address.server = server
-server.reload
-server.dns_name
-"ec2-10-9-8-7.compute-1.amazonaws.com"
-```
-
-This DNS name will be used later to SSH into our Inception VM.
 
 The security group for the Inception & BOSH VMs will need some TCP ports opened:
 
