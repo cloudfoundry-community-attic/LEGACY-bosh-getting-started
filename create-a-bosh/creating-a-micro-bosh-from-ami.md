@@ -22,7 +22,6 @@ That is, by the end of this tutorial you will have two Ubuntu VMs. An Inception 
 
 NOTE, the BOSH VM must be in the same IaaS/region as the public image. In this tutorial it is an AWS AMI in the us-east-1 region (Virginia, the one that has all the public outages).
 
-TODO: Can the Inception VM be in us-west-2, and boot the us-east-1 public AMI?
 
 [sidebar] 
 
@@ -74,7 +73,7 @@ Example `~/.fog` credentials:
 
 ### Boot Ubuntu instance
 
-From Wesley's [fog blog post](http://www.engineyard.com/blog/2011/spinning-up-cloud-compute-instances/ "Spinning Up Cloud Compute Instances | Engine Yard Blog"), boot a vanilla Ubuntu 64-bit image:
+From Wesley's [fog blog post](http://www.engineyard.com/blog/2011/spinning-up-cloud-compute-instances/ "Spinning Up Cloud Compute Instances | Engine Yard Blog"), boot a vanilla Ubuntu 64-bit image in `us-east-1` region.
 
 ``` ruby
 $ fog
@@ -88,23 +87,6 @@ server = connection.servers.bootstrap({
   :bits => 64,
   :username => 'ubuntu'
 })
-```
-
-**Not using fog?** Here are a selection of public AMIs to use that are [used by the fog](https://github.com/fog/fog/blob/master/lib/fog/aws/models/compute/server.rb#L55-66) example above:
-
-```ruby
-when 'ap-northeast-1'
-  'ami-5e0fa45f'
-when 'ap-southeast-1'
-  'ami-f092eca2'
-when 'eu-west-1'
-  'ami-3d1f2b49'
-when 'us-east-1'
-  'ami-3202f25b'
-when 'us-west-1'
-  'ami-f5bfefb0'
-when 'us-west-2'
-  'ami-e0ec60d0'
 ```
 
 You can check that SSH key credentials are setup. The following should return "ubuntu" and shouldn't timeout.
