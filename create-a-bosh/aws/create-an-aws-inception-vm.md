@@ -57,7 +57,7 @@ server.reload
 server.dns_name
 ```
 
-This DNS name will be used later to SSH into our Inception VM.
+This DNS name, for example `ubuntu@ec2-10-9-8-7.compute-1.amazonaws.com`,	 will be used later to SSH into our Inception VM.
 
 You can check that SSH key credentials are setup. The following should return "ubuntu" and shouldn't timeout.
 
@@ -71,21 +71,19 @@ Our Inception VM will store the configuration and deployment details of our Micr
 
 ``` ruby
 # Create/attach a volume at /dev/sdi (or somewhere free)
-volume = connection.volumes.create(:size => 5, :device => "/dev/sdi", :availability_zone => server.availability_zone)
+volume = connection.volumes.create(:size => 16, :device => "/dev/sdi", :availability_zone => server.availability_zone)
 volume.server = server
 
 # Format and mount the volume
 server.ssh(['sudo mkfs.ext4 /dev/sdi -F']) 
 server.ssh(['sudo mkdir -p /var/vcap/store'])
 server.ssh(['sudo mount /dev/sdi /var/vcap/store'])
+puts server.ssh(['df']).first.stdout
 ```
 
-NOTE: If you get `Errno::ETIMEDOUT: Operation timed out - connect(2)` errors, please create a ticket to let me know. I get them sometimes. You can also run these shell commands directly from within the SSH session later.
-
-You can now view the mounted 5G volume at `/var/vcap/store`
+You will now view the mounted 16G volume at `/var/vcap/store`:
 
 ```
->> puts server.ssh(['df']).first.stdout
 Filesystem           1K-blocks      Used Available Use% Mounted on
 /dev/sda1              8256952    740388   7097136  10% /
 none                    830428       120    830308   1% /dev
@@ -96,6 +94,10 @@ none                    880720         0    880720   0% /lib/init/rw
 /dev/sdb             153899044    192068 145889352   1% /mnt
 /dev/sdi               5160576    141304   4757128   3% /var/vcap/store
 ```
+
+If you see `No such file or directory while trying to determine filesystem size`, then wait a moment for the EBS volume to be mounted and run the `server.ssh` commands again.
+
+If you get `Errno::ETIMEDOUT: Operation timed out - connect(2)` errors, please create a ticket to let me know. I got them sometimes. Perhaps wait a moment and try again. You can also run these shell commands directly from within the SSH session later.
 
 ## Preparation
 
