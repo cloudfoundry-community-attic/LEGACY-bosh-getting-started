@@ -21,13 +21,7 @@ $ ssh-keygen
 ```
 
 
-Install latest version of fog as a RubyGem:
-
-```
-gem install fog
-```
-
-Example `~/.fog` credentials:
+Create a `~/.fog` credentials file:
 
 ```
 :default:
@@ -35,14 +29,20 @@ Example `~/.fog` credentials:
   :aws_secret_access_key: PERSONAL_SECRET
 ```
 
+Install latest version of fog and run the interactive console:
+
+```
+$ gem install fog
+$ fog
+  Welcome to fog interactive!
+  :default provides AWS and VirtualBox
+```
+
 ### Boot Ubuntu instance
 
 From Wesley's [fog blog post](http://www.engineyard.com/blog/2011/spinning-up-cloud-compute-instances/ "Spinning Up Cloud Compute Instances | Engine Yard Blog"), boot a vanilla Ubuntu 64-bit image in `us-east-1` region, with a new elastic IP:
 
 ``` ruby
-$ fog
-  Welcome to fog interactive!
-  :default provides AWS and VirtualBox
 connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
 server = connection.servers.bootstrap({
   :public_key_path => '~/.ssh/id_rsa.pub',
