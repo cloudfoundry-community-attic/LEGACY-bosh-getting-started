@@ -9,3 +9,8 @@ task :prepare_inception, :roles => :inception do
   sudo "/tmp/prepare_inception.sh"
   # source /etc/profile
 end
+
+desc "Verify bosh micro installed"
+task :verify_bosh_micro, :roles => :inception do
+  run "bosh help micro"
+end

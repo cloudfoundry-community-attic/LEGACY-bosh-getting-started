@@ -81,12 +81,12 @@ $ find . -name micro_bosh.yml
 
 For this tutorial, we will do option 2 and host the BOSH deployments within the same region/account that they will be managing. We will use the same AWS credentials used to create the first Ubuntu VM, but will deploy to a different region (although we could deploy to the same region; remember, each region requires a new BOSH deployment).
 
-On your local machine using fog, provision an elastic public IP in the target infrastructure/region (us-west-2 in this tutorial):
+On your local machine using fog, provision an elastic public IP in the target infrastructure/region (us-east-1 in this tutorial):
 
 ``` ruby
->> connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
->> address = connection.addresses.create
->> address.public_ip
+connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
+address = connection.addresses.create
+address.public_ip
 "1.2.3.4"
 ```
 
@@ -97,13 +97,17 @@ Back to the Inception VM...
 Create an AWS keypair and store the `.pem` file. Inside the Inception VM:
 
 ```
+ACCESS_KEY=XXXXXX
+SECRET_ACCESS_KEY=YYYYYY
+IP_ADDRESS=1.2.3.4
+PASSWORD=somethingmemorable
 curl -s https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_keypair > /tmp/create_keypair
 chmod 755 /tmp/create_keypair
-/tmp/create_keypair aws ACCESS_KEY_ID SECRET_ACCESS_KEY us-east-1 inception
+/tmp/create_keypair aws $ACCESS_KEY $SECRET_ACCESS_KEY us-east-1 microbosh
 
 curl -s https://raw.github.com/drnic/bosh-getting-started/master/scripts/create_micro_bosh_yml > /tmp/create_micro_bosh_yml
 chmod 755 /tmp/create_micro_bosh_yml
-/tmp/create_micro_bosh_yml microbosh-aws-us-east-1 aws ACCESS_KEY SECRET_KEY us-east-1 inception IP_ADDRESS PASSWORD
+/tmp/create_micro_bosh_yml microbosh-aws-us-east-1 aws $ACCESS_KEY $SECRET_ACCESS_KEY us-east-1 microbosh microbosh $IP_ADDRESS $PASSWORD
 ```
 
 This will create a file `microbosh-aws-us-east-1/micro_bosh.yml` that looks as below with the ALLCAPS values filled in. `PASSWORD` above (e.g. 'abc123') will be replaced by the salted version.
@@ -127,8 +131,6 @@ resources:
   persistent_disk: 4096
   cloud_properties:
     instance_type: m1.small
-    root_device_name: /dev/sda1
-    availability_zone: us-east-1a
 
 cloud:
   plugin: aws
@@ -137,13 +139,19 @@ cloud:
       access_key_id:     ACCESS_KEY_ID
       secret_access_key: SECRET_ACCESS_KEY
       ec2_endpoint: ec2.us-east-1.amazonaws.com
-      default_key_name: inception
-      default_security_groups: ["default"]
-      ec2_private_key: /home/vcap/.ssh/inception.pem
-    stemcell:
-      kernel_id: aki-b4aa75dd
-      disk: 4096
-      root_device_name: /dev/sda1
+      default_key_name: microbosh
+      default_security_groups: ["microbosh"]
+      ec2_private_key: /home/vcap/.ssh/microbosh.pem
+
+apply_spec:
+  agent:
+    blobstore:
+      address: IPADDRESS
+    nats:
+      address: IPADDRESS
+  properties:
+    aws_registry:
+      address: IPADDRESS
 ```
 
 ## Deployment

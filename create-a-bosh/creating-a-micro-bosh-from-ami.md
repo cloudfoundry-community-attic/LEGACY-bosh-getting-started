@@ -82,7 +82,7 @@ $ find . -name micro_bosh.yml
 
 For this tutorial, we will do option 2 and host the BOSH deployments within the same region/account that they will be managing. We will use the same AWS credentials used to create the first Ubuntu VM, but will deploy to a different region (although we could deploy to the same region; remember, each region requires a new BOSH deployment).
 
-On your local machine using fog, provision an elastic public IP in the target infrastructure/region (us-west-2 in this tutorial):
+On your local machine using fog, provision an elastic public IP in the target infrastructure/region (us-east-1 in this tutorial):
 
 ``` ruby
 connection = Fog::Compute.new({ :provider => 'AWS', :region => 'us-east-1' })
