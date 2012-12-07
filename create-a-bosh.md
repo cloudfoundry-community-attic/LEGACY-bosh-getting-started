@@ -74,8 +74,84 @@ $ gem install bosh-bootstrap
 
 When you run the tool, it will initially prompt you for choices. On subsequent runs it will remember the previous choices.
 
-As an example, to deploy your Inception and Micro BOSH servers into AWS us-east-1 region:
+As an example, to deploy your Inception and Micro BOSH servers into AWS us-east-1 region.
+
+When you first run it it will ask what infrastructure provider to use and credentials. If you've ever used fog before, it will look in your local `~/.fog` file to make the bootstrap process even faster. If you don't have a `~/.fog` file then you will select "Alternate credentials" to choose an infrastructure and provide API credentials.
 
 ```
 $ bosh-bootstrap
+
+Stage 1: Choose infrastructure
+
+Found infrastructure API credentials at /Users/drnic/.fog (override with --fog)
+1. AWS (default)
+2. Alternate credentials
+Choose infrastructure:  1
+Confirming: Using infrastructure provider AWS
+```
+
+Next, based on the target infrastructure (for example, public AWS or your private OpenStack) you may be prompted for a specific region or datacenter:
+
+```
+1. ap-northeast-1
+2. ap-southeast-1
+3. eu-west-1
+4. sa-east-1
+5. us-east-1
+6. us-west-1
+7. us-west-2
+Choose AWS region:  5
+Confirming: Using AWS region us-east-1
+```
+
+```
+Stage 2: BOSH configuration
+
+Useful name for Micro BOSH?  |microbosh-aws-us-east-1|  
+Confirming: Micro BOSH will be named microbosh-aws-us-east-1
+
+Please enter a user/password for the BOSH that will be created.
+BOSH username: |drnic|
+BOSH password: xxxxxxxx
+Confirming: After BOSH is created, your username will be drnic
+
+Defaulting to 16Gb persistent disk for BOSH
+Acquiring IP address for micro BOSH...
+Confirming: Micro BOSH will be assigned IP address 23.21.53.241
+
+opened port 22 in security group microbosh-aws-us-east-1
+opened port 6868 in security group microbosh-aws-us-east-1
+opened port 25555 in security group microbosh-aws-us-east-1
+opened port 25888 in security group microbosh-aws-us-east-1
+Confirming: Micro BOSH protected by security group named microbosh-aws-us-east-1, with ports [22, 6868, 25555, 25888]
+
+creating key pair microbosh-aws-us-east-1...
+Confirming: Micro BOSH accessible via key pair named microbosh-aws-us-east-1
+
+Locating micro-bosh stemcell, running 'bosh public stemcells --tags micro,aws,stable'...
+Confirming: Micro BOSH will be created with stemcell micro-bosh-stemcell-aws-0.6.4.tgz
+
+
+Stage 3: Create/Allocate the Inception VM
+
+1. create new inception VM
+2. use an existing Ubuntu server
+3. use this server (must be ubuntu & on same network as bosh)
+Create or specify an Inception VM:  1
+
+Provisioning m1.small for inception VM...
+Provisioning IP address for inception VM...
+Provisioning 16Gb persistent disk for inception VM...
+Mounting persistent disk as volume on inception VM...
+Confirming: Inception VM has been created
+
+SSH access: ssh -i /Users/drnic/.ssh/id_rsa ubuntu@ec2-23-21-54-203.compute-1.amazonaws.com
+Confirming: Using inception VM ubuntu@ec2-23-21-54-203.compute-1.amazonaws.com
+
+validating ubuntu
+uploading /tmp/remote_script_validate_ubuntu to Inception VM
+Successfully validated ubuntu
+
+Stage 4: Preparing the Inception VM
+
 ```
