@@ -1,35 +1,15 @@
 # BOSH - Getting Started on AWS
 
-This repo is a collection of tutorials/documentation on getting started with BOSH on the AWS public cloud.
+This repository is now historical. It is legacy. It was the first tutorial written in 2012 to help other people get started with BOSH.
 
-[What is BOSH? Why is it interesting? How do I create a BOSH?](http://drnicwilliams.com/2012/04/16/creating-a-bosh-from-scratch-on-aws/ "Dr Nic's   Creating a BOSH from scratch on AWS") [article by Dr Nic]
+OMG BOSH has grown up. It is so much easier to get started these days than ever before. And there is maintained documentation and bootstrapping repos.
 
-## Tutorials 
-
-### Beginners
-
-* [Creating a BOSH](create-a-bosh/creating-a-bosh-overview.md)
-* [Uploading a public stemcell](uploading-public-stemcell.md)
-* [Deploy a sample application](deploying-sample-release.md)
-* [Delete your BOSH VM](deleting-your-bosh-universe.md)
-
-### Advanced
-
-* [Creating and deploy a release](create-and-deploy-a-new-release.md)
-* [Scaling your deployment](scaling-your-deployment.md) (TODO)
-* [Creating a stemcell](create-a-new-stemcell.md) (TODO)
-
-### Development
-
-* [Modifying your BOSH](development/modifying-your-bosh.md)
-
-### Help
-
-* [Troubleshooting](troubleshooting/README.md)
-* [Extra Details](details/README.md)
-* [Dictionary](dictionary.md)
+* https://bosh.cloudfoundry.org/docs - all the documentation that didn't exist in 2012
+* https://github.com/cloudfoundry/bosh-deployment - bootstrap BOSH on half a dozen infrastructures.
 
 ## Presentations
+
+Some of the early presentations in 2012. 
 
 ### Talks
 
